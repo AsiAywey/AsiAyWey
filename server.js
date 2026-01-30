@@ -138,23 +138,3 @@ server.get("/users/:userId/reservations", (req, res) => {
 // Lo mismo para: companies, jobOffers, matches, reservations
 
 server.use(router);
-
-
-const PORT = 3001;
-server.listen(PORT, () => {
-  console.log("🚀 AsiAyWey Backend API está corriendo!");
-  console.log(`📍 URL principal: http://localhost:${PORT}`);
-  console.log("");
-  console.log("📋 Endpoints disponibles:");
-  console.log(`   👥 Usuarios: http://localhost:${PORT}/users`);
-  console.log(`   🏢 Empresas: http://localhost:${PORT}/companies`);
-  console.log(`   💼 Ofertas laborales: http://localhost:${PORT}/jobOffers`);
-  console.log(`   🤝 Matches: http://localhost:${PORT}/matches`);
-  console.log(`   📅 Reservas: http://localhost:${PORT}/reservations`);
-  console.log("");
-  console.log("🎯 Endpoints personalizados:");
-  console.log(`   ✅ Usuarios disponibles: http://localhost:${PORT}/available-users`);
-  console.log(`   📄 Ofertas por empresa: http://localhost:${PORT}/companies/:companyId/offers`);
-  console.log(`   🔗 Matches por empresa: http://localhost:${PORT}/companies/:companyId/matches`);
-  console.log(`   📋 Reservas por usuario: http://localhost:${PORT}/users/:userId/reservations`);
-});
