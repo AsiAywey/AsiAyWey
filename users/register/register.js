@@ -87,14 +87,12 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         
-        // Verificar si el usuario ya existe en el servidor
         const userExists = await checkUserExists(email, username);
         if (userExists) {
             showMessage("This email or username is already registered", "danger");
             return;
         }
         
-        // Preparar datos del usuario para JSON server
         const userData = {
             name: fullName,
             email: email,
@@ -103,10 +101,8 @@ document.addEventListener("DOMContentLoaded", function() {
         };
         
         try {
-            // Guardar en JSON server (db.json)
             await saveUserToDatabase(userData);
             
-            // También guardar en localStorage para compatibilidad
             localStorage.setItem("taskflow_usuario", JSON.stringify({
                 usuario: username,
                 nombreCompleto: fullName,
