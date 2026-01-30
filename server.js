@@ -4,7 +4,7 @@
  * 
  * Tecnologías: json-server (basado en Express.js)
  * Base de datos: JSON file (db.json)
- * Puerto: 3001
+ * Puerto: 3000 || 3001 || 3002 || 3003 || 3004 || 3005
  * 
  * Autor: El equipo de AsiAyWey
  * Última actualización: Enero 2026
@@ -125,7 +125,7 @@ server.get("/users/:userId/reservations", (req, res) => {
 });
 
 // ========================================
-// ENDPOINTS RESTFUL AUTOMÁTICOS (CRUD)
+// ENDPOINTS AUTOMÁTICOS (CRUD)
 // ========================================
 
 // Usar el router de json-server para generar automáticamente:
@@ -139,9 +139,6 @@ server.get("/users/:userId/reservations", (req, res) => {
 
 server.use(router);
 
-// ========================================
-// INICIAR SERVIDOR
-// ========================================
 
 const PORT = 3001;
 server.listen(PORT, () => {
