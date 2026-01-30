@@ -1,23 +1,48 @@
+/**
+ * AsiAyWey - Backend API
+ * Servidor REST para plataforma de conexión laboral entre profesionales y empresas
+ * 
+ * Tecnologías: json-server (basado en Express.js)
+ * Base de datos: JSON file (db.json)
+ * Puerto: 3001
+ * 
+ * Autor: El equipo de AsiAyWey
+ * Última actualización: Enero 2026
+ */
+
 const jsonServer = require("json-server");
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
-// Usar middlewares por defecto
+// ========================================
+// MIDDLEWARES
+// ========================================
+
+// Usar middlewares por defecto de json-server (CORS, logging, etc.)
 server.use(middlewares);
+
+// Parser para procesar el cuerpo de las solicitudes en formato JSON
 server.use(jsonServer.bodyParser);
 
-// Middleware para completar campos faltantes en el registro de usuarios
+/**
+ * Middleware personalizado para validar y enriquecer datos de usuarios
+ * 
+ * Se ejecuta automáticamente cuando alguien intenta registrar un nuevo usuario
+ * - Valida que los campos obligatorios estén presentes
+ * - Completa automáticamente campos opcionales con valores por defecto
+ * - Asegura consistencia en la estructura de datos
+ */
 server.use((req, res, next) => {
   if (req.method === 'POST' && req.path === '/users') {
     const userData = req.body;
     
-    // Campos mínimos requeridos
+    // Campos mínimos que SI O SI debe proporcionar el cliente
     const requiredFields = ['username', 'fullName', 'email', 'password'];
     const hasRequiredFields = requiredFields.every(field => userData[field]);
     
     if (hasRequiredFields) {
-      // Completar campos faltantes con valores por defecto
+      // Si los campos obligatorios están completos, rellenamos los opcionales
       req.body = {
         ...userData,
         phone: userData.phone || "",
@@ -34,13 +59,31 @@ server.use((req, res, next) => {
   next();
 });
 
-// Endpoint simple para usuarios disponibles (solo los que tienen openToWork: true)
+// ========================================
+// ENDPOINTS PERSONALIZADOS
+// ========================================
+
+/**
+ * GET /available-users
+ * Obtiene lista de profesionales que están buscando trabajo activamente
+ * 
+ * Retorna solo los usuarios que tienen openToWork: true
+ * Útil para empresas que quieren ver candidatos disponibles
+ * 
+ * @returns {Array} Lista de usuarios disponibles con todos sus datos
+ */
 server.get("/available-users", (req, res) => {
   const users = router.db.get("users").filter({ openToWork: true }).value();
   res.json(users);
 });
 
-// Endpoint simple para ofertas de una empresa
+/**
+ * GET /companies/:companyId/offers
+ * Obtiene todas las ofertas laborales publicadas por una empresa específica
+ * 
+ * @param {string} companyId - ID único de la empresa
+ * @returns {Array} Lista de ofertas laborales de esa empresa
+ */
 server.get("/companies/:companyId/offers", (req, res) => {
   const offers = router.db
     .get("jobOffers")
@@ -49,7 +92,14 @@ server.get("/companies/:companyId/offers", (req, res) => {
   res.json(offers);
 });
 
-// Endpoint simple para matches de una empresa
+/**
+ * GET /companies/:companyId/matches
+ * Obtiene todos los matches que ha realizado una empresa
+ * 
+ * Un match ocurre cuando una empresa muestra interés en un candidato
+ * @param {string} companyId - ID único de la empresa
+ * @returns {Array} Lista de matches con información de usuarios vinculados
+ */
 server.get("/companies/:companyId/matches", (req, res) => {
   const matches = router.db
     .get("matches")
@@ -58,7 +108,14 @@ server.get("/companies/:companyId/matches", (req, res) => {
   res.json(matches);
 });
 
-// Endpoint simple para reservas de un usuario
+/**
+ * GET /users/:userId/reservations
+ * Obtiene todas las reservas de entrevistas o citas de un usuario
+ * 
+ * Útil para que los profesionales vean sus próximas entrevistas
+ * @param {string} userId - ID único del usuario
+ * @returns {Array} Lista de reservas del usuario
+ */
 server.get("/users/:userId/reservations", (req, res) => {
   const reservations = router.db
     .get("reservations")
@@ -67,16 +124,40 @@ server.get("/users/:userId/reservations", (req, res) => {
   res.json(reservations);
 });
 
-// Usar el router de json-server
+// ========================================
+// ENDPOINTS RESTFUL AUTOMÁTICOS (CRUD)
+// ========================================
+
+// Usar el router de json-server para generar automáticamente:
+// GET /users - Listar todos los usuarios
+// GET /users/:id - Obtener usuario específico
+// POST /users - Crear nuevo usuario
+// PUT /users/:id - Actualizar usuario existente
+// DELETE /users/:id - Eliminar usuario
+//
+// Lo mismo para: companies, jobOffers, matches, reservations
+
 server.use(router);
 
-// Iniciar servidor
+// ========================================
+// INICIAR SERVIDOR
+// ========================================
+
 const PORT = 3001;
 server.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`Usuarios: http://localhost:${PORT}/users`);
-  console.log(`Empresas: http://localhost:${PORT}/companies`);
-  console.log(`Ofertas: http://localhost:${PORT}/jobOffers`);
-  console.log(`Matches: http://localhost:${PORT}/matches`);
-  console.log(`Usuarios disponibles: http://localhost:${PORT}/available-users`);
+  console.log("🚀 AsiAyWey Backend API está corriendo!");
+  console.log(`📍 URL principal: http://localhost:${PORT}`);
+  console.log("");
+  console.log("📋 Endpoints disponibles:");
+  console.log(`   👥 Usuarios: http://localhost:${PORT}/users`);
+  console.log(`   🏢 Empresas: http://localhost:${PORT}/companies`);
+  console.log(`   💼 Ofertas laborales: http://localhost:${PORT}/jobOffers`);
+  console.log(`   🤝 Matches: http://localhost:${PORT}/matches`);
+  console.log(`   📅 Reservas: http://localhost:${PORT}/reservations`);
+  console.log("");
+  console.log("🎯 Endpoints personalizados:");
+  console.log(`   ✅ Usuarios disponibles: http://localhost:${PORT}/available-users`);
+  console.log(`   📄 Ofertas por empresa: http://localhost:${PORT}/companies/:companyId/offers`);
+  console.log(`   🔗 Matches por empresa: http://localhost:${PORT}/companies/:companyId/matches`);
+  console.log(`   📋 Reservas por usuario: http://localhost:${PORT}/users/:userId/reservations`);
 });
