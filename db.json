@@ -66,6 +66,13 @@
       "fullName": "pepito perez",
       "email": "elpepe@outlook.com",
       "password": "123456"
+    },
+    {
+      "id": "6781",
+      "username": "joselito",
+      "fullName": "jose jose",
+      "email": "joselito@hotmail.com",
+      "password": "123"
     }
   ],
   "companies": [
