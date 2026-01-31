@@ -70,7 +70,8 @@ async function handleLogin(event) {
       alert("Login exitoso como usuario");
       localStorage.setItem("authToken", JSON.stringify(user));
       localStorage.setItem("userType", "user");
-      window.location.href = "dashboard.html";
+      localStorage.setItem("userId", user.id); // Guardar el ID para el perfil
+      window.location.href = "vista-perfil.html";
     } else {
       alert("Error en el login: Credenciales incorrectas");
     }

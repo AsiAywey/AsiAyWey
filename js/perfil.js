@@ -16,6 +16,30 @@ class ProfileManager {
     }
 
     setupEventListeners() {
+        // Dropdown del usuario
+        const userDropdown = document.querySelector('.user-dropdown img');
+        const dropdownMenu = document.getElementById('user-menu');
+        
+        if (userDropdown && dropdownMenu) {
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            });
+        }
+
+        // Cerrar dropdown al hacer clic fuera
+        document.addEventListener('click', () => {
+            if (dropdownMenu) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Enlaces del dropdown
+        document.getElementById('logout-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.logout();
+        });
+
         // Botones principales
         document.getElementById('btnUpdateProfile')?.addEventListener('click', () => this.updateProfile());
         document.getElementById('btnCancelProfile')?.addEventListener('click', () => this.cancelChanges());
@@ -64,17 +88,26 @@ class ProfileManager {
     populateForm() {
         if (!this.currentUser) return;
 
+        // Actualizar placeholders con los datos del usuario
+        this.updatePlaceholders();
+
         // Información personal
         this.setFormValue('input[placeholder="User Name"]', this.currentUser.username);
-        this.setFormValue('input[placeholder="Juan Pérez"]', this.currentUser.fullName);
-        this.setFormValue('input[placeholder="Senior Software Engineer"]', this.currentUser.profession);
-        this.setFormValue('input[placeholder="Phone"]', this.currentUser.phone);
-        this.setFormValue('input[placeholder="Email"]', this.currentUser.email);
+        this.setFormValue('input[placeholder="Nombre completo"]', this.currentUser.fullName);
+        this.setFormValue('input[placeholder="Rol profesional"]', this.currentUser.profession);
+        this.setFormValue('input[placeholder="Teléfono"]', this.currentUser.phone);
+        this.setFormValue('input[placeholder="Correo"]', this.currentUser.email);
 
         // Experiencia
         const experienceSelect = document.getElementById('selectExperiencia');
-        if (experienceSelect && this.currentUser.experience) {
-            experienceSelect.value = this.currentUser.experience;
+        if (experienceSelect) {
+            if (this.currentUser.experience) {
+                experienceSelect.value = this.currentUser.experience;
+            } else {
+                // Establecer valor por defecto basado en el rol profesional
+                const defaultExperience = this.getDefaultExperience(this.currentUser.profession);
+                experienceSelect.value = defaultExperience;
+            }
         }
 
         // Skills
@@ -87,16 +120,46 @@ class ProfileManager {
         }
 
         // Header del perfil
-        const profileName = document.querySelector('.profile-main-card h2');
-        const profileRole = document.querySelector('.profile-main-card p:nth-child(2)');
+        const profileName = document.querySelector('.profile-name');
+        const profileRole = document.querySelector('.profile-role');
+        const profileLocation = document.querySelector('.profile-location');
+        
         if (profileName) profileName.textContent = this.currentUser.fullName;
         if (profileRole) profileRole.textContent = this.currentUser.profession;
+        if (profileLocation) {
+            const location = this.currentUser.location || 'No especificada';
+            profileLocation.innerHTML = `
+                <span class="material-symbols-outlined">location_on</span>
+                ${location.toUpperCase()}
+            `;
+        }
 
         // Switch de disponibilidad
         const statusSwitch = document.getElementById('statusSwitch');
         if (statusSwitch) {
             statusSwitch.checked = this.currentUser.openToWork !== false;
         }
+    }
+
+    updatePlaceholders() {
+        if (!this.currentUser) return;
+
+        // Actualizar placeholders con los datos actuales del usuario
+        const usernameInput = document.querySelector('input[placeholder="User Name"]');
+        const fullNameInput = document.querySelector('input[placeholder="Nombre completo"]');
+        const professionInput = document.querySelector('input[placeholder="Rol profesional"]');
+        const phoneInput = document.querySelector('input[placeholder="Teléfono"]');
+        const emailInput = document.querySelector('input[placeholder="Correo"]');
+        const skillsInput = document.getElementById('inputSkill');
+        const bioTextArea = document.getElementById('bioTextArea');
+
+        if (usernameInput) usernameInput.placeholder = this.currentUser.username || 'User Name';
+        if (fullNameInput) fullNameInput.placeholder = this.currentUser.fullName || 'Nombre completo';
+        if (professionInput) professionInput.placeholder = this.currentUser.profession || 'Rol profesional';
+        if (phoneInput) phoneInput.placeholder = this.currentUser.phone || 'Teléfono';
+        if (emailInput) emailInput.placeholder = this.currentUser.email || 'Correo';
+        if (skillsInput) skillsInput.placeholder = 'Ej: React, Node.js...';
+        if (bioTextArea) bioTextArea.placeholder = 'Cuéntanos un poco sobre tu experiencia...';
     }
 
     setFormValue(selector, value) {
@@ -167,7 +230,9 @@ class ProfileManager {
         }
 
         try {
+            // Mantener todos los datos existentes del usuario y solo cambiar los necesarios
             const updatedData = {
+                ...this.currentUser, // Preservar todos los datos existentes
                 openToWork: isAvailable,
                 status: isAvailable ? 'DISPONIBLE' : 'NO_DISPONIBLE'
             };
@@ -183,7 +248,7 @@ class ProfileManager {
             if (!response.ok) throw new Error('Error al actualizar disponibilidad');
 
             // Actualizar datos locales
-            this.currentUser = { ...this.currentUser, ...updatedData };
+            this.currentUser = updatedData;
 
             // Actualizar UI
             this.toggleAvailabilityUI(isAvailable);
@@ -224,21 +289,24 @@ class ProfileManager {
         }
 
         try {
-            // Recopilar datos del formulario
+            // Obtener valores actuales del formulario
+            const formData = this.getFormData();
+            
+            // Detectar qué campos han cambiado
+            const changedFields = this.getChangedFields(this.currentUser, formData);
+            
+            if (Object.keys(changedFields).length === 0) {
+                this.showInfo('No hay cambios para guardar');
+                return;
+            }
+
+            // Preparar datos actualizados (preservar datos existentes + cambios)
             const updatedData = {
-                username: document.querySelector('input[placeholder="User Name"]').value,
-                fullName: document.querySelector('input[placeholder="Juan Pérez"]').value,
-                profession: document.querySelector('input[placeholder="Senior Software Engineer"]').value,
-                phone: document.querySelector('input[placeholder="Phone"]').value,
-                email: document.querySelector('input[placeholder="Email"]').value,
-                experience: document.getElementById('selectExperiencia').value,
-                skills: this.getSkillsFromForm(),
-                description: document.getElementById('bioTextArea').value,
-                openToWork: document.getElementById('statusSwitch').checked,
-                status: document.getElementById('statusSwitch').checked ? 'DISPONIBLE' : 'NO_DISPONIBLE'
+                ...this.currentUser,
+                ...changedFields
             };
 
-            // Enviar actualización
+            // Enviar solo los campos que cambiaron
             const response = await fetch(`${this.apiBase}/users/${this.currentUser.id}`, {
                 method: 'PUT',
                 headers: {
@@ -249,15 +317,97 @@ class ProfileManager {
 
             if (!response.ok) throw new Error('Error al actualizar perfil');
 
-            // Actualizar datos locales
-            this.currentUser = { ...this.currentUser, ...updatedData };
+            // Actualizar datos locales con todos los datos
+            this.currentUser = updatedData;
             this.updateUI();
-            this.showSuccess('Perfil actualizado correctamente');
+            this.showSuccess(`Actualizado: ${this.getChangedFieldsMessage(changedFields)}`);
 
         } catch (error) {
             console.error('Error actualizando perfil:', error);
             this.showError('No se pudo actualizar el perfil');
         }
+    }
+
+    getFormData() {
+        return {
+            username: document.querySelector('input[placeholder="User Name"]').value,
+            fullName: document.querySelector('input[placeholder="Nombre completo"]').value,
+            profession: document.querySelector('input[placeholder="Rol profesional"]').value,
+            phone: document.querySelector('input[placeholder="Teléfono"]').value,
+            email: document.querySelector('input[placeholder="Correo"]').value,
+            experience: document.getElementById('selectExperiencia').value,
+            skills: this.getSkillsFromForm(),
+            description: document.getElementById('bioTextArea').value,
+            openToWork: document.getElementById('statusSwitch').checked,
+            status: document.getElementById('statusSwitch').checked ? 'DISPONIBLE' : 'NO_DISPONIBLE'
+        };
+    }
+
+    getChangedFields(currentUser, formData) {
+        const changedFields = {};
+        
+        // Comparar cada campo para detectar cambios
+        if (formData.username && formData.username !== currentUser.username) {
+            changedFields.username = formData.username;
+        }
+        
+        if (formData.fullName && formData.fullName !== currentUser.fullName) {
+            changedFields.fullName = formData.fullName;
+        }
+        
+        if (formData.profession && formData.profession !== currentUser.profession) {
+            changedFields.profession = formData.profession;
+        }
+        
+        if (formData.phone && formData.phone !== currentUser.phone) {
+            changedFields.phone = formData.phone;
+        }
+        
+        if (formData.email && formData.email !== currentUser.email) {
+            changedFields.email = formData.email;
+        }
+        
+        if (formData.experience && formData.experience !== currentUser.experience) {
+            changedFields.experience = formData.experience;
+        }
+        
+        // Comparar arrays de skills
+        const currentSkills = JSON.stringify((currentUser.skills || []).sort());
+        const newSkills = JSON.stringify((formData.skills || []).sort());
+        if (currentSkills !== newSkills) {
+            changedFields.skills = formData.skills;
+        }
+        
+        if (formData.description !== currentUser.description) {
+            changedFields.description = formData.description;
+        }
+        
+        if (formData.openToWork !== currentUser.openToWork) {
+            changedFields.openToWork = formData.openToWork;
+            changedFields.status = formData.status;
+        }
+        
+        return changedFields;
+    }
+
+    getChangedFieldsMessage(changedFields) {
+        const fieldNames = {
+            username: 'nombre de usuario',
+            fullName: 'nombre completo',
+            profession: 'profesión',
+            phone: 'teléfono',
+            email: 'correo',
+            experience: 'experiencia',
+            skills: 'habilidades',
+            description: 'biografía',
+            openToWork: 'disponibilidad'
+        };
+        
+        const changedFieldNames = Object.keys(changedFields)
+            .map(key => fieldNames[key] || key)
+            .slice(0, 3); // Limitar a 3 campos para no hacer el mensaje muy largo
+            
+        return changedFieldNames.join(', ');
     }
 
     cancelChanges() {
@@ -269,16 +419,67 @@ class ProfileManager {
 
     updateUI() {
         // Actualizar información del header
-        const profileName = document.querySelector('.profile-main-card h2');
-        const profileRole = document.querySelector('.profile-main-card p:nth-child(2)');
+        const profileName = document.querySelector('.profile-name');
+        const profileRole = document.querySelector('.profile-role');
+        const profileLocation = document.querySelector('.profile-location');
         
         if (profileName && this.currentUser) profileName.textContent = this.currentUser.fullName;
         if (profileRole && this.currentUser) profileRole.textContent = this.currentUser.profession;
+        if (profileLocation && this.currentUser) {
+            const location = this.currentUser.location || 'No especificada';
+            profileLocation.innerHTML = `
+                <span class="material-symbols-outlined">location_on</span>
+                ${location.toUpperCase()}
+            `;
+        }
+
+        // Actualizar información del usuario en el header actions
+        const userNameHeader = document.getElementById('user-name-header');
+        const userRoleHeader = document.getElementById('user-role-header');
+        const userAvatarHeader = document.getElementById('user-avatar-header');
+        
+        if (userNameHeader && this.currentUser) userNameHeader.textContent = this.currentUser.fullName;
+        if (userRoleHeader && this.currentUser) userRoleHeader.textContent = this.currentUser.profession || 'Usuario';
+        if (userAvatarHeader && this.currentUser) {
+            // Usar un avatar basado en el nombre o ID único
+            const avatarId = this.currentUser.username || this.currentUser.id || 'user';
+            userAvatarHeader.src = `https://i.pravatar.cc/100?u=${avatarId}`;
+        }
 
         // Actualizar estado de disponibilidad
         const statusSwitch = document.getElementById('statusSwitch');
         if (statusSwitch && this.currentUser) {
             this.toggleAvailabilityUI(this.currentUser.openToWork !== false);
+        }
+    }
+
+    logout() {
+        if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userType');
+            localStorage.removeItem('userId');
+            window.location.href = 'auth.html';
+        }
+    }
+
+    getDefaultExperience(profession) {
+        if (!profession) return '3-5'; // Default general
+        
+        const professionLower = profession.toLowerCase();
+        
+        // Estimaciones basadas en rol y experiencia típica
+        if (professionLower.includes('junior') || professionLower.includes('trainee') || professionLower.includes('practicante')) {
+            return '0-1';
+        } else if (professionLower.includes('senior') || professionLower.includes('lead') || professionLower.includes('principal')) {
+            return '5-8';
+        } else if (professionLower.includes('manager') || professionLower.includes('director') || professionLower.includes('head')) {
+            return '8-10';
+        } else if (professionLower.includes('architect') || professionLower.includes('expert')) {
+            return '10-15';
+        } else if (professionLower.includes('mid') || professionLower.includes('intermediate')) {
+            return '2-3';
+        } else {
+            return '3-5'; // Default para roles generales
         }
     }
 
