@@ -11,6 +11,7 @@ async function fetchData(endpoint) {
   }
 }
 
+// Funciones de formateo
 function formatMatchStatus(status) {
   const statusMap = {
     pending: "New",
@@ -51,6 +52,7 @@ function calculateMatchScore(user, jobOffer) {
   return Math.round((matches / requirements.length) * 100);
 }
 
+// Funciones de carga de datos
 async function loadStats() {
   try {
     const [jobOffers, users, reservations] = await Promise.all([
@@ -67,7 +69,7 @@ async function loadStats() {
       const activeReservations = reservations.filter(
         (res) => res.active === true,
       ).length;
-      const totalSlots = 5; 
+      const totalSlots = 5;
       document.querySelector(
         ".stat-card:nth-child(2) .stat-value",
       ).textContent = `${activeReservations} / ${totalSlots}`;
@@ -84,7 +86,6 @@ async function loadStats() {
   }
 }
 
-
 async function loadMatches() {
   try {
     const [matches, users, jobOffers, companies] = await Promise.all([
@@ -97,7 +98,6 @@ async function loadMatches() {
     if (matches && users && jobOffers && companies) {
       const matchesTable = document.querySelector(".matches tbody");
       matchesTable.innerHTML = "";
-
 
       const recentMatches = matches.sort((a, b) => b.id - a.id).slice(0, 10);
 
@@ -127,23 +127,32 @@ async function loadMatches() {
   }
 }
 
+// Carga información de la empresa logeada
 async function loadCompanyInfo() {
   try {
-    // para la prueba usamos la primera compañia
-    const companies = await fetchData("/companies");
-    if (companies && companies.length > 0) {
-      const company = companies[0]; 
-      document.getElementById("company-name").textContent = company.name;
-      document.getElementById("company-role").textContent =
-        company.industry || "Company";
+    const authData = localStorage.getItem('authToken');
+    const userType = localStorage.getItem('userType');
+    
+    if (authData && userType === 'company') {
+      const company = JSON.parse(authData);
+      document.getElementById('company-name').textContent = company.name;
+      document.getElementById('company-role').textContent = company.industry || 'Company';
+    } else {
+      const companies = await fetchData('/companies');
+      if (companies && companies.length > 0) {
+        const company = companies[0];
+        document.getElementById('company-name').textContent = company.name;
+        document.getElementById('company-role').textContent = company.industry || 'Company';
+      }
     }
   } catch (error) {
-    console.error("Error loading company info:", error);
-    document.getElementById("company-name").textContent = "Company";
-    document.getElementById("company-role").textContent = "Loading error";
+    console.error('Error loading company info:', error);
+    document.getElementById('company-name').textContent = 'Company';
+    document.getElementById('company-role').textContent = 'Loading error';
   }
 }
 
+// Funcionalidad de interfaz
 function initDropdown() {
   const userAvatar = document.getElementById("user-avatar");
   const userMenu = document.getElementById("user-menu");
@@ -177,20 +186,38 @@ function initDropdown() {
       userMenu.classList.remove("show");
 
       if (confirm("Are you sure you want to log out?")) {
-         window.location.href = '/auth.html';
-         localStorage.removeItem("authToken");
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userType");
+        window.location.href = "auth.html";
       }
     });
   }
 }
 
-
+// Inicialización del dashboard
 async function initDashboard() {
   await Promise.all([loadStats(), loadMatches()]);
 }
 
+// Verificación de autenticación
+function checkAuthentication() {
+  const authData = localStorage.getItem('authToken');
+  const userType = localStorage.getItem('userType');
+  
+  if (!authData || userType !== 'company') {
+    alert('Access denied. Please login as a company.');
+    window.location.href = 'auth.html';
+    return false;
+  }
+  return true;
+}
 
+// Función principal de inicialización
 async function main() {
+  if (!checkAuthentication()) {
+    return;
+  }
+  
   initDropdown();
 
   await loadCompanyInfo();

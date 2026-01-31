@@ -1,13 +1,13 @@
 /**
  * AsiAyWey - Backend API
  * Servidor REST para plataforma de conexión laboral entre profesionales y empresas
- * 
+ *
  * Tecnologías: json-server (basado en Express.js)
  * Base de datos: JSON file (db.json)
- * Puerto: 3000 || 3001 || 3002 || 3003 || 3004 || 3005
- * 
+ * Puerto: 3005
+ *
  * Autor: El equipo de AsiAyWey
- * Última actualización: Enero 2026 
+ * Última actualización: Enero 2026
  */
 
 const jsonServer = require("json-server");
@@ -27,20 +27,20 @@ server.use(jsonServer.bodyParser);
 
 /**
  * Middleware personalizado para validar y enriquecer datos de usuarios
- * 
+ *
  * Se ejecuta automáticamente cuando alguien intenta registrar un nuevo usuario
  * - Valida que los campos obligatorios estén presentes
  * - Completa automáticamente campos opcionales con valores por defecto
  * - Asegura consistencia en la estructura de datos
  */
 server.use((req, res, next) => {
-  if (req.method === 'POST' && req.path === '/users') {
+  if (req.method === "POST" && req.path === "/users") {
     const userData = req.body;
-    
+
     // Campos mínimos que SI O SI debe proporcionar el cliente
-    const requiredFields = ['username', 'fullName', 'email', 'password'];
-    const hasRequiredFields = requiredFields.every(field => userData[field]);
-    
+    const requiredFields = ["username", "fullName", "email", "password"];
+    const hasRequiredFields = requiredFields.every((field) => userData[field]);
+
     if (hasRequiredFields) {
       // Si los campos obligatorios están completos, rellenamos los opcionales
       req.body = {
@@ -51,8 +51,9 @@ server.use((req, res, next) => {
         skills: userData.skills || [],
         education: userData.education || "",
         status: userData.status || "DISPONIBLE",
-        openToWork: userData.openToWork !== undefined ? userData.openToWork : true,
-        description: userData.description || ""
+        openToWork:
+          userData.openToWork !== undefined ? userData.openToWork : true,
+        description: userData.description || "",
       };
     }
   }
@@ -66,10 +67,10 @@ server.use((req, res, next) => {
 /**
  * GET /available-users
  * Obtiene lista de profesionales que están buscando trabajo activamente
- * 
+ *
  * Retorna solo los usuarios que tienen openToWork: true
  * Útil para empresas que quieren ver candidatos disponibles
- * 
+ *
  * @returns {Array} Lista de usuarios disponibles con todos sus datos
  */
 server.get("/available-users", (req, res) => {
@@ -80,7 +81,7 @@ server.get("/available-users", (req, res) => {
 /**
  * GET /companies/:companyId/offers
  * Obtiene todas las ofertas laborales publicadas por una empresa específica
- * 
+ *
  * @param {string} companyId - ID único de la empresa
  * @returns {Array} Lista de ofertas laborales de esa empresa
  */
@@ -95,7 +96,7 @@ server.get("/companies/:companyId/offers", (req, res) => {
 /**
  * GET /companies/:companyId/matches
  * Obtiene todos los matches que ha realizado una empresa
- * 
+ *
  * Un match ocurre cuando una empresa muestra interés en un candidato
  * @param {string} companyId - ID único de la empresa
  * @returns {Array} Lista de matches con información de usuarios vinculados
@@ -111,7 +112,7 @@ server.get("/companies/:companyId/matches", (req, res) => {
 /**
  * GET /users/:userId/reservations
  * Obtiene todas las reservas de entrevistas o citas de un usuario
- * 
+ *
  * Útil para que los profesionales vean sus próximas entrevistas
  * @param {string} userId - ID único del usuario
  * @returns {Array} Lista de reservas del usuario

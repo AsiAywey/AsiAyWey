@@ -1,3 +1,5 @@
+const API_BASE = "http://localhost:3005";
+
 // Funcionalidad cambio login/register
 const loginTab = document.getElementById("login-tab");
 const registerTab = document.getElementById("register-tab");
@@ -30,20 +32,45 @@ async function handleLogin(event) {
   const password = loginForm.querySelector('input[type="password"]').value;
 
   try {
-    const response = await fetch("http://localhost:3003/users", {
+    // se revisa primero si es una empresa
+    const companiesResponse = await fetch(`${API_BASE}/companies`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    
-    const users = await response.json();
-    const user = users.find(u => u.email === email && u.password === password);
-    
+
+    const companies = await companiesResponse.json();
+    const company = companies.find(
+      (c) => c.email === email && c.password === password,
+    );
+
+    if (company) {
+      alert("Login exitoso como empresa");
+      localStorage.setItem("authToken", JSON.stringify(company));
+      localStorage.setItem("userType", "company");
+      window.location.href = "admin-dashboard.html";
+      return;
+    }
+
+    // si no es una empresa, revisa si es un usuario normal
+    const usersResponse = await fetch(`${API_BASE}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const users = await usersResponse.json();
+    const user = users.find(
+      (u) => u.email === email && u.password === password,
+    );
+
     if (user) {
-      alert("Login exitoso");
+      alert("Login exitoso como usuario");
       localStorage.setItem("authToken", JSON.stringify(user));
-      window.location.href = "/dashboard.html";
+      localStorage.setItem("userType", "user");
+      window.location.href = "dashboard.html";
     } else {
       alert("Error en el login: Credenciales incorrectas");
     }
@@ -77,7 +104,7 @@ async function handleRegister(event) {
   }
 
   try {
-    const response = await fetch("http://localhost:3003/users", {
+    const response = await fetch(`${API_BASE}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
