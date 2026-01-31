@@ -70,10 +70,22 @@
 
           <div class="user-info">
             <div class="user-text">
-              <strong>Alex Rivera</strong>
-              <span>Lead Recruiter</span>
+              <strong id="company-name">Loading...</strong>
+              <span id="company-role">Company</span>
             </div>
-            <img src="https://i.pravatar.cc/100" alt="User avatar" />
+            <div class="user-dropdown">
+              <img src="https://i.pravatar.cc/100" alt="Company avatar" id="user-avatar" />
+              <div class="dropdown-menu" id="user-menu">
+                <a href="#" class="dropdown-item" id="profile-link">
+                  <span class="material-symbols-outlined">account_circle</span>
+                  Profile
+                </a>
+                <a href="#" class="dropdown-item" id="logout-link">
+                  <span class="material-symbols-outlined">logout</span>
+                  Log out
+                </a>
+              </div>
+            </div>
           </div>
         </header>
 
@@ -134,5 +146,6 @@
         </section>
       </main>
     </div>
+    <script src="js/admin-dashboard.js"></script>
   </body>
 </html>
