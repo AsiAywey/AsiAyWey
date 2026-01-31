@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MatchFlow – Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">◆ MatchFlow</div>
+
+  <nav class="menu">
+    <a>Dashboard</a>
+    <a class="active">Matches</a>
+    <a>Candidates</a>
+    <a>Jobs</a>
+    <a>Settings</a>
+  </nav>
+
+  <div class="search">
+    <input type="text" placeholder="Search matches...">
+    <img src="https://i.pravatar.cc/40" alt="user">
+  </div>
+</header>
+
+<main class="container">
+
+  <p class="breadcrumb">Matches / <strong>Alex Thompson Profile</strong></p>
+
+  <!-- PROFILE CARD -->
+  <section class="card profile">
+    <div class="profile-left">
+      <img src="https://i.pravatar.cc/120?img=12" class="avatar">
+      <div>
+        <h1>Alex Thompson <span class="badge">PENDING</span></h1>
+        <p>Senior Software Engineer • 8 Years of Experience</p>
+        <p class="muted">📍 San Francisco, CA</p>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn primary">Marcar como Contactado</button>
+      <button class="btn secondary">Descartar</button>
+    </div>
+  </section>
+
+  <!-- COMMUNICATION -->
+  <section class="card info">
+    <div>
+      <h3>Communication Actions</h3>
+      <p class="muted">You must mark the candidate as contacted before reaching out via WhatsApp.</p>
+    </div>
+    <button class="btn disabled">Contactar por WhatsApp</button>
+  </section>
+
+  <!-- GRID -->
+  <section class="grid">
+
+    <div class="card">
+      <h3>Match Insights</h3>
+
+      <div class="stats">
+        <div>
+          <p class="label">MATCH SCORE</p>
+          <h2 class="score">94%</h2>
+          <div class="progress">
+            <div class="bar"></div>
+          </div>
+        </div>
+
+        <div>
+          <p class="label">SKILLS MATCH</p>
+          <h2>12/14</h2>
+          <p class="muted">Essential requirements met</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Contact Info</h3>
+      <p>📧 alex.thompson@devmail.com</p>
+      <p>📞 +1 (555) 012-3456</p>
+      <p class="link">🔗 linkedin.com/in/alexthomp</p>
+    </div>
+
+    <div class="card">
+      <h3>Core Expertise</h3>
+      <div class="tags">
+        <span>React.js</span>
+        <span>Node.js</span>
+        <span>TypeScript</span>
+        <span>PostgreSQL</span>
+        <span>AWS</span>
+        <span>GraphQL</span>
+        <span>Kubernetes</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Education</h3>
+      <p><strong>M.S. Computer Science</strong><br>Stanford University</p>
+      <br>
+      <p><strong>B.S. Software Engineering</strong><br>UC Berkeley</p>
+    </div>
+
+    <div class="card full">
+      <h3>Experience History</h3>
+
+      <div class="job">
+        <h4>Lead Software Engineer @ TechFlow</h4>
+        <p class="muted">2019 – Present • 5 years</p>
+        <p>Scaling distributed systems to handle 5M+ users. Mentoring junior developers.</p>
+      </div>
+
+      <div class="job">
+        <h4>Full Stack Developer @ InnovateDev</h4>
+        <p class="muted">2016 – 2019 • 3 years</p>
+        <p>Built SaaS products using React and Ruby on Rails. Performance +40%.</p>
+      </div>
+    </div>
+
+    <div class="card verdict">
+      <h3>AI Verdict</h3>
+      <p>
+        "Highly recommended candidate. Strong architecture skills and excellent long-term consistency."
+      </p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="footer">
+  MATCHFLOW © 2024 • RECRUITMENT INTELLIGENCE PLATFORM
+</footer>
+
+</body>
+</html>
