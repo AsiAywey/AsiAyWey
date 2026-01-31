@@ -7,7 +7,7 @@
  * Puerto: 3000 || 3001 || 3002 || 3003 || 3004 || 3005
  * 
  * Autor: El equipo de AsiAyWey
- * Última actualización: Enero 2026
+ * Última actualización: Enero 2026 
  */
 
 const jsonServer = require("json-server");
