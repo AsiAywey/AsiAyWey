@@ -1,136 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AsíAyWey - Dashboard</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AsíAyWey - Dashboard</title>
 
-  <link rel="stylesheet" href="style-dashboard.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="styles/style-admin-dashboard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
 
-<body class="dark">
-
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <header class="brand">
-        <div class="logo">
+  <body class="dark">
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <header class="brand">
+          <div class="logo">
             <svg viewBox="0 0 48 48" aria-hidden="true">
-                <path d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z"/>
+              <path
+                d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z"
+              />
             </svg>
             <span>AsíAyWey</span>
-        </div>
+          </div>
 
-        <p>Recruitment Suite</p>
-    </header>
+          <p>Recruitment Suite</p>
+        </header>
 
-    <nav class="menu">
-      <a class="menu-item active">
-        <span class="material-symbols-outlined">dashboard</span>
-        Dashboard
-      </a>
-      <a class="menu-item">
-        <span class="material-symbols-outlined">work</span>
-        Jobs
-      </a>
-      <a class="menu-item">
-        <span class="material-symbols-outlined">group</span>
-        Candidates
-        <span class="badge">12</span>
-      </a>
-      <a class="menu-item">
-        <span class="material-symbols-outlined">calendar_today</span>
-        Interviews
-      </a>
-    </nav>
+        <nav class="menu">
+          <a class="menu-item active">
+            <span class="material-symbols-outlined">dashboard</span>
+            Dashboard
+          </a>
+          <a class="menu-item">
+            <span class="material-symbols-outlined">work</span>
+            Jobs
+          </a>
+          <a class="menu-item">
+            <span class="material-symbols-outlined">group</span>
+            Candidates
+            <span class="badge">12</span>
+          </a>
+          <a class="menu-item">
+            <span class="material-symbols-outlined">calendar_today</span>
+            Interviews
+          </a>
+        </nav>
 
-    <footer class="sidebar-footer">
-      <button class="primary-btn">
-        <span class="material-symbols-outlined">add</span>
-        Create New Job
-      </button>
-    </footer>
-  </aside>
+        <footer class="sidebar-footer">
+          <button class="primary-btn">
+            <span class="material-symbols-outlined">add</span>
+            Create New Job
+          </button>
+        </footer>
+      </aside>
 
-  <!-- MAIN -->
-  <main class="content">
+      <!-- MAIN -->
+      <main class="content">
+        <!-- TOP BAR -->
+        <header class="topbar">
+          <h2>Recruitment Overview</h2>
 
-    <!-- TOP BAR -->
-    <header class="topbar">
-      <h2>Recruitment Overview</h2>
+          <div class="user-info">
+            <div class="user-text">
+              <strong>Alex Rivera</strong>
+              <span>Lead Recruiter</span>
+            </div>
+            <img src="https://i.pravatar.cc/100" alt="User avatar" />
+          </div>
+        </header>
 
-      <div class="user-info">
-        <div class="user-text">
-          <strong>Alex Rivera</strong>
-          <span>Lead Recruiter</span>
-        </div>
-        <img src="https://i.pravatar.cc/100" alt="User avatar">
-      </div>
-    </header>
+        <!-- STATS -->
+        <section class="stats">
+          <article class="stat-card">
+            <h3>Active Jobs</h3>
+            <p class="stat-value">12</p>
+          </article>
 
-    <!-- STATS -->
-    <section class="stats">
-      <article class="stat-card">
-        <h3>Active Jobs</h3>
-        <p class="stat-value">12</p>
-      </article>
+          <article class="stat-card">
+            <h3>Bookings Used</h3>
+            <p class="stat-value">3 / 5</p>
+            <div class="progress">
+              <span style="width: 60%"></span>
+            </div>
+          </article>
 
-      <article class="stat-card">
-        <h3>Bookings Used</h3>
-        <p class="stat-value">3 / 5</p>
-        <div class="progress">
-          <span style="width:60%"></span>
-        </div>
-      </article>
+          <article class="stat-card">
+            <h3>Total Candidates</h3>
+            <p class="stat-value">1,240</p>
+          </article>
+        </section>
 
-      <article class="stat-card">
-        <h3>Total Candidates</h3>
-        <p class="stat-value">1,240</p>
-      </article>
-    </section>
+        <!-- TABLE -->
+        <section class="matches">
+          <header class="section-header">
+            <h3>Recent Matches</h3>
+            <button>View all</button>
+          </header>
 
-    <!-- TABLE -->
-    <section class="matches">
-      <header class="section-header">
-        <h3>Recent Matches</h3>
-        <button>View all</button>
-      </header>
+          <table>
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Role</th>
+                <th>Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Candidate</th>
-            <th>Role</th>
-            <th>Score</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+            <tbody>
+              <tr>
+                <td>Sarah Jenkins</td>
+                <td>Product Designer</td>
+                <td>98%</td>
+                <td class="status new">New</td>
+              </tr>
 
-        <tbody>
-          <tr>
-            <td>Sarah Jenkins</td>
-            <td>Product Designer</td>
-            <td>98%</td>
-            <td class="status new">New</td>
-          </tr>
-
-          <tr>
-            <td>Marcus Thorne</td>
-            <td>Backend Engineer</td>
-            <td>85%</td>
-            <td class="status interview">Interviewing</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-  </main>
-
-</div>
-
-</body>
+              <tr>
+                <td>Marcus Thorne</td>
+                <td>Backend Engineer</td>
+                <td>85%</td>
+                <td class="status interview">Interviewing</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
