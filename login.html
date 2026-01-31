@@ -1,41 +1,71 @@
 <!DOCTYPE html>
-<lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsíAyWey - Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
     <link rel="stylesheet" href="style-register.css">
-    <title>AsíAwait - Login</title>
 </head>
-<body>
-    <main class="general-cont">
-        <header class="register-hdr">
-            <div class="lg-title">
-                <img src="/auth/img/lg.png" alt="" class="lg">
-                <h1 class="title">AsíAwait</h1>
+
+<body class="dark">
+
+    <header class="header">
+        <div class="logo">
+            <svg viewBox="0 0 48 48">
+                <path d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z" />
+            </svg>
+            <span>AsíAyWey</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+
+            <nav class="tabs">
+                <button class="active">Login</button>
+                <button>Register</button>
+            </nav>
+
+            <div class="content">
+                <h1>Welcome back</h1>
+                <p>The professional match-first recruitment platform.</p>
+
+                <form>
+                    <label>Email
+                        <div class="field">
+                            <span class="material-symbols-outlined">mail</span>
+                            <input type="email" placeholder="name@company.com">
+                        </div>
+                    </label>
+
+                    <label>Password
+                        <div class="field">
+                            <span class="material-symbols-outlined">lock</span>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+                    </label>
+
+                    <button class="btn-primary">Sign In</button>
+
+                    <div class="divider">or continue with</div>
+
+                    <div class="social">
+                        <button>Google</button>
+                        <button>LinkedIn</button>
+                    </div>
+                </form>
             </div>
-           
-            <p class="dsc">Create you accout in AsíAwait</p>
-            
-        </header>
-        <section class="cont-form">
-            <form action="#">
 
-                <div class="casilla">
-                    <label for="#" class="dsc-input">Email</label><br>
-                    <input type="email" name="#" id="email" placeholder="      Email Adrees">
-                </div>
-
-                <div class="casilla">
-                    <label for="#" class="dsc-input">Password</label><br>
-                    <input type="password" placeholder="      Password" id="psw"> <br> <!--Incluir funcion hiden psw-->
-                </div>
-
-                <ul class="terms-cond" id="terms-cond-acept">I accept the <a href="#" class="terms"><strong>Terms and Conditions</strong></a></ul>
-
-                <button class="send-form" id="send-form">Register</button>
-                <ul class="hv-acount">You have an acount? <a href="#" class="login"><strong>Log in</strong></a></ul>
-            </form>
         </section>
     </main>
+
+    <footer class="footer">© 2026 AsíAyWey</footer>
+
 </body>
 
+</html>
