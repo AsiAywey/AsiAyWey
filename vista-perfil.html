@@ -1,0 +1,181 @@
+<!---->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">   
+    <title>Perfil - MatchFlow</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <nav class="navbar custom-navbar">
+        <div class="container-fluid px-2 px-md-4 d-flex align-items-center"> 
+            <div class="d-flex align-items-center">
+                <div class="logo-container">
+                    <svg viewBox="0 0 48 48" class="logo-svg">
+                        <path d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z" />
+                    </svg> 
+                </div>
+                <span class="brand-name ms-2 d-none d-sm-block">MatchFlow</span>
+            </div>
+
+            <div class="d-flex align-items-center ms-auto">
+                <div class="navbar-nav flex-row me-2 me-md-4">
+                    <a class="nav-link px-2 px-md-3" href="#">Dashboard</a>
+                    <a class="nav-link px-2 px-md-3 active" href="#">Perfil</a>
+                    <a class="nav-link px-2 px-md-3 d-none d-md-block" href="#">Ofertas</a>
+                </div>
+
+                <div class="d-flex gap-2 align-items-center">
+                    <button class="icon-box"><i class="bi bi-bell-fill"></i></button>
+                    <button class="icon-box d-none d-sm-flex"><i class="bi bi-gear-fill"></i></button>
+                    <div class="profile-frame ms-1">
+                        <img src="https://via.placeholder.com/40" alt="User" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="status-bar-section mt-4">
+            <div class="container">
+                <div class="status-card d-flex flex-column flex-md-row align-items-center justify-content-between py-3 px-4 gap-3">                
+                    
+                    <div class="d-flex align-items-center text-center text-md-start">
+                        <div class="switch-container me-3">
+                            <label class="switch">
+                                <input type="checkbox" id="statusSwitch" checked> 
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="status-text">
+                            <h6 class="m-0 fw-bold text-white">Disponible para oportunidades</h6>
+                            <p class="m-0 text-secondary small">Tu perfil es visible para reclutadores</p>
+                        </div>
+                    </div>
+
+                    <div class="status-badge" id="badgeStatus">
+                        <span class="badge-dot" id="badgeDot"></span>
+                        <span id="statusText" class="ms-1">ACTIVO</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="profile-main-card mt-4 mb-5">
+            <div class="container card-dark-bg p-4 p-md-5">
+                
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="profile-avatar-container">
+                            <img src="https://via.placeholder.com/120" class="profile-avatar-img" alt="">
+                            <div class="camera-icon">
+                                <i class="bi bi-camera-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <h2 class="text-white fw-bold mb-0">Juan Pérez</h2>
+                        <p class="text-secondary mb-1">Senior Software Engineer</p>
+                        <p class="text-danger small mb-0">
+                            <i class="bi bi-geo-alt-fill"></i> MADRID, ESPAÑA
+                        </p>
+                    </div>
+
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-auto ms-md-auto text-center mt-3 mt-md-0">
+                            <button class="btn-save">
+                                <i class="bi bi-save2-fill me-2"></i> Guardar cambios
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-secondary mb-5">
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <h5 class="text-white mb-4"><i class="bi bi-person-fill text-danger me-2"></i> Información Personal</h5>
+                    </div>
+                    
+                    <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Nombre de Usuario</label>
+                        <input type="text" class="form-control-custom" placeholder="User Name">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Nombre completo</label>
+                        <input type="text" class="form-control-custom" placeholder="Juan Pérez">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Rol profesional</label>
+                        <input type="text" class="form-control-custom" placeholder="Senior Software Engineer">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Telefono</label>
+                        <input type="text" class="form-control-custom" placeholder="Phone">
+                    </div>
+
+                     <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Correo</label>
+                        <input type="text" class="form-control-custom" placeholder="Email">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label text-secondary small">Años de experiencia</label>
+                        <select class="form-select-custom" id="selectExperiencia">
+                            <option value="1-3">1 - 3 años</option>
+                            <option value="5-8" selected>5 - 8 años</option>
+                            <option value="10+">+10 años</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label text-secondary small">Tus Skills (Presiona Enter para añadir)</label>
+                        <div class="skills-wrapper form-control-custom d-flex flex-wrap gap-2" id="skillsContainer">
+                            <input type="text" id="inputSkill" placeholder="Ej: React, Node.js..." style="border:none; outline:none; background:transparent; color:white; flex:1; min-width:100px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="border-secondary my-5">
+    
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <h5 class="text-white mb-3">
+                                <i class="bi bi-file-text-fill text-danger me-2"></i> Biografía
+                            </h5>
+                            <label class="form-label text-secondary small">Sobre ti</label>
+                            <textarea class="form-control-custom" id="bioTextArea" rows="5" placeholder="Cuéntanos un poco sobre tu experiencia..."></textarea>
+                            <p class="text-secondary smaller mt-2">Breve descripción para que los reclutadores te conozcan mejor (máx. 500 caracteres).</p>
+                        </div>
+                    </div>
+    
+                    <div class="row mt-5">
+                        <div class="col-12 d-flex justify-content-end gap-3">
+                            <button type="button" class="btn-cancel" id="btnCancelProfile">
+                                Cancelar
+                            </button>
+                            <button type="button" class="btn-save" id="btnUpdateProfile">
+                                Actualizar Perfil
+                            </button>
+                        </div>
+                    </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="./js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

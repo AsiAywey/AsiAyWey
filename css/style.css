@@ -1,0 +1,333 @@
+/* Variables adicionales */
+:root {
+  /* Backgrounds */
+  --bg-body: #0B0F14;
+  --bg-dark-soft: #0E141B;
+  --bg-dark-medium: #111822;
+  --bg-section: #131A23;
+  --bg-alternate: #151E28;
+
+  /* Borders / Dividers */
+  --border-subtle: #1C2530;
+}
+
+
+html, body {
+  background-color: var(--bg-body);
+  color: #E5E7EB; /* texto claro neutro */
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: var(--bg-body);
+}
+
+.section {
+  background-color: var(--bg-section);
+  border: 1px solid var(--border-subtle);
+}
+
+.section-alt {
+  background-color: var(--bg-alternate);
+}
+
+.panel {
+  background-color: var(--bg-dark-medium);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.navbar{
+    background-color: #1c1d1f;
+}
+
+/* 1. El Logo con fondo rojo */
+.logo-container {
+    background-color: var(--primary-red);
+    padding: 6px;
+    border-radius: 8px; /* Bordes redondeados sutiles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-svg {
+    width: 20px;
+    height: 20px;
+    fill: white; /* El icono dentro del cuadro rojo es blanco */
+}
+
+.brand-name {
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+}
+
+/* 2. Cajas de Iconos (Campana y Engranaje) */
+.icon-box {
+    background-color: var(--dark-surface);
+    border: none;
+    color: #ced4da;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.icon-box:hover {
+    background-color: #2a2f35;
+    color: white;
+}
+
+/* 3. Marco de Perfil con el borde beige/crema */
+.profile-frame {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #e9c46a; /* El color crema de la imagen */
+    overflow: hidden;
+}
+
+
+/*Seccion parte de si es disponible para tu perfil */
+/* From Uiverse.io by vinodjangid07 */ 
+/* To hide the checkbox */
+/* From Uiverse.io by varoonrao */ 
+/* 1. La Card de Estado */
+.status-card {
+    background-color: #161b22; /* Un gris un tono más claro que el fondo general */
+    border: 1px solid #30363d; /* Borde sutil para dar definición */
+    padding: 1.2rem 2rem;
+    border-radius: 12px;
+}
+
+/* 2. El Badge "ACTIVO" (Estilo píldora) */
+.status-badge {
+    background-color: rgba(0, 255, 170, 0.1); /* Verde muy transparente */
+    color: #00ffaa;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ffaa;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ffaa; /* Brillo neón sutil */
+}
+
+/* 3. Switch estilo Uiverse (Personalizado para MatchFlow) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input { display: none; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #30363d;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+/* El círculo del switch */
+.slider:before {
+    position: absolute;
+    content: "✓"; /* Icono de check dentro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #21262d;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #00ffaa; }
+input:checked + .slider:before {
+    transform: translateX(24px);
+    background-color: #0d1117;
+}
+
+
+/*DOCUMENTACION SOBRE LA SESION DE EL USUAURIO*/
+/* Fondo de la tarjeta principal */
+.card-dark-bg {
+    background-color: #161b22; /* Gris muy oscuro */
+    border-radius: 16px;
+    border: 1px solid #30363d;
+}
+
+/* Inputs y Selects personalizados */
+.form-control-custom, .form-select-custom {
+    background-color: #0d1117; /* Fondo más negro para los campos */
+    border: 1px solid #30363d;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+}
+
+.form-control-custom:focus {
+    border-color: #e63946; /* Borde rojo al hacer clic */
+}
+
+/* Botón Rojo Principal */
+.btn-danger-custom {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-danger-custom:hover {
+    background-color: #c92a3a;
+    box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+}
+
+/* Contenedor de Foto de Perfil */
+.profile-pic-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #e63946; /* Círculo rojo */
+    object-fit: cover;
+}
+
+.cam-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.btn-save {
+    position: relative;
+    top: -50px;
+    background-color: #e63946; /* El rojo de acento de MatchFlow */
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px; /* Bordes redondeados sutiles */
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3); /* Sombra roja sutil */
+}
+
+.btn-save:hover {
+    background-color: #d62839; /* Un rojo un poco más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Pequeño salto hacia arriba */
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
+}
+
+.btn-save:active {
+    transform: translateY(0);
+}
+
+
+/*PARTE DE ABJP DE LA BIOGRAFIA DE EL USER */
+/* Área de texto (Bio) */
+textarea.form-control-custom {
+    resize: none; /* Evita que el usuario deforme la caja */
+    line-height: 1.6;
+}
+
+/* Botón Cancelar (Estilo secundario) */
+.btn-cancel {
+    background-color: #21262d; /* Gris oscuro para que no resalte tanto */
+    color: #ced4da;
+    border: 1px solid #30363d;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+    position: relative;
+    top: -50px;
+}
+
+.btn-cancel:hover {
+    background-color: #30363d;
+    color: white;
+}
+
+/* Texto extra pequeño para leyendas */
+.smaller {
+    font-size: 0.75rem;
+}
+
+/*los skills para poner agrerlo en javscrip*/
+.skill-tag {
+    background-color: rgba(230, 57, 70, 0.2); /* Fondo rojo transparente */
+    color: #e63946;
+    border: 1px solid rgba(230, 57, 70, 0.4);
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.skill-tag i {
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.skills-wrapper:focus-within {
+    border-color: #e63946; /* Resaltar cuando escribes */
+}
+
+/* Para evitar que el switch se rompa en móvil */
+.status-card {
+    min-width: 0; /* Evita desbordamiento de flex */
+    word-wrap: break-word;
+}
+
+@media (max-width: 450px) {
+    .status-text h6 {
+        font-size: 0.9rem; /* Reducimos un poco el texto en móviles muy pequeños */
+    }
+    .status-text p {
+        font-size: 0.75rem;
+    }
+}
+
