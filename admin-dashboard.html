@@ -146,6 +146,87 @@
         </section>
       </main>
     </div>
+
+    <!-- Create Job Modal -->
+    <div class="modal-overlay" id="create-job-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Create New Job</h2>
+          <button class="close-btn" id="close-modal">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        
+        <form class="modal-content">
+          <div class="form-group">
+            <label for="job-title">Job Title *</label>
+            <input type="text" id="job-title" placeholder="e.g. Desarrollador Frontend Senior" required>
+          </div>
+
+          <div class="form-group">
+            <label for="job-description">Description *</label>
+            <textarea id="job-description" rows="4" placeholder="Describe the role and responsibilities..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="job-requirements">Requirements *</label>
+            <div id="requirements-container">
+              <input type="text" class="requirement-input" placeholder="e.g. 3+ años experiencia">
+              <button type="button" class="add-requirement-btn">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+            <div id="requirements-list"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="job-salary">Salary Range *</label>
+              <input type="text" id="job-salary" placeholder="e.g. 3500000-4500000" required>
+            </div>
+
+            <div class="form-group">
+              <label for="job-location">Location *</label>
+              <input type="text" id="job-location" placeholder="e.g. Bogotá" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="job-type">Job Type *</label>
+              <select id="job-type" required>
+                <option value="">Select type...</option>
+                <option value="Tiempo Completo">Tiempo Completo</option>
+                <option value="Medio Tiempo">Medio Tiempo</option>
+                <option value="Contrato">Contrato</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Prácticas">Prácticas</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Remote Work</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="remote" value="true" checked>
+                  <span>Yes</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="remote" value="false">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn-primary">Create Job</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script src="js/admin-dashboard.js"></script>
   </body>
 </html>

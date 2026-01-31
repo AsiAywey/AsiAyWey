@@ -133,31 +133,83 @@ async function loadCompanyInfo() {
     const authData = localStorage.getItem('authToken');
     const userType = localStorage.getItem('userType');
     
+    const companyNameEl = document.getElementById('company-name');
+    const companyRoleEl = document.getElementById('company-role');
+    
+    if (!companyNameEl || !companyRoleEl) {
+      return;
+    }
+    
     if (authData && userType === 'company') {
       const company = JSON.parse(authData);
-      document.getElementById('company-name').textContent = company.name;
-      document.getElementById('company-role').textContent = company.industry || 'Company';
+      companyNameEl.textContent = company.name;
+      companyRoleEl.textContent = company.industry || 'Company';
     } else {
       const companies = await fetchData('/companies');
       if (companies && companies.length > 0) {
         const company = companies[0];
-        document.getElementById('company-name').textContent = company.name;
-        document.getElementById('company-role').textContent = company.industry || 'Company';
+        companyNameEl.textContent = company.name;
+        companyRoleEl.textContent = company.industry || 'Company';
       }
     }
   } catch (error) {
-    console.error('Error loading company info:', error);
-    document.getElementById('company-name').textContent = 'Company';
-    document.getElementById('company-role').textContent = 'Loading error';
+    const companyNameEl = document.getElementById('company-name');
+    const companyRoleEl = document.getElementById('company-role');
+    if (companyNameEl) companyNameEl.textContent = 'Company';
+    if (companyRoleEl) companyRoleEl.textContent = 'Loading error';
   }
 }
 
 // Funcionalidad de interfaz
+function initModal() {
+  const createJobBtn = document.querySelector(".primary-btn");
+  const modal = document.getElementById("create-job-modal");
+  const closeBtn = document.getElementById("close-modal");
+  const cancelBtn = document.getElementById("cancel-btn");
+  
+  if (!createJobBtn || !modal || !closeBtn || !cancelBtn) {
+    return;
+  }
+  
+  // Open modal
+  createJobBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.classList.add("show");
+  });
+  
+  // Close modal functions
+  function closeModal() {
+    modal.classList.remove("show");
+  }
+  
+  closeBtn.addEventListener("click", closeModal);
+  cancelBtn.addEventListener("click", closeModal);
+  
+  // Close modal when clicking outside
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+  
+  // Prevent form submission for now (visual only)
+  const form = modal.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Visual only - functionality not implemented yet");
+      closeModal();
+    });
+  }
+}
+
 function initDropdown() {
   const userAvatar = document.getElementById("user-avatar");
   const userMenu = document.getElementById("user-menu");
 
-  if (!userAvatar || !userMenu) return;
+  if (!userAvatar || !userMenu) {
+    return;
+  }
 
   userAvatar.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -219,6 +271,7 @@ async function main() {
   }
   
   initDropdown();
+  initModal();
 
   await loadCompanyInfo();
 
