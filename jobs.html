@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Job Offers Management - AsíAyWey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dark-theme">
+    <!-- Top Navigation Bar -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-section">
+                        <div class="logo-icon">
+                            <span class="material-symbols-outlined">handshake</span>
+                        </div>
+                        <h1 class="logo-text">AsíAyWey</h1>
+                    </div>
+                    <div class="search-wrapper">
+                        <div class="search-icon">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input class="search-input" placeholder="Search offers or candidates..." type="text" />
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-create-offer">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>Create New Offer</span>
+                    </button>
+                    <div class="header-divider"></div>
+                    <div class="user-avatar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Page Heading -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title-section">
+                    <h2 class="page-title">Job Offers Management</h2>
+                    <p class="page-subtitle">
+                        Monitor your recruitment pipeline, track candidate matching efficiency, and manage active job listings.
+                    </p>
+                </div>
+                <div class="info-badge">
+                    <span class="material-symbols-outlined">info</span>
+                    Offers close automatically when a candidate is hired.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <nav class="tabs-nav">
+                <a class="tab-link tab-active" href="#">
+                    <span class="tab-text">Active Offers</span>
+                    <span class="tab-badge tab-badge-primary">12</span>
+                </a>
+                <a class="tab-link" href="#">
+                    <span class="tab-text">Closed</span>
+                    <span class="tab-badge tab-badge-muted">48</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Active Offer Card 1 -->
+            <div class="offer-card">
+                <div class="offer-content">
+                    <div class="offer-status">
+                        <span class="status-badge status-live">Live Now</span>
+                        <span class="status-time">• Posted 3 hours ago</span>
+                    </div>
+                    <div class="offer-title-section">
+                        <h3 class="offer-title">Senior Product Designer</h3>
+                        <p class="offer-location">
+                            <span class="material-symbols-outlined">apartment</span>
+                            Design &amp; Creative • San Francisco / Remote
+                        </p>
+                    </div>
+                    <div class="offer-stats">
+                        <div class="stat-item">
+                            <span class="stat-number stat-primary">24</span>
+                            <span class="stat-label">Perfect Matches</span>
+                        </div>
+                        <div class="stat-item stat-bordered">
+                            <span class="stat-number">102</span>
+                            <span class="stat-label">Total Views</span>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-close-offer">
+                            <span class="material-symbols-outlined">cancel</span>
+                            Close Offer
+                        </button>
+                        <button class="btn-edit">
+                            Edit Details
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-image-wrapper">
+                    <div class="image-overlay"></div>
+                    <img alt="Team working" class="offer-image"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEADjwYt6RWiD5yarZctHEBNecWeE1FLZbtELXAGYnXdtTXupXLO_BbSs8oLoljzTIUaLL35kFbP2BqIy8w-6_9UVbgmB96hbF0W7mONxYY4YNbCeme2n4NDnr-tgn-3pYBqoD6WHtn3yEfRfCBfh009jKaBUUYKpu1fIg6qksY3s4ryxOLrX92nriRMXIc-hZAvxaxAOLaqysuWVXF-VLipFaEe137Ye0OnkqANUD2Z3DqwvwwlXumeiYRhM1En6ttXWLSknwx4GP" />
+                    <div class="candidate-avatars">
+                        <div class="avatar avatar-1"></div>
+                        <div class="avatar avatar-2"></div>
+                        <div class="avatar avatar-count">+22</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Offer Card 2 -->
+            <div class="offer-card">
+                <div class="offer-content">
+                    <div class="offer-status">
+                        <span class="status-badge status-live">Live Now</span>
+                        <span class="status-time">• Posted 2 days ago</span>
+                    </div>
+                    <div class="offer-title-section">
+                        <h3 class="offer-title">Backend Engineer (Node.js)</h3>
+                        <p class="offer-location">
+                            <span class="material-symbols-outlined">engineering</span>
+                            Engineering • London / Hybrid
+                        </p>
+                    </div>
+                    <div class="offer-stats">
+                        <div class="stat-item">
+                            <span class="stat-number stat-primary">8</span>
+                            <span class="stat-label">Perfect Matches</span>
+                        </div>
+                        <div class="stat-item stat-bordered">
+                            <span class="stat-number">45</span>
+                            <span class="stat-label">Total Views</span>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-close-offer">
+                            <span class="material-symbols-outlined">cancel</span>
+                            Close Offer
+                        </button>
+                        <button class="btn-edit">
+                            Edit Details
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-image-wrapper">
+                    <div class="image-overlay"></div>
+                    <img alt="Code setup" class="offer-image"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5U12NMwJQwzBkiXGBcGjcT8sgSeTScrVs2EEU_T-UPNaJBTmnwtdbNLsj002zBRPfVsOkeUn0EOIWs4yd9eJkCr0k5yMfF8NWAXU3AYznn4J0i8xwIvcn6GdiN9OXz2zXCFPMLn4w_jTKtm_YhX6e0seFgUJnTYDRbUm8E2xxr5E1ap3PNv6Id-SDpfw6_xdEFkymVDIo5R7TE2yMs3wH5HgX3hZSOHL14ZNR6ab1qj52bhkPeK693R8e1mtgsEjn2oXl5CaeLFlr" />
+                    <div class="candidate-avatars">
+                        <div class="avatar avatar-3"></div>
+                        <div class="avatar avatar-count">+6</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informational Text -->
+            <p class="info-text">Showing most recent active offers. Scroll for more.</p>
+
+            <div class="section-divider">
+                <span class="divider-text">Recently Closed</span>
+            </div>
+
+            <!-- Closed Offer Card -->
+            <div class="offer-card offer-closed">
+                <div class="offer-content">
+                    <div class="offer-status">
+                        <span class="status-badge status-hired">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            Hired
+                        </span>
+                        <span class="status-time">• Closed 4 days ago</span>
+                    </div>
+                    <div class="offer-title-section">
+                        <h3 class="offer-title">Marketing Director</h3>
+                        <p class="offer-location">
+                            <span class="material-symbols-outlined">campaign</span>
+                            Growth &amp; Marketing • New York
+                        </p>
+                    </div>
+                    <div class="offer-stats">
+                        <div class="stat-item">
+                            <span class="stat-number stat-muted">12</span>
+                            <span class="stat-label">Total Matches</span>
+                        </div>
+                        <div class="stat-item stat-bordered">
+                            <span class="stat-number stat-muted">312</span>
+                            <span class="stat-label">Total Views</span>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-report">
+                            <span class="material-symbols-outlined">analytics</span>
+                            View Hiring Report
+                        </button>
+                        <button class="btn-archive">Archive Listing</button>
+                    </div>
+                </div>
+                <div class="offer-image-wrapper">
+                    <img alt="Collaboration" class="offer-image offer-image-grayscale"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5GRnDmlpC6gUDNohZRw6COoR6tMxKVAR8_QJrlvbCT-FC0Gi1a6YAEQsb1QAxfMNUsbmzpSnkGU1mW5qIyfvzj_ni1hX_txrAHhunqv41nz-q_-dQDGYuqBqRmwhQBB3bh9xlk-NkqFSqXekTnnwHEyKc49xoHwIx-VPDMUThIyyBv5rb59FOHknkT1vJCSOOlHaEEcQckDyQ0ScZYkkyUNK8nyAJ3qMqir1SCe_bPYM5M_gfQavG-mgwnN_FXkQQSKC699RyCltJ" />
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Floating Action for Mobile -->
+    <div class="floating-action">
+        <button class="btn-floating">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+</body>
+</html>
