@@ -1,0 +1,15 @@
+{
+  "name": "asiaywey",
+  "version": "1.0.0",
+  "description": "asiaywey",
+  "main": "server.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3000 || json-server --watch db.json --port 3001 || json-server --watch db.json --port 3002 || json-server --watch db.json --port 3003 || json-server --watch db.json --port 3004 || json-server --watch db.json --port 3005",
+    "dev": "json-server --watch db.json --port 3000 || json-server --watch db.json --port 3001 || json-server --watch db.json --port 3002 || json-server --watch db.json --port 3003 || json-server --watch db.json --port 3004 || json-server --watch db.json --port 3005",
+    "simple": "json-server --watch db.json --port 3000 || json-server --watch db.json --port 3001 || json-server --watch db.json --port 3002 || json-server --watch db.json --port 3003 || json-server --watch db.json --port 3004 || json-server --watch db.json --port 3005"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "json-server": "^1.0.0-beta.3"
+  }
+}

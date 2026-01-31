@@ -1,0 +1,196 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "alyxzain",
+      "fullName": "Sebastian Vargas",
+      "email": "zain-wave@email.com",
+      "password": "12345",
+      "phone": "+57 300 123 4567",
+      "profession": "Desarrollador Frontend",
+      "experience": "3 años",
+      "skills": [
+        "JavaScript",
+        "React",
+        "CSS",
+        "HTML"
+      ],
+      "education": "Ingeniería de Sistemas",
+      "status": "DISPONIBLE",
+      "openToWork": true,
+      "description": "Desarrollador frontend apasionado por crear experiencias web"
+    },
+    {
+      "id": "2",
+      "username": "maria_garcia",
+      "fullName": "María García",
+      "email": "maria.garcia@email.com",
+      "password": "12345",
+      "phone": "+57 301 234 5678",
+      "profession": "Diseñadora UX/UI",
+      "experience": "2 años",
+      "skills": [
+        "Figma",
+        "Adobe XD",
+        "Photoshop",
+        "Ilustrator"
+      ],
+      "education": "Diseño Gráfico",
+      "status": "NO_DISPONIBLE",
+      "openToWork": false,
+      "description": "Diseñadora creativa especializada en interfaces de usuario"
+    },
+    {
+      "id": "3",
+      "username": "carlos_rodriguez",
+      "fullName": "Carlos Rodríguez",
+      "email": "carlos.rodriguez@email.com",
+      "password": "12345",
+      "phone": "+57 302 345 6789",
+      "profession": "Desarrollador Backend",
+      "experience": "4 años",
+      "skills": [
+        "Node.js",
+        "Python",
+        "MongoDB",
+        "PostgreSQL"
+      ],
+      "education": "Ingeniería de Software",
+      "status": "DISPONIBLE",
+      "openToWork": true,
+      "description": "Desarrollador backend experto en APIs y bases de datos"
+    },
+    {
+      "id": "cd7b",
+      "username": "pepe",
+      "fullName": "pepito perez",
+      "email": "elpepe@outlook.com",
+      "password": "123456"
+    },
+    {
+      "id": "6781",
+      "username": "joselito",
+      "fullName": "jose jose",
+      "email": "joselito@hotmail.com",
+      "password": "123"
+    }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "name": "Tech Solutions SAS",
+      "email": "hr@techsolutions.com",
+      "password": "12345",
+      "nit": "900123456-7",
+      "phone": "+57 1 234 5678",
+      "address": "Calle 123 #45-67, Bogotá",
+      "industry": "Tecnología",
+      "description": "Empresa especializada en soluciones tecnológicas innovadoras"
+    },
+    {
+      "id": "2",
+      "name": "Digital Creative Agency",
+      "email": "contacto@digitalcreative.com",
+      "password": "12345",
+      "nit": "900765432-1",
+      "phone": "+57 1 876 5432",
+      "address": "Avenida 45 #67-89, Medellín",
+      "industry": "Diseño y Marketing",
+      "description": "Agencia creativa especializada en branding y diseño digital"
+    }
+  ],
+  "jobOffers": [
+    {
+      "id": "1",
+      "companyId": "1",
+      "title": "Desarrollador Frontend Senior",
+      "description": "Buscamos un desarrollador frontend con experiencia en React y JavaScript moderno",
+      "requirements": [
+        "3+ años experiencia",
+        "React",
+        "JavaScript",
+        "CSS"
+      ],
+      "salary": "3500000-4500000",
+      "location": "Bogotá",
+      "type": "Tiempo Completo",
+      "remote": true,
+      "active": true
+    },
+    {
+      "id": "2",
+      "companyId": "1",
+      "title": "Desarrollador Backend",
+      "description": "Buscamos desarrollador backend con experiencia en Node.js y bases de datos",
+      "requirements": [
+        "2+ años experiencia",
+        "Node.js",
+        "MongoDB",
+        "APIs REST"
+      ],
+      "salary": "3000000-4000000",
+      "location": "Bogotá",
+      "type": "Tiempo Completo",
+      "remote": false,
+      "active": true
+    },
+    {
+      "id": "3",
+      "companyId": "2",
+      "title": "Diseñador UX/UI",
+      "description": "Buscamos diseñador creativo con experiencia en diseño de interfaces",
+      "requirements": [
+        "2+ años experiencia",
+        "Figma",
+        "Adobe XD",
+        "Portfolio"
+      ],
+      "salary": "2800000-3500000",
+      "location": "Medellín",
+      "type": "Tiempo Completo",
+      "remote": true,
+      "active": true
+    }
+  ],
+  "matches": [
+    {
+      "id": "1",
+      "companyId": "1",
+      "jobOfferId": "1",
+      "userId": "1",
+      "status": "pending"
+    },
+    {
+      "id": "2",
+      "companyId": "1",
+      "jobOfferId": "2",
+      "userId": "3",
+      "status": "contacted"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "1",
+      "companyId": "1",
+      "jobOfferId": "1",
+      "userId": "1",
+      "active": true
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "matchId": "2",
+      "senderId": "1",
+      "senderType": "company",
+      "message": "Hola Carlos, vimos tu perfil y nos interesa hablar contigo sobre la vacante de Desarrollador Backend"
+    },
+    {
+      "id": "2",
+      "matchId": "2",
+      "senderId": "3",
+      "senderType": "user",
+      "message": "Hola, gracias por contactarme. Me interesa la posición, ¿podríamos agendar una entrevista?"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AsíAyWey - Authentication</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="dark">
+    <header class="header">
+      <div class="logo">
+        <svg viewBox="0 0 48 48">
+          <path
+            d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z"
+          />
+        </svg>
+        <span>AsíAyWey</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <nav class="tabs">
+          <button id="login-tab" class="active">Login</button>
+          <button id="register-tab">Register</button>
+        </nav>
+
+        <!-- Login Content -->
+        <div id="login-content" class="content">
+          <h1>Welcome back</h1>
+          <p>The professional match-first recruitment platform.</p>
+
+          <form>
+            <label
+              >Email
+              <div class="field">
+                <span class="material-symbols-outlined">mail</span>
+                <input type="email" placeholder="name@company.com" />
+              </div>
+            </label>
+
+            <label
+              >Password
+              <div class="field">
+                <span class="material-symbols-outlined">lock</span>
+                <input type="password" placeholder="••••••••" />
+              </div>
+            </label>
+
+            <button class="btn-primary">Sign In</button>
+
+            <div class="divider">or continue with</div>
+
+            <div class="social">
+              <button>Google</button>
+              <button>LinkedIn</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Register Content -->
+        <div id="register-content" class="content" style="display: none">
+          <h1>Create account</h1>
+          <p>Join the professional match-first recruitment platform.</p>
+
+          <form>
+            <label
+              >Username
+              <div class="field">
+                <span class="material-symbols-outlined">alternate_email</span>
+                <input type="text" placeholder="pepito25" />
+              </div>
+            </label>
+
+            <label
+              >Full Name
+              <div class="field">
+                <span class="material-symbols-outlined">person</span>
+                <input type="text" placeholder="Pepito Ochoa" />
+              </div>
+            </label>
+
+            <label
+              >Email
+              <div class="field">
+                <span class="material-symbols-outlined">mail</span>
+                <input type="email" placeholder="name@company.com" />
+              </div>
+            </label>
+
+            <label
+              >Password
+              <div class="field">
+                <span class="material-symbols-outlined">lock</span>
+                <input type="password" placeholder="••••••••" />
+              </div>
+            </label>
+
+            <label
+              >Confirm Password
+              <div class="field">
+                <span class="material-symbols-outlined">lock</span>
+                <input type="password" placeholder="••••••••" />
+              </div>
+            </label>
+
+            <button class="btn-primary">Sign Up</button>
+
+            <div class="divider">or continue with</div>
+
+            <div class="social">
+              <button>Google</button>
+              <button>LinkedIn</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">© 2026 AsíAyWey</footer>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>

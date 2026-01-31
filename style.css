@@ -1,0 +1,152 @@
+:root {
+  --primary: #ee2b2b;
+  --bg: #181111;
+  --card: #271c1c;
+  --border: #392828;
+  --text: #ffffff;
+  --muted: #b99d9d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.header {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-weight: 700;
+}
+
+.logo svg {
+  width: 32px;
+  fill: var(--primary);
+}
+
+.container {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabs .active {
+  color: var(--text);
+  border-bottom: 3px solid var(--primary);
+}
+
+.content {
+  padding: 2rem;
+}
+
+h1 { margin-bottom: .25rem; }
+
+p {
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 1.25rem;
+  font-size: .85rem;
+}
+
+.field {
+  position: relative;
+  margin-top: .25rem;
+}
+
+.field span {
+  position: absolute;
+  left: .75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.field input {
+  width: 100%;
+  padding: .7rem .7rem .7rem 2.4rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.btn-primary {
+  width: 100%;
+  margin-top: .5rem;
+  padding: .8rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  font-size: .7rem;
+  color: var(--muted);
+}
+
+.social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+}
+
+.social button {
+  padding: .6rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: .75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
