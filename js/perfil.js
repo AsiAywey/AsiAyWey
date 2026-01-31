@@ -21,7 +21,7 @@ class ProfileManager {
         document.getElementById('btnCancelProfile')?.addEventListener('click', () => this.cancelChanges());
 
         // Switch de disponibilidad
-        document.getElementById('statusSwitch')?.addEventListener('change', (e) => this.toggleAvailability(e.target.checked));
+        document.getElementById('statusSwitch')?.addEventListener('change', (e) => this.updateAvailability(e.target.checked));
 
         // Input de skills con Enter
         document.getElementById('inputSkill')?.addEventListener('keypress', (e) => {
@@ -160,7 +160,48 @@ class ProfileManager {
         ).filter(skill => skill);
     }
 
-    toggleAvailability(isAvailable) {
+    async updateAvailability(isAvailable) {
+        if (!this.currentUser) {
+            this.showError('No hay usuario cargado');
+            return;
+        }
+
+        try {
+            const updatedData = {
+                openToWork: isAvailable,
+                status: isAvailable ? 'DISPONIBLE' : 'NO_DISPONIBLE'
+            };
+
+            const response = await fetch(`${this.apiBase}/users/${this.currentUser.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (!response.ok) throw new Error('Error al actualizar disponibilidad');
+
+            // Actualizar datos locales
+            this.currentUser = { ...this.currentUser, ...updatedData };
+
+            // Actualizar UI
+            this.toggleAvailabilityUI(isAvailable);
+            this.showSuccess(isAvailable ? 'Perfil activado correctamente' : 'Perfil desactivado correctamente');
+
+        } catch (error) {
+            console.error('Error actualizando disponibilidad:', error);
+            this.showError('No se pudo actualizar la disponibilidad');
+            
+            // Revertir el switch si hubo error
+            const switchElement = document.getElementById('statusSwitch');
+            if (switchElement) {
+                switchElement.checked = !isAvailable;
+            }
+        }
+    }
+
+    toggleAvailabilityUI(isAvailable) {
         const badgeDot = document.getElementById('badgeDot');
         const statusText = document.getElementById('statusText');
         const statusSubtitle = document.querySelector('.status-text p');
@@ -237,7 +278,7 @@ class ProfileManager {
         // Actualizar estado de disponibilidad
         const statusSwitch = document.getElementById('statusSwitch');
         if (statusSwitch && this.currentUser) {
-            this.toggleAvailability(this.currentUser.openToWork !== false);
+            this.toggleAvailabilityUI(this.currentUser.openToWork !== false);
         }
     }
 
