@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Job Offers Management - AsíAyWey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./offers.css" />
+</head>
+
+<body class="dark-theme">
+    <header class="header">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a class="link_color" href="#">
+                        <div class="logo-section">
+                            <div class="logo-icon">
+                                <span class="material-symbols-outlined">handshake</span>
+                            </div>
+                            <h1 class="logo-text">AsíAyWey</h1>
+                        </div>
+                    </a>
+                    <div class="search-wrapper">
+                        <div class="search-icon">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input class="search-input" placeholder="Search offers or candidates..." type="text" />
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-create-offer">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>Create New Offer</span>
+                    </button>
+                    <div class="header-divider"></div>
+                    <div class="user-avatar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title-section">
+                    <h2 class="page-title">Job Offers Management</h2>
+                    <p class="page-subtitle">
+                        Monitor your recruitment pipeline, track candidate matching efficiency, and manage active job
+                        listings.
+                    </p>
+                </div>
+                <div class="info-badge">
+                    <span class="material-symbols-outlined">info</span>
+                    Offers close automatically when a candidate is hired.
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <nav class="tabs-nav">
+                <a class="tab-link tab-active" href="#" data-filter="active">
+                    <span class="tab-text">Active Offers</span>
+                    <span class="tab-badge tab-badge-primary">0</span>
+                </a>
+                <a class="tab-link" href="#" data-filter="closed">
+                    <span class="tab-text">Closed</span>
+                    <span class="tab-badge tab-badge-muted">0</span>
+                </a>
+            </nav>
+        </div>
+
+        <div id="ofertas-de-chamba" class="content-grid"></div>
+    </main>
+
+    <div class="floating-action">
+        <button class="btn-floating">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+
+    <script type="module" src="./offers.js"></script>
+</body>
+
+</html>
