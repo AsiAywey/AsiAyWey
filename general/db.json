@@ -1,38 +1,102 @@
 {
-  "users": [
+  "candidates": [
     {
+      "id": "c1",
       "name": "Santiago Zapata",
-      "email": "sa@gmail.com",
-      "password": "12345",
-      "id": "12345"
+      "email": "santiago@gmail.com",
+      "phone": "+57 312 345 6789",
+      "title": "Senior Software Engineer",
+      "skills": ["JavaScript", "React", "Node.js"],
+      "location": "Medellín",
+      "openToWork": true,
+      "bio": "8 years of experience building web applications"
     },
     {
+      "id": "c2",
       "name": "Yesica Rendón",
-      "email": "sa@gmail.com",
-      "password": "12345",
-      "id": "12356"
+      "email": "yesica@gmail.com",
+      "phone": "+57 312 345 6790",
+      "title": "Product Designer",
+      "skills": ["Figma", "UX/UI", "Prototyping"],
+      "location": "Bogotá",
+      "openToWork": false,
+      "bio": "6 years designing digital products"
     },
     {
-      "id": "1769736384079",
-      "name": "Tomas",
-      "email": "tomascat@gmail.com",
-      "password": "123456"
+      "id": "c3",
+      "name": "Tomás García",
+      "email": "tomas@gmail.com",
+      "phone": "+57 312 345 6791",
+      "title": "Backend Developer",
+      "skills": ["Python", "PostgreSQL", "AWS"],
+      "location": "Cali",
+      "openToWork": true,
+      "bio": "5 years backend development experience"
     }
   ],
   "companies": [
     {
-      "name": "Company 1",
-      "NIT": 1234567890,
+      "id": "comp1",
+      "name": "Tech Corp",
+      "nit": "1234567890",
       "email": "company1@company.com",
-      "password": "12345",
-      "id": "4035"
+      "website": "https://techcorp.com",
+      "industry": "Technology",
+      "location": "Medellín"
     },
     {
-      "name": "Company 2",
-      "NIT": 1234567892,
+      "id": "comp2",
+      "name": "Design Studios",
+      "nit": "1234567892",
       "email": "company2@company.com",
-      "password": "12345",
-      "id": "830e"
+      "website": "https://designstudios.com",
+      "industry": "Design",
+      "location": "Bogotá"
+    }
+  ],
+  "jobOffers": [
+    {
+      "id": "job1",
+      "companyId": "comp1",
+      "title": "Senior React Developer",
+      "description": "We are looking for an experienced React developer",
+      "skills": ["React", "JavaScript", "Node.js"],
+      "location": "Medellín",
+      "salary": "$4000-$6000",
+      "status": "active",
+      "createdAt": "2026-02-01"
+    },
+    {
+      "id": "job2",
+      "companyId": "comp2",
+      "title": "UI/UX Designer",
+      "description": "Join our design team for a exciting project",
+      "skills": ["Figma", "UX/UI"],
+      "location": "Bogotá",
+      "salary": "$2500-$4000",
+      "status": "active",
+      "createdAt": "2026-02-02"
+    }
+  ],
+  "matches": [
+    {
+      "id": "m1",
+      "companyId": "comp1",
+      "jobOfferId": "job1",
+      "candidateId": "c1",
+      "status": "pending",
+      "createdAt": "2026-02-03",
+      "score": 95
+    }
+  ],
+  "reservations": [
+    {
+      "id": "res1",
+      "companyId": "comp1",
+      "candidateId": "c1",
+      "matchId": "m1",
+      "active": true,
+      "createdAt": "2026-02-03"
     }
   ]
 }

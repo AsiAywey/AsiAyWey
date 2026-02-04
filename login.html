@@ -26,38 +26,34 @@
     <main class="container">
         <section class="card">
 
-            <nav class="tabs">
-                <button class="active">Login</button>
-                <button>Register</button>
-            </nav>
-
             <div class="content">
-                <h1>Welcome back</h1>
+                <h1>Welcome to AsíAyWey</h1>
                 <p>The professional match-first recruitment platform.</p>
 
-                <form>
-                    <label>Email
+                <div id="message" class="message" style="display:none;"></div>
+
+                <form id="loginForm">
+                    <label>Select Your Role
                         <div class="field">
-                            <span class="material-symbols-outlined">mail</span>
-                            <input type="email" placeholder="name@company.com">
+                            <span class="material-symbols-outlined">person</span>
+                            <select id="role" required>
+                                <option value="">-- Choose role --</option>
+                                <option value="candidate">Candidate</option>
+                                <option value="company">Company</option>
+                            </select>
                         </div>
                     </label>
 
-                    <label>Password
+                    <label>Select User
                         <div class="field">
-                            <span class="material-symbols-outlined">lock</span>
-                            <input type="password" placeholder="••••••••">
+                            <span class="material-symbols-outlined">account_circle</span>
+                            <select id="userId" required>
+                                <option value="">-- Choose user --</option>
+                            </select>
                         </div>
                     </label>
 
-                    <button class="btn-primary">Sign In</button>
-
-                    <div class="divider">or continue with</div>
-
-                    <div class="social">
-                        <button>Google</button>
-                        <button>LinkedIn</button>
-                    </div>
+                    <button type="submit" class="btn-primary">Enter</button>
                 </form>
             </div>
 
@@ -66,6 +62,7 @@
 
     <footer class="footer">© 2026 AsíAyWey</footer>
 
+    <script type="module" src="login.js"></script>
 </body>
 
 </html>

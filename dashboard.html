@@ -29,30 +29,39 @@
     </header>
 
     <nav class="menu">
-      <a class="menu-item active">
+      <a href="dashboard.html" class="menu-item active">
         <span class="material-symbols-outlined">dashboard</span>
         Dashboard
       </a>
-      <a class="menu-item">
+      <a href="jobs.html" class="menu-item">
         <span class="material-symbols-outlined">work</span>
-        Matches
+        Jobs
       </a>
-      <a class="menu-item">
-        <span class="material-symbols-outlined">group</span>
-        Candidates
-        <span class="badge">12</span>
+      <a id="candidateLink" href="candidate.html" class="menu-item" style="display:none;">
+        <span class="material-symbols-outlined">person</span>
+        My Profile
       </a>
-      <a class="menu-item">
-        <span class="material-symbols-outlined">calendar_today</span>
-        Interviews
+      <a id="companyLink" href="companies/index.html" class="menu-item" style="display:none;">
+        <span class="material-symbols-outlined">business</span>
+        Company Profile
+      </a>
+      <a id="usersLink" href="users/profile.html" class="menu-item" style="display:none;">
+        <span class="material-symbols-outlined">account_circle</span>
+        Settings
       </a>
     </nav>
 
     <footer class="sidebar-footer">
-      <button class="primary-btn">
+      <button class="primary-btn" id="createJobBtn" style="display:none;">
         <span class="material-symbols-outlined">add</span>
         Create New Job
       </button>
+      <a href="login.html" style="width:100%; display:block; margin-top:10px;">
+        <button class="primary-btn" style="width:100%;">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
+      </a>
     </footer>
   </aside>
 
@@ -61,12 +70,12 @@
 
     <!-- TOP BAR -->
     <header class="topbar">
-      <h2>Recruitment Overview</h2>
+      <h2 id="dashTitle">Dashboard</h2>
 
       <div class="user-info">
         <div class="user-text">
-          <strong>Alex Rivera</strong>
-          <span>Lead Recruiter</span>
+          <strong id="userName">User</strong>
+          <span id="userRole">Role</span>
         </div>
         <img src="https://i.pravatar.cc/100" alt="User avatar">
       </div>
@@ -132,5 +141,6 @@
 
 </div>
 
+<script type="module" src="dashboard.js"></script>
 </body>
 </html>
