@@ -1,13 +1,36 @@
-This project has login and registration to create a session. It saves the role and id to use later.
+# AsíAyWey
 
-The dashboard changes by role. For candidates it shows offers. For companies it shows data, lists, and quick numbers.
+## Project Overview
+AsíAyWey is a web application designed to connect companies with candidates.
+The project is currently under development and several features are not fully implemented yet.
 
-The offers page is for viewing jobs and, if you are a company, creating or deleting. It takes data from the server and shows it.
+---
 
-The candidate profile loads their info and lets them change photo and status. What you save there shows in other parts.
+## User Section – Features and Known Issues
 
-The company profile shows its info and lists of candidates, matches, and reservations. From there you do basic actions that affect those lists.
+### Session Behavior
+- If the user logs out and then navigates back to the previous page, access is still allowed.
 
-There is a file for server calls and another for cache. That connects all screens with the same data.
+### Profile
+- The profile section does not allow adding skills.
 
-The HTML and styles only show the view. The JS adds the logic and connects everything.
+---
+
+## Admin Section – Features and Known Issues
+
+### Registration and Login
+- After registering, the system does not automatically redirect the user to the login form.
+
+### Candidate Matching
+- The section to select a candidate and perform a match is missing.
+
+### Job Offers
+- The functionality to create new job offers is not available.
+- The create button does not work.
+- If the user tries to navigate to the "Jobs" section from the company profile view, an error occurs.
+
+---
+
+## Project Status
+This project is still under development.
+Some core features are pending implementation and will be completed in future updates.
