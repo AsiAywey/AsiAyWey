@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AsíAyWey - Login</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <link rel="stylesheet" href="style-login.css">
@@ -33,9 +33,9 @@
                 <div id="message" class="message" style="display:none;"></div>
 
                 <form id="loginForm">
-                    <label>Select Your Role
+                    <label>I am a...
                         <div class="field">
-                            <span class="material-symbols-outlined">person</span>
+                            <span class="material-symbols-outlined">badge</span>
                             <select id="role" required>
                                 <option value="">-- Choose role --</option>
                                 <option value="candidate">Candidate</option>
@@ -44,17 +44,26 @@
                         </div>
                     </label>
 
-                    <label>Select User
+                    <label>Email
                         <div class="field">
-                            <span class="material-symbols-outlined">account_circle</span>
-                            <select id="userId" required>
-                                <option value="">-- Choose user --</option>
-                            </select>
+                            <span class="material-symbols-outlined">mail</span>
+                            <input id="email" type="email" placeholder="Enter your email" required />
+                        </div>
+                    </label>
+
+                    <label>Password
+                        <div class="field">
+                            <span class="material-symbols-outlined">lock</span>
+                            <input id="password" type="password" placeholder="Enter your password" required />
                         </div>
                     </label>
 
                     <button type="submit" class="btn-primary">Enter</button>
                 </form>
+
+                <p class="message" style="text-align:center; margin-top:20px;">
+                    Don't have an account? <a href="register.html" style="color:#ff3b3b;">Register here</a>
+                </p>
             </div>
 
         </section>

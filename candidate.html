@@ -31,7 +31,12 @@
   <!-- PROFILE CARD -->
   <section class="card profile">
     <div class="profile-left">
-      <img src="https://i.pravatar.cc/120?img=12" class="avatar">
+      <div style="position: relative;">
+        <img src="https://i.pravatar.cc/120?img=12" id="fotoPreview" class="avatar">
+        <div id="sinFoto" style="display:none; width: 120px; height: 120px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #999;">No photo</div>
+        <input type="file" id="fotoInput" accept="image/*" style="display:none;">
+        <button class="btn secondary" onclick="document.getElementById('fotoInput').click()" style="margin-top: 10px; font-size: 12px;">Change Photo</button>
+      </div>
       <div>
         <h1 id="candidateName">Loading...</h1>
         <p id="candidateTitle">--</p>

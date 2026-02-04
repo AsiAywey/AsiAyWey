@@ -1,4 +1,3 @@
-// Simple cache with TTL (in seconds)
 const DEFAULT_TTL = 60;
 
 export function getCache(key) {

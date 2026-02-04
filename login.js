@@ -1,67 +1,58 @@
-import { apiGet } from './general/api.js';
-
 const form = document.getElementById('loginForm');
 const roleSelect = document.getElementById('role');
-const userSelect = document.getElementById('userId');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 const messageDiv = document.getElementById('message');
 
-let candidates = [];
-let companies = [];
-
-// Cargar datos al abrir
-async function loadUsers() {
-  try {
-    candidates = await apiGet('/candidates');
-    companies = await apiGet('/companies');
-  } catch (err) {
-    showMessage('Error loading users', 'error');
-  }
-}
+const API_URL = "http://localhost:3001";
 
 function showMessage(text, type = 'success') {
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
   messageDiv.style.display = 'block';
+  
+  setTimeout(() => {
+    messageDiv.style.display = 'none';
+  }, 3000);
 }
 
-function updateUserOptions() {
-  const role = roleSelect.value;
-  userSelect.innerHTML = '<option value="">-- Choose user --</option>';
-
-  if (role === 'candidate') {
-    candidates.forEach(c => {
-      const option = document.createElement('option');
-      option.value = c.id;
-      option.textContent = c.name;
-      userSelect.appendChild(option);
-    });
-  } else if (role === 'company') {
-    companies.forEach(c => {
-      const option = document.createElement('option');
-      option.value = c.id;
-      option.textContent = c.name;
-      userSelect.appendChild(option);
-    });
-  }
+async function getElement(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Network error');
+  return await response.json();
 }
 
-roleSelect.addEventListener('change', updateUserOptions);
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  
   const role = roleSelect.value;
-  const userId = userSelect.value;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
-  if (!role || !userId) {
-    showMessage('Please select role and user', 'error');
+  if (!role || !email || !password) {
+    showMessage('Please fill all fields', 'error');
     return;
   }
 
-  localStorage.setItem('role', role);
-  localStorage.setItem('userId', userId);
+  try {
+    const endpoint = role === 'candidate' ? '/candidates' : '/companies';
+    const dataUsers = await getElement(API_URL + endpoint);
 
-  window.location.href = 'dashboard.html';
+    const user = dataUsers.find(u => u.email === email && u.password === password);
+
+    if (user) {
+      localStorage.setItem('role', role);
+      localStorage.setItem('userId', user.id);
+      
+      showMessage('Login successful!', 'success');
+      
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1000);
+    } else {
+      showMessage('Invalid credentials', 'error');
+    }
+  } catch (err) {
+    showMessage('Could not connect to server. Make sure json-server is running on port 3001.', 'error');
+  }
 });
-
-loadUsers();

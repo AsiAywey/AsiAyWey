@@ -48,7 +48,6 @@ async function loadCompanyData() {
     companyIndustry.textContent = company.industry;
     companyLocation.textContent = '📍 ' + company.location;
   } catch (err) {
-    console.error('Error loading company:', err);
     showMessage('Error loading company data', 'error');
   }
 }
@@ -65,7 +64,7 @@ async function loadCandidates() {
 
     renderCandidates();
   } catch (err) {
-    console.error('Error loading candidates:', err);
+    showMessage('Error loading candidates', 'error');
   }
 }
 
@@ -114,7 +113,7 @@ async function loadMatches() {
 
     renderMatches();
   } catch (err) {
-    console.error('Error loading matches:', err);
+    showMessage('Error loading matches', 'error');
   }
 }
 
@@ -161,7 +160,7 @@ async function loadReservations() {
 
     renderReservations();
   } catch (err) {
-    console.error('Error loading reservations:', err);
+    showMessage('Error loading reservations', 'error');
   }
 }
 
@@ -235,20 +234,17 @@ window.selectCandidate = async (candidateId) => {
     loadMatches();
     loadReservations();
   } catch (err) {
-    console.error('Error creating match:', err);
     showMessage('Error creating match', 'error');
   }
 };
 
 window.changeMatchStatus = async (matchId, newStatus) => {
   try {
-    const match = matches.find(m => m.id === matchId);
     await apiPatch(`/matches/${matchId}`, { status: newStatus });
     clearCache('matches');
     showMessage(`Match status updated to ${newStatus}`);
     loadMatches();
   } catch (err) {
-    console.error('Error updating match:', err);
     showMessage('Error updating match', 'error');
   }
 };
@@ -271,7 +267,6 @@ window.discardMatch = async (matchId) => {
     loadMatches();
     loadReservations();
   } catch (err) {
-    console.error('Error discarding match:', err);
     showMessage('Error discarding match', 'error');
   }
 };
@@ -285,7 +280,6 @@ window.releaseReservation = async (resId) => {
     showMessage('Reservation released');
     loadReservations();
   } catch (err) {
-    console.error('Error releasing reservation:', err);
     showMessage('Error releasing reservation', 'error');
   }
 };

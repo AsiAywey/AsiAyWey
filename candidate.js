@@ -1,12 +1,5 @@
-import { apiGet, apiPatch } from './general/api.js';
-import { getCache, setCache, clearCache } from './general/cache.js';
-
-const userId = localStorage.getItem('userId');
-const role = localStorage.getItem('role');
-
-if (role !== 'candidate') {
-  window.location.href = 'dashboard.html';
-}
+let userId;
+let datosUsuario = {};
 
 const candidateName = document.getElementById('candidateName');
 const candidateTitle = document.getElementById('candidateTitle');
@@ -19,36 +12,65 @@ const toggleOtwBtn = document.getElementById('toggleOtw');
 const otwStatus = document.getElementById('otwStatus');
 const messageDiv = document.getElementById('message');
 
-let candidate = null;
+const role = localStorage.getItem('role');
 
-function showMessage(text, type = 'success') {
-  messageDiv.textContent = text;
-  messageDiv.className = `message ${type}`;
-  messageDiv.style.display = 'block';
-  setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+if (role !== 'candidate') {
+  window.location.href = 'dashboard.html';
 }
 
-async function loadCandidate() {
-  try {
-    candidate = await apiGet(`/candidates/${userId}`);
-    
-    candidateName.textContent = candidate.name;
-    candidateTitle.textContent = candidate.title;
-    candidateLocation.textContent = '📍 ' + candidate.location;
-    candidateBio.textContent = candidate.bio;
-    candidateEmail.textContent = candidate.email;
-    candidatePhone.textContent = candidate.phone;
-    
-    updateOtwStatus();
-    renderSkills();
-  } catch (err) {
-    console.error('Error loading candidate:', err);
-    showMessage('Error loading profile', 'error');
+window.addEventListener('load', function() {
+  cargarPerfil();
+  document.getElementById('toggleOtw').addEventListener('click', guardarCambios);
+  document.getElementById('fotoInput').addEventListener('change', cambiarFoto);
+});
+
+function cargarPerfil() {
+  userId = localStorage.getItem('userId');
+  
+  if (!userId) {
+    mostrarMensaje('No hay usuario logueado', 'error');
+    return;
+  }
+  
+  fetch('http://localhost:3001/candidates/' + userId)
+    .then(response => {
+      if (!response.ok) throw new Error('Usuario no encontrado');
+      return response.json();
+    })
+    .then(user => {
+      datosUsuario = user;
+      llenarFormulario(user);
+    })
+    .catch(error => {
+      mostrarMensaje('Error al cargar el perfil: ' + error.message, 'error');
+    });
+}
+
+function llenarFormulario(user) {
+  candidateName.textContent = user.name || '';
+  candidateTitle.textContent = user.title || '';
+  candidateLocation.textContent = '📍 ' + (user.location || '');
+  candidateBio.textContent = user.bio || '';
+  candidateEmail.textContent = user.email || '';
+  candidatePhone.textContent = user.phone || '';
+  
+  updateOtwStatus();
+  renderSkills(user.skills);
+}
+
+function renderSkills(skills) {
+  candidateSkills.innerHTML = '';
+  if (skills && Array.isArray(skills)) {
+    skills.forEach(skill => {
+      const span = document.createElement('span');
+      span.textContent = skill;
+      candidateSkills.appendChild(span);
+    });
   }
 }
 
 function updateOtwStatus() {
-  if (candidate.openToWork) {
+  if (datosUsuario.openToWork) {
     toggleOtwBtn.textContent = 'Deactivate Open to Work';
     toggleOtwBtn.classList.add('active');
     otwStatus.textContent = '✓ Open to Work: ACTIVE';
@@ -59,26 +81,84 @@ function updateOtwStatus() {
   }
 }
 
-function renderSkills() {
-  candidateSkills.innerHTML = '';
-  candidate.skills.forEach(skill => {
-    const span = document.createElement('span');
-    span.textContent = skill;
-    candidateSkills.appendChild(span);
+function guardarCambios() {
+  if (!userId) {
+    mostrarMensaje('No se encontró ID de usuario', 'error');
+    return;
+  }
+
+  const datosActualizar = {
+    openToWork: !datosUsuario.openToWork
+  };
+  
+  fetch('http://localhost:3001/candidates/' + userId, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datosActualizar)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Error del servidor: ' + response.status);
+    return response.json();
+  })
+  .then(usuarioActualizado => {
+    mostrarMensaje('Perfil guardado correctamente', 'success');
+    datosUsuario = usuarioActualizado;
+    updateOtwStatus();
+  })
+  .catch(error => {
+    mostrarMensaje('Error al guardar: ' + error.message, 'error');
   });
 }
 
-toggleOtwBtn.addEventListener('click', async () => {
-  try {
-    candidate.openToWork = !candidate.openToWork;
-    await apiPatch(`/candidates/${userId}`, { openToWork: candidate.openToWork });
-    clearCache('candidates');
-    updateOtwStatus();
-    showMessage(candidate.openToWork ? 'Open to Work activated' : 'Open to Work deactivated');
-  } catch (err) {
-    console.error('Error toggling OTW:', err);
-    showMessage('Error updating profile', 'error');
-  }
-});
+function mostrarMensaje(texto, tipo) {
+  messageDiv.textContent = texto;
+  messageDiv.className = `message ${tipo}`;
+  messageDiv.style.display = 'block';
+  
+  setTimeout(function() {
+    messageDiv.style.display = 'none';
+  }, 3000);
+}
 
-loadCandidate();
+function cambiarFoto() {
+  const archivo = document.getElementById('fotoInput').files[0];
+  
+  if (archivo) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imagenBase64 = e.target.result;
+      document.getElementById('fotoPreview').src = imagenBase64;
+      document.getElementById('fotoPreview').style.display = 'block';
+      document.getElementById('sinFoto').style.display = 'none';
+      
+      datosUsuario.avatar = imagenBase64;
+      guardarFoto();
+    };
+    reader.readAsDataURL(archivo);
+  }
+}
+
+function guardarFoto() {
+  const datosActualizar = {
+    avatar: datosUsuario.avatar
+  };
+  
+  fetch('http://localhost:3001/candidates/' + userId, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datosActualizar)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Error saving photo');
+    return response.json();
+  })
+  .then(usuarioActualizado => {
+    datosUsuario = usuarioActualizado;
+    mostrarMensaje('Photo updated successfully', 'success');
+  })
+  .catch(error => {
+    mostrarMensaje('Error updating photo: ' + error.message, 'error');
+  });
+}

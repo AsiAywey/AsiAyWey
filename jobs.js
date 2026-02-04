@@ -54,7 +54,6 @@ async function loadOffers() {
       offersContainer.appendChild(card);
     });
   } catch (err) {
-    console.error('Error loading offers:', err);
     showMessage('Error loading offers', 'error');
   }
 }
@@ -116,7 +115,6 @@ jobForm.addEventListener('submit', async (e) => {
     showMessage('Job offer created successfully!');
     loadOffers();
   } catch (err) {
-    console.error('Error creating offer:', err);
     showMessage('Error creating offer', 'error');
   }
 });
@@ -130,7 +128,6 @@ async function deleteOffer(offerId) {
     showMessage('Offer deleted successfully!');
     loadOffers();
   } catch (err) {
-    console.error('Error deleting offer:', err);
     showMessage('Error deleting offer', 'error');
   }
 }
