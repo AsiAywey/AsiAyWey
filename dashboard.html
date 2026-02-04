@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AsíAyWey - Dashboard</title>
 
-  <link rel="stylesheet" href="style-dashboard.css" />
+  <link rel="stylesheet" href="styles/style-dashboard.css" />
+  <link rel="stylesheet" href="styles/topbar.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -33,27 +35,27 @@
         <span class="material-symbols-outlined">dashboard</span>
         Dashboard
       </a>
-      <a href="jobs.html" class="menu-item">
+      <a href="candidates/jobs-browse.html" class="menu-item">
         <span class="material-symbols-outlined">work</span>
         Jobs
       </a>
-      <a id="candidateLink" href="candidate.html" class="menu-item" style="display:none;">
+      <a id="candidateLink" href="candidates/profile.html" class="menu-item menu-item-hidden">
         <span class="material-symbols-outlined">person</span>
         My Profile
       </a>
-      <a id="companyLink" href="companies/index.html" class="menu-item" style="display:none;">
+      <a id="companyLink" href="companies/profile.html" class="menu-item menu-item-hidden">
         <span class="material-symbols-outlined">business</span>
         Company Profile
       </a>
     </nav>
 
     <footer class="sidebar-footer">
-      <button class="primary-btn" id="createJobBtn" style="display:none;">
+      <button class="primary-btn button-hidden" id="createJobBtn">
         <span class="material-symbols-outlined">add</span>
         Create New Job
       </button>
-      <a href="login.html" style="width:100%; display:block; margin-top:10px;">
-        <button class="primary-btn" style="width:100%;">
+      <a href="login.html" class="logout-link">
+        <button class="primary-btn logout-btn">
           <span class="material-symbols-outlined">logout</span>
           Logout
         </button>
@@ -65,7 +67,7 @@
   <main class="content">
 
     <!-- TOP BAR -->
-    <header class="topbar">
+    <header class="topbar app-topbar">
       <h2 id="dashTitle">Dashboard</h2>
 
       <div class="user-info">
@@ -73,7 +75,10 @@
           <strong id="userName">User</strong>
           <span id="userRole">Role</span>
         </div>
-        <img src="https://i.pravatar.cc/100" alt="User avatar">
+        <div class="user-avatar" id="headerAvatar">
+          <i class="bi bi-person-circle user-avatar-icon" aria-hidden="true"></i>
+          <img id="headerAvatarImg" class="user-avatar-img" alt="User avatar">
+        </div>
       </div>
     </header>
 
@@ -81,53 +86,45 @@
     <section class="stats">
       <article class="stat-card">
         <h3>Active Jobs</h3>
-        <p class="stat-value">12</p>
+        <p class="stat-value" id="activeJobsCount">0</p>
       </article>
 
       <article class="stat-card">
-        <h3>Bookings Used</h3>
-        <p class="stat-value">3 / 5</p>
-        <div class="progress">
-          <span style="width:60%"></span>
-        </div>
+        <h3>Total Matches</h3>
+        <p class="stat-value" id="totalMatchesCount">0</p>
+      </article>
+
+      <article class="stat-card">
+        <h3>Active Reservations</h3>
+        <p class="stat-value" id="reservationsCount">0</p>
       </article>
 
       <article class="stat-card">
         <h3>Total Candidates</h3>
-        <p class="stat-value">1,240</p>
+        <p class="stat-value" id="totalCandidatesCount">0</p>
       </article>
     </section>
 
     <!-- TABLE -->
     <section class="matches">
       <header class="section-header">
-        <h3>Recent Matches</h3>
+        <h3 id="tableTitle">Recent Matches</h3>
         <button>View all</button>
       </header>
 
       <table>
         <thead>
           <tr>
-            <th>Candidate</th>
-            <th>Role</th>
-            <th>Score</th>
+            <th>Name</th>
+            <th>Role / Title</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody id="tableBody">
           <tr>
-            <td>Sarah Jenkins</td>
-            <td>Product Designer</td>
-            <td>98%</td>
-            <td class="status new">New</td>
-          </tr>
-
-          <tr>
-            <td>Marcus Thorne</td>
-            <td>Backend Engineer</td>
-            <td>85%</td>
-            <td class="status interview">Interviewing</td>
+            <td colspan="4" class="table-loading">Loading...</td>
           </tr>
         </tbody>
       </table>

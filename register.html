@@ -8,27 +8,18 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        .form-label { color: #fff !important; }
-        .form-select option { background: #252529; color: #fff; }
-        .form-control:focus, .form-select:focus { 
-            background: #252529; 
-            color: #fff; 
-            border-color: #ff3b3b;
-            box-shadow: 0 0 0 0.25rem rgba(255, 59, 59, 0.25);
-        }
-    </style>
+    <link href="styles/style-register.css" rel="stylesheet">
 </head>
 
-<body style="background: #0b0b0d; color: #fff; font-family: 'Outfit', sans-serif;">
+<body class="register-body">
 
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <div class="card shadow-lg" style="background: #1a1a1f; border: 1px solid #333;">
+                <div class="card shadow-lg register-card">
                     <div class="card-body p-4 p-md-5">
                         <div class="text-center mb-4">
-                            <h2 style="color: #ff3b3b; font-weight: 700;">Create Account</h2>
+                            <h2 class="register-title">Create Account</h2>
                             <p class="text-muted">Join the professional match-first recruitment platform</p>
                         </div>
 
@@ -38,7 +29,7 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label for="role" class="form-label">I am a...</label>
-                                    <select id="role" class="form-select" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <select id="role" class="form-select register-form-select" required>
                                         <option value="">Choose role</option>
                                         <option value="candidate">Candidate</option>
                                         <option value="company">Company</option>
@@ -47,62 +38,62 @@
 
                                 <div class="col-md-6">
                                     <label for="fullname" class="form-label">Full Name / Company Name</label>
-                                    <input id="fullname" type="text" class="form-control" placeholder="Enter your name" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <input id="fullname" type="text" class="form-control register-form-input" placeholder="Enter your name" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email</label>
-                                    <input id="email" type="email" class="form-control" placeholder="Enter your email" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <input id="email" type="email" class="form-control register-form-input" placeholder="Enter your email" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input id="phone" type="tel" class="form-control" placeholder="+57 300 123 4567" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <input id="phone" type="tel" class="form-control register-form-input" placeholder="+57 300 123 4567" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="password" class="form-label">Password</label>
-                                    <input id="password" type="password" class="form-control" placeholder="Minimum 6 characters" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <input id="password" type="password" class="form-control register-form-input" placeholder="Minimum 6 characters" required>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input id="confirmPassword" type="password" class="form-control" placeholder="Repeat your password" required style="background: #252529; color: #fff; border-color: #444;">
+                                    <input id="confirmPassword" type="password" class="form-control register-form-input" placeholder="Repeat your password" required>
                                 </div>
 
-                                <div id="candidateFields" class="col-12" style="display:none;">
+                                <div id="candidateFields" class="col-12 register-hidden">
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="title" class="form-label">Job Title</label>
-                                            <input id="title" type="text" class="form-control" placeholder="e.g., Senior Developer" style="background: #252529; color: #fff; border-color: #444;">
+                                            <input id="title" type="text" class="form-control register-form-input" placeholder="e.g., Senior Developer">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="location" class="form-label">Location</label>
-                                            <input id="location" type="text" class="form-control" placeholder="e.g., Medellín" style="background: #252529; color: #fff; border-color: #444;">
+                                            <input id="location" type="text" class="form-control register-form-input" placeholder="e.g., Medellín">
                                         </div>
                                     </div>
                                 </div>
 
-                                <div id="companyFields" class="col-12" style="display:none;">
+                                <div id="companyFields" class="col-12 register-hidden">
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="nit" class="form-label">NIT</label>
-                                            <input id="nit" type="text" class="form-control" placeholder="Company NIT" style="background: #252529; color: #fff; border-color: #444;">
+                                            <input id="nit" type="text" class="form-control register-form-input" placeholder="Company NIT">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="industry" class="form-label">Industry</label>
-                                            <input id="industry" type="text" class="form-control" placeholder="e.g., Technology" style="background: #252529; color: #fff; border-color: #444;">
+                                            <input id="industry" type="text" class="form-control register-form-input" placeholder="e.g., Technology">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-12 d-grid">
-                                    <button type="submit" class="btn btn-danger btn-lg" style="background: #ff3b3b; border: none;">Create Account</button>
+                                    <button type="submit" class="btn btn-danger btn-lg register-btn">Create Account</button>
                                 </div>
 
                                 <div class="col-12 text-center">
                                     <p class="text-muted mb-0">
-                                        Already have an account? <a href="login.html" class="text-danger" style="color: #ff3b3b !important; text-decoration: none;">Login here</a>
+                                        Already have an account? <a href="login.html" class="register-link">Login here</a>
                                     </p>
                                 </div>
                             </div>

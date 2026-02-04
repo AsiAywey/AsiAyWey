@@ -14,6 +14,10 @@ const jobForm = document.getElementById('jobForm');
 const createBtn = document.getElementById('createBtn');
 const messageDiv = document.getElementById('message');
 const pageSubtitle = document.getElementById('pageSubtitle');
+const headerUserName = document.getElementById('headerUserName');
+const headerUserRole = document.getElementById('headerUserRole');
+const headerAvatar = document.getElementById('headerAvatar');
+const headerAvatarImg = document.getElementById('headerAvatarImg');
 
 if (role === 'company') {
   createOfferForm.style.display = 'block';
@@ -21,6 +25,34 @@ if (role === 'company') {
   pageSubtitle.textContent = 'Manage your job offers and matches.';
 } else {
   pageSubtitle.textContent = 'Browse available job offers.';
+}
+
+async function loadHeaderUser() {
+  try {
+    if (role === 'candidate') {
+      const candidate = await apiGet(`/candidates/${userId}`);
+      if (headerUserName) headerUserName.textContent = candidate.name || 'User';
+      if (headerUserRole) headerUserRole.textContent = 'Candidate';
+      if (candidate.avatar && headerAvatar && headerAvatarImg) {
+        headerAvatarImg.src = candidate.avatar;
+        headerAvatar.classList.add('has-photo');
+      }
+      return;
+    }
+
+    if (role === 'company') {
+      const company = await apiGet(`/companies/${userId}`);
+      if (headerUserName) headerUserName.textContent = company.name || 'User';
+      if (headerUserRole) headerUserRole.textContent = 'Company';
+      const avatarSrc = company.avatar || company.logo;
+      if (avatarSrc && headerAvatar && headerAvatarImg) {
+        headerAvatarImg.src = avatarSrc;
+        headerAvatar.classList.add('has-photo');
+      }
+    }
+  } catch (err) {
+    // silent header load failure
+  }
 }
 
 function showMessage(text, type = 'success') {
@@ -137,4 +169,5 @@ window.editOffer = (id) => {
   showMessage('Edit feature coming soon', 'info');
 };
 
+loadHeaderUser();
 loadOffers();

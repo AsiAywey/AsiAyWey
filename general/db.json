@@ -14,7 +14,9 @@
       ],
       "location": "Medellín",
       "openToWork": false,
-      "bio": "8 years of experience"
+      "bio": "8 years of experience",
+      "avatar": "",
+      "description": ""
     },
     {
       "id": "c2",
@@ -29,7 +31,9 @@
       ],
       "location": "Bogotá",
       "openToWork": false,
-      "bio": "6 years designing"
+      "bio": "6 years designing",
+      "avatar": "",
+      "description": ""
     },
     {
       "id": "c1770187785608",
