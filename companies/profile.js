@@ -1,27 +1,27 @@
-import { apiGet, apiPost, apiPatch } from '../general/api.js';
-import { getCache, setCache, clearCache } from '../general/cache.js';
+import { apiGet, apiPost, apiPatch } from "../general/api.js";
+import { getCache, setCache, clearCache } from "../general/cache.js";
 
-const userId = localStorage.getItem('userId');
-const role = localStorage.getItem('role');
-if (role !== 'company') window.location.href = '../dashboard.html';
+const userId = localStorage.getItem("userId");
+const role = localStorage.getItem("role");
+if (role !== "company") window.location.href = "../dashboard.html";
 
 const $ = (id) => document.getElementById(id);
 const qs = (sel) => document.querySelector(sel);
 const qsa = (sel) => [...document.querySelectorAll(sel)];
 
-const companyName = $('companyName');
-const companyIndustry = $('companyIndustry');
-const companyLocation = $('companyLocation');
-const companyDescription = $('companyDescription');
-const companyLogo = $('companyLogo');
-const messageDiv = $('message');
-const candidatesList = $('candidatesList');
-const matchesList = $('matchesList');
-const reservationsList = $('reservationsList');
-const headerUserName = $('headerUserName');
-const headerUserRole = $('headerUserRole');
-const headerAvatar = $('headerAvatar');
-const headerAvatarImg = $('headerAvatarImg');
+const companyName = $("companyName");
+const companyIndustry = $("companyIndustry");
+const companyLocation = $("companyLocation");
+const companyDescription = $("companyDescription");
+const companyLogo = $("companyLogo");
+const messageDiv = $("message");
+const candidatesList = $("candidatesList");
+const matchesList = $("matchesList");
+const reservationsList = $("reservationsList");
+const headerUserName = $("headerUserName");
+const headerUserRole = $("headerUserRole");
+const headerAvatar = $("headerAvatar");
+const headerAvatarImg = $("headerAvatarImg");
 
 let company;
 let candidates = [];
@@ -30,11 +30,13 @@ let matches = [];
 let reservations = [];
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-const showMessage = (text, type = 'success') => {
+const showMessage = (text, type = "success") => {
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
-  messageDiv.style.display = 'block';
-  setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+  messageDiv.style.display = "block";
+  setTimeout(() => {
+    messageDiv.style.display = "none";
+  }, 3000);
 };
 
 const apiGetWithRetry = async (endpoint, retries = 2) => {
@@ -59,7 +61,7 @@ const fetchCached = async (key, fetcher) => {
 };
 
 const renderList = (container, items, emptyHtml) => {
-  container.innerHTML = '';
+  container.innerHTML = "";
   if (!items.length) {
     container.innerHTML = emptyHtml;
     return;
@@ -68,20 +70,21 @@ const renderList = (container, items, emptyHtml) => {
 };
 
 const row = (html) => {
-  const div = document.createElement('div');
-  div.className = 'd-flex justify-content-between align-items-center border-bottom py-3';
+  const div = document.createElement("div");
+  div.className =
+    "d-flex justify-content-between align-items-center border-bottom py-3";
   div.innerHTML = html;
   return div;
 };
 
 // Tab switching
-qsa('.tab-btn').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    qsa('.tab-btn').forEach((b) => b.classList.remove('active'));
-    qsa('.tab-content').forEach((t) => (t.style.display = 'none'));
-    btn.classList.add('active');
+qsa(".tab-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    qsa(".tab-btn").forEach((b) => b.classList.remove("active"));
+    qsa(".tab-content").forEach((t) => (t.style.display = "none"));
+    btn.classList.add("active");
     const tabName = btn.dataset.tab;
-    $(`${tabName}Tab`).style.display = 'block';
+    $(`${tabName}Tab`).style.display = "block";
   });
 });
 
@@ -89,54 +92,60 @@ async function loadCompanyData() {
   try {
     company = await apiGetWithRetry(`/companies/${userId}`);
     companyName.textContent = company.name;
-    companyIndustry.textContent = company.industry || '--';
-    companyLocation.textContent = `📍 ${company.location || '--'}`;
-    companyDescription.textContent = company.description || 'No description added yet';
+    companyIndustry.textContent = company.industry || "--";
+    companyLocation.textContent = `📍 ${company.location || "--"}`;
+    companyDescription.textContent =
+      company.description || "No description added yet";
 
-    if (headerUserName) headerUserName.textContent = company.name || 'User';
-    if (headerUserRole) headerUserRole.textContent = 'Company';
+    if (headerUserName) headerUserName.textContent = company.name || "User";
+    if (headerUserRole) headerUserRole.textContent = "Company";
 
     const avatarSrc = company.avatar || company.logo;
     if (avatarSrc && companyLogo) {
       companyLogo.src = avatarSrc;
-      companyLogo.style.display = 'block';
+      companyLogo.style.display = "block";
     }
     if (avatarSrc && headerAvatar && headerAvatarImg) {
       headerAvatarImg.src = avatarSrc;
-      headerAvatar.classList.add('has-photo');
+      headerAvatar.classList.add("has-photo");
     }
   } catch (err) {
-    showMessage('No se pudo cargar el perfil. Verifica que el servidor esté activo.', 'error');
+    showMessage(
+      "No se pudo cargar el perfil. Verifica que el servidor esté activo.",
+      "error",
+    );
   }
 }
 
 async function loadCandidates() {
   try {
-    candidates = await fetchCached('candidates', () => apiGet('/candidates'));
+    candidates = await fetchCached("candidates", () => apiGet("/candidates"));
     const otwCandidates = candidates.filter((c) => c.openToWork);
-    const nodes = otwCandidates.map((candidate) => row(`
+    const nodes = otwCandidates.map((candidate) =>
+      row(`
       <div>
         <h4 class="mb-0">${candidate.name}</h4>
-        <p class="text-muted mb-1">${candidate.title}</p>
-        <p class="text-secondary small mb-0">Skills: ${candidate.skills.join(', ')}</p>
+        <p class="text-muted mb-1 text-white">${candidate.title}</p>
+        <p class="text-secondary small mb-0">Skills: ${candidate.skills.join(", ")}</p>
       </div>
       <button class="btn btn-primary btn-sm" onclick="selectCandidate('${candidate.id}')">Select & Match</button>
-    `));
+    `),
+    );
 
     renderList(
       candidatesList,
       nodes,
-      '<p class="text-muted px-3 py-3">No candidates available right now.</p>'
+      '<p class="text-white pl-3 py-3">No candidates available right now.</p>',
     );
   } catch (err) {
-    showMessage('Error loading candidates', 'error');
+    showMessage("Error loading candidates", "error");
   }
 }
 
 async function loadMatches() {
   try {
-    matches = await fetchCached('matches', () => apiGet('/matches'));
-    jobOffers = await fetchCached('jobOffers', () => apiGet('/jobOffers'));
+    matches = await fetchCached("matches", () => apiGet("/matches"));
+    jobOffers = await fetchCached("jobOffers", () => apiGet("/jobOffers"));
 
     const myMatches = matches.filter((m) => m.companyId === userId);
     const nodes = myMatches.map((match) => {
@@ -144,8 +153,8 @@ async function loadMatches() {
       const job = jobOffers.find((j) => j.id === match.jobOfferId);
       return row(`
         <div>
-          <h4 class="mb-0">${candidate ? candidate.name : 'Unknown'}</h4>
-          <p class="text-muted mb-1">${job ? job.title : 'Unknown Job'}</p>
+          <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
+          <p class="text-white mb-1">${job ? job.title : "Unknown Job"}</p>
           <span class="text-primary fw-semibold">${match.status}</span>
         </div>
         <div class="d-flex gap-2">
@@ -155,22 +164,30 @@ async function loadMatches() {
       `);
     });
 
-    renderList(matchesList, nodes, '<p class="text-muted px-3 py-3">No matches yet.</p>');
+    renderList(
+      matchesList,
+      nodes,
+      '<p class="text-white pl-3 py-3">No matches yet.</p>',
+    );
   } catch (err) {
-    showMessage('Error loading matches', 'error');
+    showMessage("Error loading matches", "error");
   }
 }
 
 async function loadReservations() {
   try {
-    reservations = await fetchCached('reservations', () => apiGet('/reservations'));
-    const myReservations = reservations.filter((r) => r.companyId === userId && r.active);
+    reservations = await fetchCached("reservations", () =>
+      apiGet("/reservations"),
+    );
+    const myReservations = reservations.filter(
+      (r) => r.companyId === userId && r.active,
+    );
     const nodes = myReservations.map((res) => {
       const candidate = candidates.find((c) => c.id === res.candidateId);
       return row(`
         <div>
-          <h4 class="mb-0">${candidate ? candidate.name : 'Unknown'}</h4>
-          <p class="text-muted mb-0">Reserved since ${new Date(res.createdAt).toLocaleDateString()}</p>
+          <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
+          <p class="text-white mb-0">Reserved since ${new Date(res.createdAt).toLocaleDateString()}</p>
         </div>
         <button class="btn btn-danger btn-sm" onclick="releaseReservation('${res.id}')">Release</button>
       `);
@@ -179,24 +196,24 @@ async function loadReservations() {
     renderList(
       reservationsList,
       nodes,
-      '<p class="text-muted px-3 py-3">No active reservations.</p>'
+      '<p class="text-white pl-3 py-3">No active reservations.</p>',
     );
   } catch (err) {
-    showMessage('Error loading reservations', 'error');
+    showMessage("Error loading reservations", "error");
   }
 }
 
 window.selectCandidate = async (candidateId) => {
   if (!jobOffers.length) {
-    showMessage('Please create a job offer first', 'error');
+    showMessage("Please create a job offer first", "error");
     return;
   }
 
   const checkReservation = reservations.find(
-    (r) => r.candidateId === candidateId && r.active && r.companyId !== userId
+    (r) => r.candidateId === candidateId && r.active && r.companyId !== userId,
   );
   if (checkReservation) {
-    showMessage('This candidate is reserved by another company', 'error');
+    showMessage("This candidate is reserved by another company", "error");
     return;
   }
 
@@ -206,12 +223,12 @@ window.selectCandidate = async (candidateId) => {
       companyId: userId,
       jobOfferId: jobOffers[0].id,
       candidateId,
-      status: 'pending',
-      createdAt: new Date().toISOString().split('T')[0],
+      status: "pending",
+      createdAt: new Date().toISOString().split("T")[0],
       score: 85,
     };
 
-    await apiPost('/matches', match);
+    await apiPost("/matches", match);
 
     const reservation = {
       id: `res_${Date.now()}`,
@@ -222,61 +239,61 @@ window.selectCandidate = async (candidateId) => {
       createdAt: new Date().toISOString(),
     };
 
-    await apiPost('/reservations', reservation);
-    clearCache('matches');
-    clearCache('reservations');
-    showMessage('Match created and candidate reserved!');
+    await apiPost("/reservations", reservation);
+    clearCache("matches");
+    clearCache("reservations");
+    showMessage("Match created and candidate reserved!");
     loadMatches();
     loadReservations();
   } catch (err) {
-    showMessage('Error creating match', 'error');
+    showMessage("Error creating match", "error");
   }
 };
 
 window.changeMatchStatus = async (matchId, newStatus) => {
   try {
     await apiPatch(`/matches/${matchId}`, { status: newStatus });
-    clearCache('matches');
+    clearCache("matches");
     showMessage(`Match status updated to ${newStatus}`);
     loadMatches();
   } catch (err) {
-    showMessage('Error updating match', 'error');
+    showMessage("Error updating match", "error");
   }
 };
 
 window.discardMatch = async (matchId) => {
-  if (!confirm('Are you sure you want to discard this match?')) return;
+  if (!confirm("Are you sure you want to discard this match?")) return;
 
   try {
-    await apiPatch(`/matches/${matchId}`, { status: 'discarded' });
+    await apiPatch(`/matches/${matchId}`, { status: "discarded" });
     const res = reservations.find((r) => r.matchId === matchId);
     if (res) await apiPatch(`/reservations/${res.id}`, { active: false });
 
-    clearCache('matches');
-    clearCache('reservations');
-    showMessage('Match discarded and reservation released');
+    clearCache("matches");
+    clearCache("reservations");
+    showMessage("Match discarded and reservation released");
     loadMatches();
     loadReservations();
   } catch (err) {
-    showMessage('Error discarding match', 'error');
+    showMessage("Error discarding match", "error");
   }
 };
 
 window.releaseReservation = async (resId) => {
-  if (!confirm('Are you sure you want to release this reservation?')) return;
+  if (!confirm("Are you sure you want to release this reservation?")) return;
 
   try {
     await apiPatch(`/reservations/${resId}`, { active: false });
-    clearCache('reservations');
-    showMessage('Reservation released');
+    clearCache("reservations");
+    showMessage("Reservation released");
     loadReservations();
   } catch (err) {
-    showMessage('Error releasing reservation', 'error');
+    showMessage("Error releasing reservation", "error");
   }
 };
 
 function renderStats() {
-  const statsDiv = document.createElement('div');
+  const statsDiv = document.createElement("div");
   statsDiv.innerHTML = `
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px;">
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
@@ -294,9 +311,10 @@ function renderStats() {
     </div>
   `;
 
-  const mainContent = qs('main');
-  const insertAfter = qs('.breadcrumb')?.nextElementSibling?.nextElementSibling;
-  if (mainContent && insertAfter) mainContent.insertBefore(statsDiv, insertAfter);
+  const mainContent = qs("main");
+  const insertAfter = qs(".breadcrumb")?.nextElementSibling?.nextElementSibling;
+  if (mainContent && insertAfter)
+    mainContent.insertBefore(statsDiv, insertAfter);
 }
 
 async function init() {

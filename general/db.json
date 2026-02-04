@@ -7,11 +7,7 @@
       "password": "123456",
       "phone": "+57 312 345 6789",
       "title": "Senior Software Engineer",
-      "skills": [
-        "JavaScript",
-        "React",
-        "Node.js"
-      ],
+      "skills": ["JavaScript", "React", "Node.js"],
       "location": "Medellín",
       "openToWork": false,
       "bio": "8 years of experience",
@@ -25,10 +21,7 @@
       "password": "123456",
       "phone": "+57 312 345 6790",
       "title": "Product Designer",
-      "skills": [
-        "Figma",
-        "UX/UI"
-      ],
+      "skills": ["Figma", "UX/UI"],
       "location": "Bogotá",
       "openToWork": false,
       "bio": "6 years designing",
@@ -73,12 +66,10 @@
     {
       "id": "job1",
       "companyId": "comp1",
+      "name": "Tech Corp",
       "title": "Senior React Developer",
       "description": "Looking for React developer",
-      "skills": [
-        "React",
-        "JavaScript"
-      ],
+      "skills": ["React", "JavaScript"],
       "location": "Medellín",
       "salary": "$4000-$6000",
       "status": "active",

@@ -63,7 +63,7 @@ async function loadCandidateMatches() {
     jobs.slice(0, 5).forEach((job) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${job.companyId}</td>
+        <td>${job.name}</td>
         <td>${job.title}</td>
         <td><span class="status new">Open</span></td>
         <td><a href="jobs.html" style="color: #D72638; text-decoration: none;">View</a></td>
@@ -77,7 +77,7 @@ async function loadCandidateMatches() {
 
 async function loadCompanyMatches() {
   try {
-    const offers = await apiGet("/jobs");
+    const offers = await apiGet("/jobOffers");
     const myOffers = offers.filter((o) => o.companyId === userId);
     tableTitle.textContent = "My Recent Offers";
     tableBody.innerHTML = "";
@@ -105,7 +105,7 @@ async function loadCompanyMatches() {
 
 async function loadStats() {
   try {
-    const jobs = await apiGet("/jobs");
+    const jobs = await apiGet("/jobOffers");
     const candidates = await apiGet("/candidates");
 
     let myJobs = 0;
