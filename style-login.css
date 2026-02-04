@@ -50,25 +50,6 @@ body {
   overflow: hidden;
 }
 
-.tabs {
-  display: flex;
-}
-
-.tabs button {
-  flex: 1;
-  padding: 1rem;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.tabs .active {
-  color: var(--text);
-  border-bottom: 3px solid var(--primary);
-}
-
 .content {
   padding: 2rem;
 }
@@ -133,28 +114,6 @@ label {
   border-radius: 8px;
   color: white;
   font-weight: 700;
-  cursor: pointer;
-}
-
-.divider {
-  text-align: center;
-  margin: 1.5rem 0;
-  font-size: .7rem;
-  color: var(--muted);
-}
-
-.social {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .75rem;
-}
-
-.social button {
-  padding: .6rem;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
   cursor: pointer;
 }
 

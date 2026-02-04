@@ -9,7 +9,7 @@
       "skills": ["JavaScript", "React", "Node.js"],
       "location": "Medellín",
       "openToWork": true,
-      "bio": "8 years of experience building web applications"
+      "bio": "8 years of experience"
     },
     {
       "id": "c2",
@@ -17,21 +17,10 @@
       "email": "yesica@gmail.com",
       "phone": "+57 312 345 6790",
       "title": "Product Designer",
-      "skills": ["Figma", "UX/UI", "Prototyping"],
+      "skills": ["Figma", "UX/UI"],
       "location": "Bogotá",
       "openToWork": false,
-      "bio": "6 years designing digital products"
-    },
-    {
-      "id": "c3",
-      "name": "Tomás García",
-      "email": "tomas@gmail.com",
-      "phone": "+57 312 345 6791",
-      "title": "Backend Developer",
-      "skills": ["Python", "PostgreSQL", "AWS"],
-      "location": "Cali",
-      "openToWork": true,
-      "bio": "5 years backend development experience"
+      "bio": "6 years designing"
     }
   ],
   "companies": [
@@ -40,7 +29,6 @@
       "name": "Tech Corp",
       "nit": "1234567890",
       "email": "company1@company.com",
-      "website": "https://techcorp.com",
       "industry": "Technology",
       "location": "Medellín"
     },
@@ -49,7 +37,6 @@
       "name": "Design Studios",
       "nit": "1234567892",
       "email": "company2@company.com",
-      "website": "https://designstudios.com",
       "industry": "Design",
       "location": "Bogotá"
     }
@@ -59,44 +46,14 @@
       "id": "job1",
       "companyId": "comp1",
       "title": "Senior React Developer",
-      "description": "We are looking for an experienced React developer",
-      "skills": ["React", "JavaScript", "Node.js"],
+      "description": "Looking for React developer",
+      "skills": ["React", "JavaScript"],
       "location": "Medellín",
       "salary": "$4000-$6000",
       "status": "active",
       "createdAt": "2026-02-01"
-    },
-    {
-      "id": "job2",
-      "companyId": "comp2",
-      "title": "UI/UX Designer",
-      "description": "Join our design team for a exciting project",
-      "skills": ["Figma", "UX/UI"],
-      "location": "Bogotá",
-      "salary": "$2500-$4000",
-      "status": "active",
-      "createdAt": "2026-02-02"
     }
   ],
-  "matches": [
-    {
-      "id": "m1",
-      "companyId": "comp1",
-      "jobOfferId": "job1",
-      "candidateId": "c1",
-      "status": "pending",
-      "createdAt": "2026-02-03",
-      "score": 95
-    }
-  ],
-  "reservations": [
-    {
-      "id": "res1",
-      "companyId": "comp1",
-      "candidateId": "c1",
-      "matchId": "m1",
-      "active": true,
-      "createdAt": "2026-02-03"
-    }
-  ]
+  "matches": [],
+  "reservations": []
 }

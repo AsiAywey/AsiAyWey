@@ -22,11 +22,3 @@ export function setCache(key, data, ttl = DEFAULT_TTL) {
 export function clearCache(key) {
   localStorage.removeItem(`cache_${key}`);
 }
-
-export function clearAllCache() {
-  Object.keys(localStorage).forEach(key => {
-    if (key.startsWith('cache_')) {
-      localStorage.removeItem(key);
-    }
-  });
-}
