@@ -8,9 +8,11 @@ const candidateBio = document.getElementById('candidateBio');
 const candidateEmail = document.getElementById('candidateEmail');
 const candidatePhone = document.getElementById('candidatePhone');
 const candidateSkills = document.getElementById('candidateSkills');
+const candidateDescription = document.getElementById('candidateDescription');
 const toggleOtwBtn = document.getElementById('toggleOtw');
 const otwStatus = document.getElementById('otwStatus');
 const messageDiv = document.getElementById('message');
+const saveDescriptionBtn = document.getElementById('saveDescriptionBtn');
 
 const role = localStorage.getItem('role');
 
@@ -18,10 +20,12 @@ if (role !== 'candidate') {
   window.location.href = 'dashboard.html';
 }
 
+
 window.addEventListener('load', function() {
   cargarPerfil();
   document.getElementById('toggleOtw').addEventListener('click', guardarCambios);
   document.getElementById('fotoInput').addEventListener('change', cambiarFoto);
+  document.getElementById('saveDescriptionBtn').addEventListener('click', guardarDescripcion);
 });
 
 function cargarPerfil() {
@@ -34,7 +38,7 @@ function cargarPerfil() {
   
   fetch('http://localhost:3001/candidates/' + userId)
     .then(response => {
-      if (!response.ok) throw new Error('Usuario no encontrado');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
     })
     .then(user => {
@@ -42,17 +46,24 @@ function cargarPerfil() {
       llenarFormulario(user);
     })
     .catch(error => {
-      mostrarMensaje('Error al cargar el perfil: ' + error.message, 'error');
+      mostrarMensaje('Error al cargar: Verifica que json-server esté corriendo en puerto 3001', 'error');
     });
 }
 
 function llenarFormulario(user) {
-  candidateName.textContent = user.name || '';
-  candidateTitle.textContent = user.title || '';
-  candidateLocation.textContent = '📍 ' + (user.location || '');
-  candidateBio.textContent = user.bio || '';
+  candidateName.textContent = user.name || 'No name';
+  candidateTitle.textContent = user.title || 'No job title';
+  candidateLocation.textContent = user.location ? '📍 ' + user.location : '';
+  candidateBio.textContent = user.bio || 'No bio added yet';
   candidateEmail.textContent = user.email || '';
   candidatePhone.textContent = user.phone || '';
+  candidateDescription.value = user.description || '';
+  
+  if (user.avatar) {
+    document.getElementById('fotoPreview').src = user.avatar;
+    document.getElementById('fotoPreview').style.display = 'block';
+    document.getElementById('sinFoto').style.display = 'none';
+  }
   
   updateOtwStatus();
   renderSkills(user.skills);
@@ -134,15 +145,15 @@ function cambiarFoto() {
       document.getElementById('sinFoto').style.display = 'none';
       
       datosUsuario.avatar = imagenBase64;
-      guardarFoto();
+      guardarFoto(imagenBase64);
     };
     reader.readAsDataURL(archivo);
   }
 }
 
-function guardarFoto() {
+function guardarFoto(imagenBase64) {
   const datosActualizar = {
-    avatar: datosUsuario.avatar
+    avatar: imagenBase64 || datosUsuario.avatar
   };
   
   fetch('http://localhost:3001/candidates/' + userId, {
@@ -156,9 +167,41 @@ function guardarFoto() {
   })
   .then(usuarioActualizado => {
     datosUsuario = usuarioActualizado;
-    mostrarMensaje('Photo updated successfully', 'success');
+    mostrarMensaje('Photo saved successfully', 'success');
   })
   .catch(error => {
-    mostrarMensaje('Error updating photo: ' + error.message, 'error');
+    mostrarMensaje('Error saving photo: ' + error.message, 'error');
+  });
+}
+
+function guardarDescripcion() {
+  const descripcion = candidateDescription.value.trim();
+  
+  if (!userId) {
+    mostrarMensaje('No se encontró ID de usuario', 'error');
+    return;
+  }
+  
+  const datosActualizar = {
+    description: descripcion
+  };
+  
+  fetch('http://localhost:3001/candidates/' + userId, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datosActualizar)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Error saving description');
+    return response.json();
+  })
+  .then(usuarioActualizado => {
+    datosUsuario = usuarioActualizado;
+    mostrarMensaje('Description saved successfully', 'success');
+  })
+  .catch(error => {
+    mostrarMensaje('Error saving description: ' + error.message, 'error');
   });
 }

@@ -31,16 +31,15 @@
   <!-- PROFILE CARD -->
   <section class="card profile">
     <div class="profile-left">
-      <div style="position: relative;">
-        <img src="https://i.pravatar.cc/120?img=12" id="fotoPreview" class="avatar">
-        <div id="sinFoto" style="display:none; width: 120px; height: 120px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #999;">No photo</div>
-        <input type="file" id="fotoInput" accept="image/*" style="display:none;">
-        <button class="btn secondary" onclick="document.getElementById('fotoInput').click()" style="margin-top: 10px; font-size: 12px;">Change Photo</button>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="file" id="fotoInput" accept="image/*" style="padding: 12px; background: var(--bg-elevated); border: 1px solid var(--border-default); color: var(--text-main); cursor: pointer;">
+        <img src="https://i.pravatar.cc/120?img=12" id="fotoPreview" class="avatar" style="display:none;">
+        <div id="sinFoto" style="display:block; width: 120px; height: 120px; background: #333; display: flex; align-items: center; justify-content: center; color: #999;">No photo</div>
       </div>
       <div>
         <h1 id="candidateName">Loading...</h1>
-        <p id="candidateTitle">--</p>
-        <p class="muted" id="candidateLocation">--</p>
+        <p id="candidateTitle"></p>
+        <p class="muted" id="candidateLocation"></p>
       </div>
     </div>
 
@@ -61,14 +60,20 @@
   <section class="grid">
 
     <div class="card">
+      <h3>Description</h3>
+      <textarea id="candidateDescription" placeholder="Add a professional description..." class="description-box" rows="4"></textarea>
+      <button class="btn primary" id="saveDescriptionBtn" style="margin-top: 12px;">Save Description</button>
+    </div>
+
+    <div class="card">
       <h3>About</h3>
-      <p id="candidateBio">--</p>
+      <p id="candidateBio"></p>
     </div>
 
     <div class="card">
       <h3>Contact Info</h3>
-      <p>📧 <span id="candidateEmail">--</span></p>
-      <p>📞 <span id="candidatePhone">--</span></p>
+      <p>📧 <span id="candidateEmail"></span></p>
+      <p>📞 <span id="candidatePhone"></span></p>
     </div>
 
     <div class="card">
