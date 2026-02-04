@@ -1,8 +1,10 @@
+// this file handles the dashboard by role
 import { apiGet } from "./general/api.js";
 
 const role = localStorage.getItem("role");
 const userId = localStorage.getItem("userId");
 
+// if no session, go back to login
 if (!role || !userId) {
   window.location.href = "login.html";
 }
@@ -17,6 +19,7 @@ const tableTitle = document.getElementById("tableTitle");
 const headerAvatar = document.getElementById("headerAvatar");
 const headerAvatarImg = document.getElementById("headerAvatarImg");
 
+// load main dashboard data
 async function initDashboard() {
   try {
     if (role === "candidate") {
@@ -48,6 +51,7 @@ async function initDashboard() {
   }
 }
 
+// show offers for candidates
 async function loadCandidateMatches() {
   try {
     const jobs = await apiGet("/jobOffers");
@@ -75,6 +79,7 @@ async function loadCandidateMatches() {
   }
 }
 
+// show company offers
 async function loadCompanyMatches() {
   try {
     const offers = await apiGet("/jobOffers");
@@ -103,6 +108,7 @@ async function loadCompanyMatches() {
   }
 }
 
+// count quick stats for company
 async function loadStats() {
   try {
     const jobs = await apiGet("/jobOffers");
@@ -134,4 +140,5 @@ async function loadStats() {
   }
 }
 
+// start everything on page load
 window.addEventListener("load", initDashboard);

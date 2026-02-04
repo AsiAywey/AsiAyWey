@@ -1,9 +1,11 @@
+// this file lists offers for candidates
 import { apiGet } from '../general/api.js';
 import { getCache, setCache } from '../general/cache.js';
 
 const role = localStorage.getItem('role');
 const userId = localStorage.getItem('userId');
 
+// if no session, go back to login
 if (!role || !userId) {
   window.location.href = '../login.html';
 }
@@ -15,6 +17,7 @@ const headerUserRole = document.getElementById('headerUserRole');
 const headerAvatar = document.getElementById('headerAvatar');
 const headerAvatarImg = document.getElementById('headerAvatarImg');
 
+// show quick messages
 function showMessage(text, type = 'success') {
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
@@ -22,6 +25,7 @@ function showMessage(text, type = 'success') {
   setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
 }
 
+// load header name and avatar
 async function loadHeaderUser() {
   try {
     if (role === 'candidate') {
@@ -38,6 +42,7 @@ async function loadHeaderUser() {
   }
 }
 
+// load offers, using cache if available
 async function loadOffers() {
   try {
     let cached = getCache('jobOffers');
@@ -66,6 +71,7 @@ async function loadOffers() {
   }
 }
 
+// build a card with the offer
 function createOfferCard(offer) {
   const card = document.createElement('div');
   card.className = 'offer-card';

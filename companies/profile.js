@@ -1,9 +1,20 @@
+<<<<<<< Updated upstream
 import { apiGet, apiPost, apiPatch } from "../general/api.js";
 import { getCache, setCache, clearCache } from "../general/cache.js";
 
 const userId = localStorage.getItem("userId");
 const role = localStorage.getItem("role");
 if (role !== "company") window.location.href = "../dashboard.html";
+=======
+// este archivo maneja el perfil de empresa
+import { apiGet, apiPost, apiPatch } from '../general/api.js';
+import { getCache, setCache, clearCache } from '../general/cache.js';
+
+const userId = localStorage.getItem('userId');
+const role = localStorage.getItem('role');
+// si no es empresa, se regresa al dashboard
+if (role !== 'company') window.location.href = '../dashboard.html';
+>>>>>>> Stashed changes
 
 const $ = (id) => document.getElementById(id);
 const qs = (sel) => document.querySelector(sel);
@@ -30,7 +41,12 @@ let matches = [];
 let reservations = [];
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+<<<<<<< Updated upstream
 const showMessage = (text, type = "success") => {
+=======
+// mostramos mensajes rápidos
+const showMessage = (text, type = 'success') => {
+>>>>>>> Stashed changes
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
   messageDiv.style.display = "block";
@@ -39,6 +55,7 @@ const showMessage = (text, type = "success") => {
   }, 3000);
 };
 
+// intentamos varias veces si falla
 const apiGetWithRetry = async (endpoint, retries = 2) => {
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -52,6 +69,7 @@ const apiGetWithRetry = async (endpoint, retries = 2) => {
   throw lastError;
 };
 
+// usamos cache para no pedir lo mismo siempre
 const fetchCached = async (key, fetcher) => {
   const cached = getCache(key);
   if (cached) return cached;
@@ -60,6 +78,7 @@ const fetchCached = async (key, fetcher) => {
   return data;
 };
 
+// pintamos listas en pantalla
 const renderList = (container, items, emptyHtml) => {
   container.innerHTML = "";
   if (!items.length) {
@@ -77,17 +96,27 @@ const row = (html) => {
   return div;
 };
 
+<<<<<<< Updated upstream
 // Tab switching
 qsa(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     qsa(".tab-btn").forEach((b) => b.classList.remove("active"));
     qsa(".tab-content").forEach((t) => (t.style.display = "none"));
     btn.classList.add("active");
+=======
+// cambiamos pestañas
+qsa('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    qsa('.tab-btn').forEach((b) => b.classList.remove('active'));
+    qsa('.tab-content').forEach((t) => (t.style.display = 'none'));
+    btn.classList.add('active');
+>>>>>>> Stashed changes
     const tabName = btn.dataset.tab;
     $(`${tabName}Tab`).style.display = "block";
   });
 });
 
+// cargamos datos principales de la empresa
 async function loadCompanyData() {
   try {
     company = await apiGetWithRetry(`/companies/${userId}`);
@@ -117,6 +146,7 @@ async function loadCompanyData() {
   }
 }
 
+// cargamos candidatos disponibles
 async function loadCandidates() {
   try {
     candidates = await fetchCached("candidates", () => apiGet("/candidates"));
@@ -142,6 +172,7 @@ async function loadCandidates() {
   }
 }
 
+// cargamos matches de la empresa
 async function loadMatches() {
   try {
     matches = await fetchCached("matches", () => apiGet("/matches"));
@@ -174,6 +205,7 @@ async function loadMatches() {
   }
 }
 
+// cargamos reservas activas
 async function loadReservations() {
   try {
     reservations = await fetchCached("reservations", () =>
@@ -203,6 +235,7 @@ async function loadReservations() {
   }
 }
 
+// hacemos match y reservamos candidato
 window.selectCandidate = async (candidateId) => {
   if (!jobOffers.length) {
     showMessage("Please create a job offer first", "error");
@@ -250,6 +283,7 @@ window.selectCandidate = async (candidateId) => {
   }
 };
 
+// actualizamos el estado del match
 window.changeMatchStatus = async (matchId, newStatus) => {
   try {
     await apiPatch(`/matches/${matchId}`, { status: newStatus });
@@ -261,6 +295,7 @@ window.changeMatchStatus = async (matchId, newStatus) => {
   }
 };
 
+// descartamos un match
 window.discardMatch = async (matchId) => {
   if (!confirm("Are you sure you want to discard this match?")) return;
 
@@ -279,6 +314,7 @@ window.discardMatch = async (matchId) => {
   }
 };
 
+// liberamos una reserva
 window.releaseReservation = async (resId) => {
   if (!confirm("Are you sure you want to release this reservation?")) return;
 
@@ -317,6 +353,7 @@ function renderStats() {
     mainContent.insertBefore(statsDiv, insertAfter);
 }
 
+// inicio general del perfil
 async function init() {
   await loadCompanyData();
   await loadCandidates();

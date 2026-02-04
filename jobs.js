@@ -1,9 +1,11 @@
+// this file handles job offers
 import { apiGet, apiPost, apiDelete, apiPatch } from './general/api.js';
 import { getCache, setCache, clearCache } from './general/cache.js';
 
 const role = localStorage.getItem('role');
 const userId = localStorage.getItem('userId');
 
+// if no session, go back to login
 if (!role || !userId) {
   window.location.href = 'login.html';
 }
@@ -27,6 +29,7 @@ if (role === 'company') {
   pageSubtitle.textContent = 'Browse available job offers.';
 }
 
+// load header name and avatar
 async function loadHeaderUser() {
   try {
     if (role === 'candidate') {
@@ -55,6 +58,7 @@ async function loadHeaderUser() {
   }
 }
 
+// show quick messages
 function showMessage(text, type = 'success') {
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
@@ -62,6 +66,7 @@ function showMessage(text, type = 'success') {
   setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
 }
 
+// load offers, using cache if available
 async function loadOffers() {
   try {
     let cached = getCache('jobOffers');
@@ -90,6 +95,7 @@ async function loadOffers() {
   }
 }
 
+// build a card with the offer
 function createOfferCard(offer) {
   const card = document.createElement('div');
   card.className = 'offer-card';
@@ -120,10 +126,12 @@ function createOfferCard(offer) {
   return card;
 }
 
+// show or hide the form
 createBtn.addEventListener('click', () => {
   createOfferForm.style.display = createOfferForm.style.display === 'none' ? 'block' : 'none';
 });
 
+// save a new offer
 jobForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -151,6 +159,7 @@ jobForm.addEventListener('submit', async (e) => {
   }
 });
 
+// delete an offer
 async function deleteOffer(offerId) {
   if (!confirm('Are you sure you want to delete this offer?')) return;
 
@@ -165,6 +174,7 @@ async function deleteOffer(offerId) {
 }
 
 window.deleteOffer = deleteOffer;
+// edit is pending
 window.editOffer = (id) => {
   showMessage('Edit feature coming soon', 'info');
 };

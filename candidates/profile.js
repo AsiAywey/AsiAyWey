@@ -1,3 +1,4 @@
+// this file handles the candidate profile
 import { apiGet, apiPatch } from '../general/api.js';
 
 let userId;
@@ -21,6 +22,7 @@ const headerAvatarImg = document.getElementById('headerAvatarImg');
 
 const role = localStorage.getItem('role');
 
+// if not a candidate, go back
 if (role !== 'candidate') {
   window.location.href = '../dashboard.html';
 }
@@ -29,6 +31,7 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// try a few times if it fails
 async function apiGetWithRetry(endpoint, retries = 2) {
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -44,6 +47,7 @@ async function apiGetWithRetry(endpoint, retries = 2) {
   throw lastError;
 }
 
+// start on page load
 window.addEventListener('load', function() {
   cargarPerfil();
   document.getElementById('toggleOtw').addEventListener('click', guardarCambios);
@@ -51,6 +55,7 @@ window.addEventListener('load', function() {
   document.getElementById('saveDescriptionBtn').addEventListener('click', guardarDescripcion);
 });
 
+// load profile data
 async function cargarPerfil() {
   userId = localStorage.getItem('userId');
   
@@ -68,6 +73,7 @@ async function cargarPerfil() {
   }
 }
 
+// fill profile texts
 function llenarFormulario(user) {
   candidateName.textContent = user.name || 'No name';
   candidateTitle.textContent = user.title || 'No job title';
@@ -108,6 +114,7 @@ function renderSkills(skills) {
   }
 }
 
+// show open to work status
 function updateOtwStatus() {
   if (datosUsuario.openToWork) {
     toggleOtwBtn.textContent = 'Deactivate Open to Work';
@@ -120,6 +127,7 @@ function updateOtwStatus() {
   }
 }
 
+// save status change
 async function guardarCambios() {
   if (!userId) {
     mostrarMensaje('No se encontró ID de usuario', 'error');
@@ -150,6 +158,7 @@ function mostrarMensaje(texto, tipo) {
   }, 3000);
 }
 
+// change the photo and compress it
 function cambiarFoto() {
   const archivo = document.getElementById('fotoInput').files[0];
   
@@ -190,6 +199,7 @@ function cambiarFoto() {
   reader.readAsDataURL(archivo);
 }
 
+// save the photo on the server
 async function guardarFoto(imagenBase64) {
   try {
     const usuarioActualizado = await apiPatch(`/candidates/${userId}`, { avatar: imagenBase64 });
@@ -203,6 +213,7 @@ async function guardarFoto(imagenBase64) {
   }
 }
 
+// save the description
 async function guardarDescripcion() {
   const descripcion = candidateDescription.value.trim();
   

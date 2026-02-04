@@ -1,3 +1,4 @@
+// this file handles registration
 const form = document.getElementById("registerForm");
 const messageArea = document.getElementById("message");
 const roleSelect = document.getElementById("role");
@@ -5,6 +6,7 @@ const candidateFields = document.getElementById("candidateFields");
 const companyFields = document.getElementById("companyFields");
 const API_URL = "http://localhost:3001";
 
+// show messages to the user
 function showMessage(text, type) {
     const alertType = type === 'error' ? 'danger' : type;
     messageArea.innerHTML = `<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
@@ -14,10 +16,12 @@ function showMessage(text, type) {
     setTimeout(() => messageArea.innerHTML = '', 5000);
 }
 
+// validate email format
 function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// change fields by role
 roleSelect.addEventListener('change', function() {
     const role = roleSelect.value;
     
@@ -41,6 +45,7 @@ roleSelect.addEventListener('change', function() {
     }
 });
 
+// check if the email already exists
 async function checkUserExists(email, role) {
     const endpoint = role === 'candidate' ? '/candidates' : '/companies';
     const response = await fetch(API_URL + endpoint);
@@ -48,6 +53,7 @@ async function checkUserExists(email, role) {
     return users.some(user => user.email === email);
 }
 
+// save the user in the database
 async function saveUserToDatabase(userData, role) {
     const endpoint = role === 'candidate' ? '/candidates' : '/companies';
     const response = await fetch(API_URL + endpoint, {
@@ -60,6 +66,7 @@ async function saveUserToDatabase(userData, role) {
     return await response.json();
 }
 
+// main registration function
 async function handleRegistration(event) {
     event.preventDefault();
     
@@ -70,6 +77,7 @@ async function handleRegistration(event) {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     
+    // validate basic fields
     if (!role || !fullName || !email || !phone || !password || !confirmPassword) {
         showMessage("Please fill all required fields", "error");
         return;
@@ -98,6 +106,7 @@ async function handleRegistration(event) {
     
     let userData;
     
+    // build data by role
     if (role === 'candidate') {
         const title = document.getElementById("title").value.trim();
         const location = document.getElementById("location").value.trim();
@@ -135,10 +144,11 @@ async function handleRegistration(event) {
             password: password,
             nit: nit,
             industry: industry,
-            location: phone // usando phone como location para empresas
+            location: phone // using phone as location for companies
         };
     }
     
+    // save and redirect
     try {
         await saveUserToDatabase(userData, role);
         showMessage("Registration successful! Redirecting to login...", "success");
