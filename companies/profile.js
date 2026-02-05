@@ -1,20 +1,11 @@
-<<<<<<< Updated upstream
+// este archivo maneja el perfil de empresa
 import { apiGet, apiPost, apiPatch } from "../general/api.js";
 import { getCache, setCache, clearCache } from "../general/cache.js";
 
 const userId = localStorage.getItem("userId");
 const role = localStorage.getItem("role");
-if (role !== "company") window.location.href = "../dashboard.html";
-=======
-// este archivo maneja el perfil de empresa
-import { apiGet, apiPost, apiPatch } from '../general/api.js';
-import { getCache, setCache, clearCache } from '../general/cache.js';
-
-const userId = localStorage.getItem('userId');
-const role = localStorage.getItem('role');
 // si no es empresa, se regresa al dashboard
-if (role !== 'company') window.location.href = '../dashboard.html';
->>>>>>> Stashed changes
+if (role !== "company") window.location.href = "../dashboard.html";
 
 const $ = (id) => document.getElementById(id);
 const qs = (sel) => document.querySelector(sel);
@@ -41,12 +32,16 @@ let matches = [];
 let reservations = [];
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-<<<<<<< Updated upstream
-const showMessage = (text, type = "success") => {
-=======
+
 // mostramos mensajes rápidos
-const showMessage = (text, type = 'success') => {
->>>>>>> Stashed changes
+const showMessage = (text, type = "success") => {
+  if (!messageDiv) {
+    // fallback to alert if the message area isn't present
+    // avoid throwing in production UI
+    // eslint-disable-next-line no-alert
+    alert(text);
+    return;
+  }
   messageDiv.textContent = text;
   messageDiv.className = `message ${type}`;
   messageDiv.style.display = "block";
@@ -80,6 +75,7 @@ const fetchCached = async (key, fetcher) => {
 
 // pintamos listas en pantalla
 const renderList = (container, items, emptyHtml) => {
+  if (!container) return;
   container.innerHTML = "";
   if (!items.length) {
     container.innerHTML = emptyHtml;
@@ -96,23 +92,15 @@ const row = (html) => {
   return div;
 };
 
-<<<<<<< Updated upstream
-// Tab switching
+// cambiamos pestañas
 qsa(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     qsa(".tab-btn").forEach((b) => b.classList.remove("active"));
     qsa(".tab-content").forEach((t) => (t.style.display = "none"));
     btn.classList.add("active");
-=======
-// cambiamos pestañas
-qsa('.tab-btn').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    qsa('.tab-btn').forEach((b) => b.classList.remove('active'));
-    qsa('.tab-content').forEach((t) => (t.style.display = 'none'));
-    btn.classList.add('active');
->>>>>>> Stashed changes
     const tabName = btn.dataset.tab;
-    $(`${tabName}Tab`).style.display = "block";
+    const tabEl = $(`${tabName}Tab`);
+    if (tabEl) tabEl.style.display = "block";
   });
 });
 
@@ -120,11 +108,13 @@ qsa('.tab-btn').forEach((btn) => {
 async function loadCompanyData() {
   try {
     company = await apiGetWithRetry(`/companies/${userId}`);
-    companyName.textContent = company.name;
-    companyIndustry.textContent = company.industry || "--";
-    companyLocation.textContent = `📍 ${company.location || "--"}`;
-    companyDescription.textContent =
-      company.description || "No description added yet";
+    if (companyName) companyName.textContent = company.name || "--";
+    if (companyIndustry) companyIndustry.textContent = company.industry || "--";
+    if (companyLocation)
+      companyLocation.textContent = `📍 ${company.location || "--"}`;
+    if (companyDescription)
+      companyDescription.textContent =
+        company.description || "No description added yet";
 
     if (headerUserName) headerUserName.textContent = company.name || "User";
     if (headerUserRole) headerUserRole.textContent = "Company";
@@ -150,13 +140,15 @@ async function loadCompanyData() {
 async function loadCandidates() {
   try {
     candidates = await fetchCached("candidates", () => apiGet("/candidates"));
-    const otwCandidates = candidates.filter((c) => c.openToWork);
+    const otwCandidates = Array.isArray(candidates)
+      ? candidates.filter((c) => c.openToWork)
+      : [];
     const nodes = otwCandidates.map((candidate) =>
       row(`
       <div>
         <h4 class="mb-0">${candidate.name}</h4>
-        <p class="text-muted mb-1 text-white">${candidate.title}</p>
-        <p class="text-secondary small mb-0">Skills: ${candidate.skills.join(", ")}</p>
+        <p class="text-muted mb-1 text-white">${candidate.title || ""}</p>
+        <p class="text-secondary small mb-0">Skills: ${Array.isArray(candidate.skills) ? candidate.skills.join(", ") : ""}</p>
       </div>
       <button class="btn btn-primary btn-sm" onclick="selectCandidate('${candidate.id}')">Select & Match</button>
     `),
@@ -178,10 +170,16 @@ async function loadMatches() {
     matches = await fetchCached("matches", () => apiGet("/matches"));
     jobOffers = await fetchCached("jobOffers", () => apiGet("/jobOffers"));
 
-    const myMatches = matches.filter((m) => m.companyId === userId);
+    const myMatches = Array.isArray(matches)
+      ? matches.filter((m) => m.companyId === userId)
+      : [];
     const nodes = myMatches.map((match) => {
-      const candidate = candidates.find((c) => c.id === match.candidateId);
-      const job = jobOffers.find((j) => j.id === match.jobOfferId);
+      const candidate = Array.isArray(candidates)
+        ? candidates.find((c) => c.id === match.candidateId)
+        : null;
+      const job = Array.isArray(jobOffers)
+        ? jobOffers.find((j) => j.id === match.jobOfferId)
+        : null;
       return row(`
         <div>
           <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
@@ -211,11 +209,13 @@ async function loadReservations() {
     reservations = await fetchCached("reservations", () =>
       apiGet("/reservations"),
     );
-    const myReservations = reservations.filter(
-      (r) => r.companyId === userId && r.active,
-    );
+    const myReservations = Array.isArray(reservations)
+      ? reservations.filter((r) => r.companyId === userId && r.active)
+      : [];
     const nodes = myReservations.map((res) => {
-      const candidate = candidates.find((c) => c.id === res.candidateId);
+      const candidate = Array.isArray(candidates)
+        ? candidates.find((c) => c.id === res.candidateId)
+        : null;
       return row(`
         <div>
           <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
@@ -237,14 +237,18 @@ async function loadReservations() {
 
 // hacemos match y reservamos candidato
 window.selectCandidate = async (candidateId) => {
-  if (!jobOffers.length) {
+  if (!Array.isArray(jobOffers) || !jobOffers.length) {
     showMessage("Please create a job offer first", "error");
     return;
   }
 
-  const checkReservation = reservations.find(
-    (r) => r.candidateId === candidateId && r.active && r.companyId !== userId,
-  );
+  const checkReservation = Array.isArray(reservations)
+    ? reservations.find(
+        (r) =>
+          r.candidateId === candidateId && r.active && r.companyId !== userId,
+      )
+    : null;
+
   if (checkReservation) {
     showMessage("This candidate is reserved by another company", "error");
     return;
@@ -276,8 +280,8 @@ window.selectCandidate = async (candidateId) => {
     clearCache("matches");
     clearCache("reservations");
     showMessage("Match created and candidate reserved!");
-    loadMatches();
-    loadReservations();
+    await loadMatches();
+    await loadReservations();
   } catch (err) {
     showMessage("Error creating match", "error");
   }
@@ -289,7 +293,7 @@ window.changeMatchStatus = async (matchId, newStatus) => {
     await apiPatch(`/matches/${matchId}`, { status: newStatus });
     clearCache("matches");
     showMessage(`Match status updated to ${newStatus}`);
-    loadMatches();
+    await loadMatches();
   } catch (err) {
     showMessage("Error updating match", "error");
   }
@@ -297,18 +301,26 @@ window.changeMatchStatus = async (matchId, newStatus) => {
 
 // descartamos un match
 window.discardMatch = async (matchId) => {
-  if (!confirm("Are you sure you want to discard this match?")) return;
+  // confirm may not be available in some contexts, guard it
+  // eslint-disable-next-line no-alert
+  if (
+    typeof confirm === "function" &&
+    !confirm("Are you sure you want to discard this match?")
+  )
+    return;
 
   try {
     await apiPatch(`/matches/${matchId}`, { status: "discarded" });
-    const res = reservations.find((r) => r.matchId === matchId);
+    const res = Array.isArray(reservations)
+      ? reservations.find((r) => r.matchId === matchId)
+      : null;
     if (res) await apiPatch(`/reservations/${res.id}`, { active: false });
 
     clearCache("matches");
     clearCache("reservations");
     showMessage("Match discarded and reservation released");
-    loadMatches();
-    loadReservations();
+    await loadMatches();
+    await loadReservations();
   } catch (err) {
     showMessage("Error discarding match", "error");
   }
@@ -316,13 +328,18 @@ window.discardMatch = async (matchId) => {
 
 // liberamos una reserva
 window.releaseReservation = async (resId) => {
-  if (!confirm("Are you sure you want to release this reservation?")) return;
+  // eslint-disable-next-line no-alert
+  if (
+    typeof confirm === "function" &&
+    !confirm("Are you sure you want to release this reservation?")
+  )
+    return;
 
   try {
     await apiPatch(`/reservations/${resId}`, { active: false });
     clearCache("reservations");
     showMessage("Reservation released");
-    loadReservations();
+    await loadReservations();
   } catch (err) {
     showMessage("Error releasing reservation", "error");
   }
@@ -334,15 +351,15 @@ function renderStats() {
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px;">
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Available Candidates</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${candidates.filter((c) => c.openToWork).length}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(candidates) ? candidates.filter((c) => c.openToWork).length : 0}</p>
       </div>
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Active Matches</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${matches.length}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(matches) ? matches.length : 0}</p>
       </div>
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Active Reservations</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${reservations.filter((r) => r.active).length}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(reservations) ? reservations.filter((r) => r.active).length : 0}</p>
       </div>
     </div>
   `;
