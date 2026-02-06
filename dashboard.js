@@ -99,7 +99,7 @@ async function loadCompanyMatches() {
         <td>${offer.title}</td>
         <td>${offer.location}</td>
         <td><span class="status new">Active</span></td>
-        <td><a href="jobs.html" style="color: #D72638; text-decoration: none;">Edit</a></td>
+        <td><a href="editJob.html" style="color: #D72638; text-decoration: none;">Edit</a></td>
       `;
       tableBody.appendChild(row);
     });
