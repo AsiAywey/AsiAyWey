@@ -1,5 +1,5 @@
 // simple functions to talk to the server
-const API_BASE = 'http://localhost:3001';
+const API_BASE = 'http://localhost:3010';
 
 // get data
 export async function apiGet(endpoint) {
