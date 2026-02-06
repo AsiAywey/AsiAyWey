@@ -1,8 +1,10 @@
 // this file handles the candidate profile
 import { apiGet, apiPatch } from '../general/api.js';
+import { getCandidatePlan, getCandidateReservationLimit } from '../general/plans.js';
 
 let userId;
 let datosUsuario = {};
+let plans = [];
 
 const candidateName = document.getElementById('candidateName');
 const candidateTitle = document.getElementById('candidateTitle');
@@ -12,6 +14,10 @@ const candidateEmail = document.getElementById('candidateEmail');
 const candidatePhone = document.getElementById('candidatePhone');
 const candidateSkills = document.getElementById('candidateSkills');
 const candidateDescription = document.getElementById('candidateDescription');
+const currentPlanPill = document.getElementById('currentPlanPill');
+const planLimitLabel = document.getElementById('planLimitLabel');
+const planPriceLabel = document.getElementById('planPriceLabel');
+
 const toggleOtwBtn = document.getElementById('toggleOtw');
 const otwStatus = document.getElementById('otwStatus');
 const messageDiv = document.getElementById('message');
@@ -47,8 +53,16 @@ async function apiGetWithRetry(endpoint, retries = 2) {
   throw lastError;
 }
 
+function shortCandidatePlanLabel(planId) {
+  if (planId === 'cand_free') return 'Free';
+  if (planId === 'cand_pro_1') return 'Pro L1';
+  if (planId === 'cand_pro_2') return 'Pro L2';
+  return planId || 'Free';
+}
+
 // start on page load
 window.addEventListener('load', function() {
+  showFlashMessageIfAny();
   cargarPerfil();
   document.getElementById('toggleOtw').addEventListener('click', guardarCambios);
   document.getElementById('fotoInput').addEventListener('change', cambiarFoto);
@@ -67,6 +81,12 @@ async function cargarPerfil() {
   try {
     const user = await apiGetWithRetry(`/candidates/${userId}`);
     datosUsuario = user;
+    // load plan metadata (optional but recommended for labels)
+    try {
+      plans = await apiGetWithRetry('/plans');
+    } catch (e) {
+      plans = [];
+    }
     llenarFormulario(user);
   } catch (error) {
     mostrarMensaje('No se pudo cargar el perfil. Verifica que el servidor esté activo.', 'error');
@@ -101,6 +121,7 @@ function llenarFormulario(user) {
   
   updateOtwStatus();
   renderSkills(user.skills);
+  renderPlan(user);
 }
 
 function renderSkills(skills) {
@@ -145,6 +166,48 @@ async function guardarCambios() {
     mostrarMensaje('Perfil guardado correctamente', 'success');
   } catch (error) {
     mostrarMensaje('Error al guardar', 'error');
+  }
+}
+
+
+function renderPlan(user) {
+  if (!currentPlanPill || !planLimitLabel || !planPriceLabel) return;
+
+  const planId = user?.planId || 'cand_free';
+  const plan = getCandidatePlan(plans, user);
+  const limit = getCandidateReservationLimit(plans, user);
+
+  // colored pill
+  currentPlanPill.dataset.plan = planId;
+  currentPlanPill.textContent = shortCandidatePlanLabel(planId);
+  currentPlanPill.title = plan?.name || planId;
+
+  // numbers / price
+  planLimitLabel.textContent = `${limit} empresa${limit === 1 ? '' : 's'}`;
+
+  const price = plan?.priceMonthly;
+  if (price === 0) {
+    planPriceLabel.textContent = 'Gratis';
+  } else if (typeof price === 'number') {
+    planPriceLabel.textContent = `$${price.toFixed(2)} USD`;
+  } else {
+    planPriceLabel.textContent = '--';
+  }
+}
+
+
+
+function showFlashMessageIfAny() {
+  try {
+    const raw = localStorage.getItem('flashMessage');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    localStorage.removeItem('flashMessage');
+    if (data?.text) {
+      mostrarMensaje(data.text, data.type || 'success');
+    }
+  } catch (e) {
+    localStorage.removeItem('flashMessage');
   }
 }
 

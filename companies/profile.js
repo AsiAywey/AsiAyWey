@@ -1,5 +1,7 @@
 // este archivo maneja el perfil de empresa
 import { apiGet, apiPost, apiPatch } from "../general/api.js";
+import { canCompanyReserveCandidate, getActiveReservationsForCandidate } from "../general/reservationRules.js";
+import { getCandidateReservationLimit } from "../general/plans.js";
 import { getCache, setCache, clearCache } from "../general/cache.js";
 
 const userId = localStorage.getItem("userId");
@@ -30,6 +32,7 @@ let candidates = [];
 let jobOffers = [];
 let matches = [];
 let reservations = [];
+let plans = [];
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -63,6 +66,15 @@ const apiGetWithRetry = async (endpoint, retries = 2) => {
   }
   throw lastError;
 };
+
+// cargamos planes (meta) desde json-server
+async function loadPlans() {
+  try {
+    plans = await apiGetWithRetry('/plans');
+  } catch (e) {
+    plans = [];
+  }
+}
 
 // usamos cache para no pedir lo mismo siempre
 const fetchCached = async (key, fetcher) => {
@@ -237,20 +249,53 @@ async function loadReservations() {
 
 // hacemos match y reservamos candidato
 window.selectCandidate = async (candidateId) => {
-  if (!Array.isArray(jobOffers) || !jobOffers.length) {
-    showMessage("Please create a job offer first", "error");
+  // Always validate with FRESH data (no cache) because this is business logic.
+  let candidate;
+  let allReservations = [];
+  let allOffers = [];
+
+  try {
+    candidate = await apiGetWithRetry(`/candidates/${candidateId}`);
+    allReservations = await apiGetWithRetry('/reservations');
+    allOffers = await apiGetWithRetry('/jobOffers');
+  } catch (e) {
+    showMessage('Error loading data to create match', 'error');
     return;
   }
 
-  const checkReservation = Array.isArray(reservations)
-    ? reservations.find(
-        (r) =>
-          r.candidateId === candidateId && r.active && r.companyId !== userId,
-      )
-    : null;
+  const myOffers = Array.isArray(allOffers) ? allOffers.filter((o) => o.companyId === userId) : [];
+  if (!myOffers.length) {
+    showMessage('Please create a job offer first', 'error');
+    return;
+  }
 
-  if (checkReservation) {
-    showMessage("This candidate is reserved by another company", "error");
+  // Candidate must be OpenToWork to be matched (core rule).
+  if (!candidate?.openToWork) {
+    showMessage('Candidate is not Open to Work', 'error');
+    return;
+  }
+
+  // Enforce candidate plan reservation capacity.
+  const activeForCandidate = getActiveReservationsForCandidate(allReservations, candidateId);
+
+  // Ensure we have plan metadata loaded (fallback if not).
+  if (!plans.length) {
+    try { plans = await apiGetWithRetry('/plans'); } catch (e) { plans = []; }
+  }
+
+  const check = canCompanyReserveCandidate(plans, candidate, userId, activeForCandidate);
+
+  if (!check.ok) {
+    if (check.reason === 'already_reserved_by_you') {
+      showMessage('You already reserved this candidate.', 'error');
+      return;
+    }
+    if (check.reason === 'candidate_at_capacity') {
+      const limit = check.limit ?? getCandidateReservationLimit(plans, candidate);
+      showMessage(`This candidate reached their reservation limit (${limit}).`, 'error');
+      return;
+    }
+    showMessage('Reservation not allowed', 'error');
     return;
   }
 
@@ -258,14 +303,14 @@ window.selectCandidate = async (candidateId) => {
     const match = {
       id: `match_${Date.now()}`,
       companyId: userId,
-      jobOfferId: jobOffers[0].id,
+      jobOfferId: myOffers[0].id,
       candidateId,
-      status: "pending",
-      createdAt: new Date().toISOString().split("T")[0],
+      status: 'pending',
+      createdAt: new Date().toISOString().split('T')[0],
       score: 85,
     };
 
-    await apiPost("/matches", match);
+    await apiPost('/matches', match);
 
     const reservation = {
       id: `res_${Date.now()}`,
@@ -276,14 +321,16 @@ window.selectCandidate = async (candidateId) => {
       createdAt: new Date().toISOString(),
     };
 
-    await apiPost("/reservations", reservation);
-    clearCache("matches");
-    clearCache("reservations");
-    showMessage("Match created and candidate reserved!");
+    await apiPost('/reservations', reservation);
+
+    clearCache('matches');
+    clearCache('reservations');
+    showMessage('Match created and candidate reserved!');
     await loadMatches();
     await loadReservations();
+    await loadCandidates(); // refresh candidate list (capacity badges)
   } catch (err) {
-    showMessage("Error creating match", "error");
+    showMessage('Error creating match', 'error');
   }
 };
 
@@ -372,6 +419,7 @@ function renderStats() {
 
 // inicio general del perfil
 async function init() {
+  await loadPlans();
   await loadCompanyData();
   await loadCandidates();
   await loadMatches();

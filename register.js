@@ -118,6 +118,7 @@ async function handleRegistration(event) {
         
         userData = {
             id: "c" + Date.now(),
+            planId: "cand_free",
             name: fullName,
             email: email,
             password: password,
@@ -139,6 +140,7 @@ async function handleRegistration(event) {
         
         userData = {
             id: "comp" + Date.now(),
+            planId: "comp_free",
             name: fullName,
             email: email,
             password: password,
