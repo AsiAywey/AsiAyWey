@@ -139,7 +139,279 @@ body {
 }
 
 .muted {
-  color: var(--text-muted);
+  color: var(--text-secondary);
+}
+
+/* Company Profile Info Section */
+.company-info-section h1 {
+  color: var(--text-main);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.company-field {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.company-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* =============================================
+   CANDIDATE RESERVATION STATUS STYLES
+   ============================================= */
+
+.candidate-available {
+  transition: all 0.3s ease;
+}
+
+.candidate-available:hover {
+  background: rgba(215, 38, 56, 0.05);
+}
+
+/* Candidate card text styles */
+.candidate-available h4,
+.candidate-reserved-mine h4,
+.candidate-reserved-other h4 {
+  color: var(--text-main) !important;
+  font-weight: 600;
+}
+
+.candidate-available p,
+.candidate-reserved-mine p {
+  color: var(--text-secondary) !important;
+}
+
+.candidate-available .text-muted,
+.candidate-reserved-mine .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+.candidate-available .text-secondary,
+.candidate-reserved-mine .text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+/* Match card styles */
+#matchesTab .border-bottom h4 {
+  color: var(--text-main) !important;
+  font-weight: 600;
+}
+
+#matchesTab .border-bottom p {
+  color: var(--text-secondary) !important;
+}
+
+#matchesTab .border-bottom .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+#matchesTab .border-bottom .text-white {
+  color: var(--text-secondary) !important;
+}
+
+/* Tab content headings and descriptions */
+.tab-content h3 {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.tab-content .tab-description {
+  color: var(--text-secondary);
+}
+
+.candidate-reserved-mine {
+  background: rgba(39, 174, 96, 0.1);
+  border-left: 3px solid var(--status-hired) !important;
+}
+
+.candidate-reserved-other {
+  background: rgba(243, 156, 18, 0.1);
+  border-left: 3px solid #f39c12 !important;
+  opacity: 0.7;
+}
+
+.candidate-reserved-other h4,
+.candidate-reserved-other p {
+  color: #999 !important;
+}
+
+/* Match status badges */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* WhatsApp button */
+.btn-success {
+  background-color: #25D366 !important;
+  border-color: #25D366 !important;
+}
+
+.btn-success:hover {
+  background-color: #128C7E !important;
+  border-color: #128C7E !important;
+}
+
+/* =============================================
+   JOB OFFERS MANAGEMENT STYLES
+   ============================================= */
+
+.create-job-form {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.create-job-form h4 {
+  margin-bottom: 20px;
+  color: var(--text-main);
+}
+
+.create-job-form .form-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.create-job-form .form-control {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-main);
+  border-radius: 8px;
+}
+
+.create-job-form .form-control:focus {
+  background: var(--bg-surface);
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(215, 38, 56, 0.1);
+  color: var(--text-main);
+}
+
+.job-offer-card {
+  transition: all 0.2s ease;
+}
+
+.job-offer-card:hover {
+  background: rgba(215, 38, 56, 0.05);
+}
+
+.job-offer-card h4 {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.job-offer-card p {
+  color: var(--text-secondary) !important;
+}
+
+.job-offer-card .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+.job-offer-card .text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.job-offer-card .small {
+  color: var(--text-secondary) !important;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.modal-header h4 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--brand-red);
+}
+
+#editJobForm .form-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+#editJobForm .form-control {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  color: var(--text-main);
+  border-radius: 8px;
+}
+
+#editJobForm .form-control:focus {
+  background: var(--bg-elevated);
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(215, 38, 56, 0.1);
+  color: var(--text-main);
 }
 
 .footer {

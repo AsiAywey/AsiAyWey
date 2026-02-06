@@ -22,7 +22,7 @@
 
             <nav class="menu topbar-menu">
                 <a href="../dashboard.html" class="topbar-link">Dashboard</a>
-                <a href="jobs-manage.html" class="topbar-link">Jobs</a>
+                <a href="../jobs.html" class="topbar-link">Jobs</a>
                 <a href="profile.html" class="topbar-link active"
                     >Company Profile</a
                 >
@@ -88,6 +88,13 @@
                 </button>
                 <button
                     class="tab-btn tab-button nav-link"
+                    data-tab="joboffers"
+                    role="tab"
+                >
+                    My Job Offers
+                </button>
+                <button
+                    class="tab-btn tab-button nav-link"
                     data-tab="matches"
                     role="tab"
                 >
@@ -111,6 +118,51 @@
                 <div id="candidatesList" class="tab-list"></div>
             </div>
 
+            <!-- TAB CONTENT: JOB OFFERS -->
+            <div id="joboffersTab" class="tab-content card tab-content-hidden">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="mb-0">My Job Offers</h3>
+                    <button class="btn btn-primary" id="toggleCreateJobBtn">
+                        <i class="bi bi-plus-lg"></i> New Job Offer
+                    </button>
+                </div>
+                
+                <!-- Create Job Form -->
+                <div id="createJobForm" class="create-job-form" style="display: none;">
+                    <h4>Create New Job Offer</h4>
+                    <form id="newJobForm">
+                        <div class="mb-3">
+                            <label for="newJobTitle" class="form-label">Job Title</label>
+                            <input type="text" class="form-control" id="newJobTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newJobDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="newJobDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newJobSkills" class="form-label">Skills (comma separated)</label>
+                                <input type="text" class="form-control" id="newJobSkills" placeholder="React, Node.js, SQL" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newJobLocation" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="newJobLocation" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newJobSalary" class="form-label">Salary Range</label>
+                            <input type="text" class="form-control" id="newJobSalary" placeholder="$3000 - $5000" required>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">Create Job Offer</button>
+                            <button type="button" class="btn btn-secondary" id="cancelCreateJob">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="jobOffersList" class="tab-list mt-3"></div>
+            </div>
+
             <!-- TAB CONTENT: MATCHES -->
             <div id="matchesTab" class="tab-content card tab-content-hidden">
                 <h3>My Matches</h3>
@@ -126,6 +178,45 @@
                 <div id="reservationsList" class="tab-list"></div>
             </div>
         </main>
+
+        <!-- Edit Job Modal -->
+        <div id="editJobModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Edit Job Offer</h4>
+                    <button class="modal-close" onclick="closeEditJobModal()">&times;</button>
+                </div>
+                <form id="editJobForm">
+                    <input type="hidden" id="editJobId">
+                    <div class="mb-3">
+                        <label for="editJobTitle" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" id="editJobTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editJobDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editJobDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobSkills" class="form-label">Skills (comma separated)</label>
+                            <input type="text" class="form-control" id="editJobSkills" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="editJobLocation" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editJobSalary" class="form-label">Salary Range</label>
+                        <input type="text" class="form-control" id="editJobSalary" required>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditJobModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <footer class="footer">
             MATCHFLOW © 2024 • RECRUITMENT INTELLIGENCE PLATFORM

@@ -174,10 +174,89 @@ async function deleteOffer(offerId) {
 }
 
 window.deleteOffer = deleteOffer;
-// edit is pending
-window.editOffer = (id) => {
-  showMessage('Edit feature coming soon', 'info');
-};
+
+const editModal = document.getElementById('editModal');
+const editJobForm = document.getElementById('editJobForm');
+
+// Open edit modal and load offer data
+async function editOffer(offerId) {
+  try {
+    // Get the offer from cache or API
+    let offers = getCache('jobOffers');
+    if (!offers) {
+      offers = await apiGet('/jobOffers');
+    }
+    
+    const offer = offers.find(o => o.id === offerId);
+    if (!offer) {
+      showMessage('Offer not found', 'error');
+      return;
+    }
+    
+    // Populate the form
+    document.getElementById('editJobId').value = offer.id;
+    document.getElementById('editJobTitle').value = offer.title || '';
+    document.getElementById('editJobDescription').value = offer.description || '';
+    document.getElementById('editJobSkills').value = Array.isArray(offer.skills) ? offer.skills.join(', ') : '';
+    document.getElementById('editJobLocation').value = offer.location || '';
+    document.getElementById('editJobSalary').value = offer.salary || '';
+    
+    // Show the modal
+    editModal.classList.remove('modal-hidden');
+    document.body.style.overflow = 'hidden';
+  } catch (err) {
+    showMessage('Error loading offer data', 'error');
+  }
+}
+
+// Close edit modal
+function closeEditModal() {
+  editModal.classList.add('modal-hidden');
+  document.body.style.overflow = '';
+  editJobForm.reset();
+}
+
+// Handle edit form submission
+editJobForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const offerId = document.getElementById('editJobId').value;
+  
+  const updatedOffer = {
+    title: document.getElementById('editJobTitle').value,
+    description: document.getElementById('editJobDescription').value,
+    skills: document.getElementById('editJobSkills').value.split(',').map(s => s.trim()),
+    location: document.getElementById('editJobLocation').value,
+    salary: document.getElementById('editJobSalary').value,
+  };
+  
+  try {
+    await apiPatch(`/jobOffers/${offerId}`, updatedOffer);
+    clearCache('jobOffers');
+    closeEditModal();
+    showMessage('Job offer updated successfully!');
+    loadOffers();
+  } catch (err) {
+    showMessage('Error updating offer', 'error');
+  }
+});
+
+// Close modal when clicking outside
+editModal.addEventListener('click', (e) => {
+  if (e.target === editModal) {
+    closeEditModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !editModal.classList.contains('modal-hidden')) {
+    closeEditModal();
+  }
+});
+
+window.editOffer = editOffer;
+window.closeEditModal = closeEditModal;
 
 loadHeaderUser();
 loadOffers();

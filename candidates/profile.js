@@ -3,6 +3,9 @@ import { apiGet, apiPatch } from '../general/api.js';
 
 let userId;
 let datosUsuario = {};
+let myMatches = [];
+let companies = [];
+let jobOffers = [];
 
 const candidateName = document.getElementById('candidateName');
 const candidateTitle = document.getElementById('candidateTitle');
@@ -19,6 +22,7 @@ const headerUserName = document.getElementById('headerUserName');
 const headerUserRole = document.getElementById('headerUserRole');
 const headerAvatar = document.getElementById('headerAvatar');
 const headerAvatarImg = document.getElementById('headerAvatarImg');
+const candidateMatchesList = document.getElementById('candidateMatchesList');
 
 const role = localStorage.getItem('role');
 
@@ -55,6 +59,121 @@ window.addEventListener('load', function() {
   document.getElementById('saveDescriptionBtn').addEventListener('click', guardarDescripcion);
 });
 
+// helper para obtener clase de badge según estado
+function getStatusBadgeClass(status) {
+  const classes = {
+    pending: 'badge-pending',
+    contacted: 'badge-contacted',
+    interview: 'badge-interview',
+    hired: 'badge-hired',
+    discarded: 'badge-discarded'
+  };
+  return classes[status] || 'badge-default';
+}
+
+// helper para obtener icono según estado
+function getStatusIcon(status) {
+  const icons = {
+    pending: '',
+    contacted: '',
+    interview: '',
+    hired: '',
+    discarded: ''
+  };
+  return icons[status] || '';
+}
+
+// cargar matches del candidato
+async function loadMyMatches() {
+  try {
+    const allMatches = await apiGet('/matches');
+    const allCompanies = await apiGet('/companies');
+    const allJobOffers = await apiGet('/jobOffers');
+    
+    companies = allCompanies || [];
+    jobOffers = allJobOffers || [];
+    myMatches = (allMatches || []).filter(m => m.candidateId === userId);
+    
+    renderMyMatches();
+  } catch (error) {
+    if (candidateMatchesList) {
+      candidateMatchesList.innerHTML = '<p class="text-muted">Unable to load matches. Please try again later.</p>';
+    }
+  }
+}
+
+// renderizar matches del candidato
+function renderMyMatches() {
+  if (!candidateMatchesList) return;
+  
+  if (myMatches.length === 0) {
+    candidateMatchesList.innerHTML = `
+      <div class="empty-state">
+        <p> No matches yet</p>
+        <p class="text-muted small">When companies show interest in your profile, you'll see them here.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const matchesHtml = myMatches.map(match => {
+    const company = companies.find(c => c.id === match.companyId);
+    const job = jobOffers.find(j => j.id === match.jobOfferId);
+    const statusIcon = getStatusIcon(match.status);
+    const badgeClass = getStatusBadgeClass(match.status);
+    
+    // Info de contacto solo visible si el estado es contacted o superior
+    const canSeeContact = ['contacted', 'interview', 'hired'].includes(match.status);
+    const contactInfo = canSeeContact && company
+      ? `<p class="contact-info">📧 ${company.email || 'N/A'}</p>`
+      : '';
+    
+    // Mensaje según el estado
+    let statusMessage = '';
+    switch(match.status) {
+      case 'pending':
+        statusMessage = 'Waiting for company to contact you';
+        break;
+      case 'contacted':
+        statusMessage = 'The company has contacted you!';
+        break;
+      case 'interview':
+        statusMessage = 'Interview scheduled - Good luck!';
+        break;
+      case 'hired':
+        statusMessage = 'Congratulations! You got hired!';
+        break;
+      case 'discarded':
+        statusMessage = 'This process has ended';
+        break;
+      default:
+        statusMessage = '';
+    }
+    
+    return `
+      <div class="match-card ${match.status === 'hired' ? 'match-hired' : ''} ${match.status === 'discarded' ? 'match-discarded' : ''}">
+        <div class="match-header">
+          <div class="match-company">
+            <h4>${company ? company.name : 'Unknown Company'}</h4>
+            <p class="job-title">${job ? job.title : 'Unknown Position'}</p>
+            <p class="job-location"> ${job ? job.location : 'N/A'}</p>
+          </div>
+          <div class="match-status">
+            <span class="badge ${badgeClass}">${statusIcon} ${match.status.toUpperCase()}</span>
+          </div>
+        </div>
+        <div class="match-body">
+          <p class="status-message">${statusMessage}</p>
+          ${contactInfo}
+          <p class="match-date text-muted small">Matched on: ${match.createdAt || 'N/A'}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  candidateMatchesList.innerHTML = matchesHtml;
+}
+
 // load profile data
 async function cargarPerfil() {
   userId = localStorage.getItem('userId');
@@ -68,6 +187,8 @@ async function cargarPerfil() {
     const user = await apiGetWithRetry(`/candidates/${userId}`);
     datosUsuario = user;
     llenarFormulario(user);
+    // Cargar matches del candidato
+    await loadMyMatches();
   } catch (error) {
     mostrarMensaje('No se pudo cargar el perfil. Verifica que el servidor esté activo.', 'error');
   }

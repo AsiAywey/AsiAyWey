@@ -402,6 +402,146 @@ body {
   color: var(--text-muted);
 }
 
+/* =============================================
+   MY MATCHES SECTION - Candidate Dashboard
+   ============================================= */
+
+#myMatchesSection {
+  margin-top: 30px;
+}
+
+#myMatchesSection h3 {
+  margin-bottom: 5px;
+}
+
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.match-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.match-card:hover {
+  border-color: var(--brand-red);
+  transform: translateY(-2px);
+}
+
+.match-card.match-hired {
+  border-color: var(--status-hired);
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), transparent);
+}
+
+.match-card.match-discarded {
+  opacity: 0.6;
+  border-color: #666;
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.match-company h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--text-main);
+}
+
+.match-company .job-title {
+  font-size: 14px;
+  color: var(--brand-red);
+  margin-bottom: 3px;
+}
+
+.match-company .job-location {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.match-status .badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-pending {
+  background: #f39c12;
+  color: #000;
+}
+
+.badge-contacted {
+  background: #3498db;
+  color: #fff;
+}
+
+.badge-interview {
+  background: #9b59b6;
+  color: #fff;
+}
+
+.badge-hired {
+  background: var(--status-hired);
+  color: #fff;
+}
+
+.badge-discarded {
+  background: #95a5a6;
+  color: #fff;
+}
+
+.badge-default {
+  background: #7f8c8d;
+  color: #fff;
+}
+
+.match-body {
+  padding-top: 10px;
+  border-top: 1px solid var(--border-default);
+}
+
+.match-body .status-message {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.match-body .contact-info {
+  font-size: 13px;
+  color: var(--text-main);
+  background: rgba(215, 38, 56, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.match-body .match-date {
+  font-size: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state p:first-child {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
 .footer {
   text-align: center;
   padding: 24px;
