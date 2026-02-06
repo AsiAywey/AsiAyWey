@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Job Offers - AsíAyWey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/jobs-browse.css" />
+    <link rel="stylesheet" href="../styles/topbar.css" />
+</head>
+<body class="dark-theme">
+    <header class="header app-topbar">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-section">
+                        <div class="logo-icon">
+                            <span class="material-symbols-outlined">handshake</span>
+                        </div>
+                        <h1 class="logo-text">AsíAyWey</h1>
+                    </div>
+                </div>
+                <nav class="header-right topbar-menu">
+                    <a href="../dashboard.html" class="topbar-action">
+                        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                        Back
+                    </a>
+                    <a href="../candidates/jobs-browse.html" class="topbar-link active">Jobs</a>
+                    <a href="../login.html" class="topbar-action">
+                        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+                        Logout
+                    </a>
+                </nav>
+                <div class="user-info">
+                    <div class="user-text">
+                        <strong id="headerUserName">User</strong>
+                        <span id="headerUserRole">Role</span>
+                    </div>
+                    <div class="user-avatar" id="headerAvatar">
+                        <i class="bi bi-person-circle user-avatar-icon" aria-hidden="true"></i>
+                        <img id="headerAvatarImg" class="user-avatar-img" alt="User avatar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Page Heading -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title-section">
+                    <h2 class="page-title">Job Offers</h2>
+                    <p class="page-subtitle" id="pageSubtitle">
+                        View available job opportunities.
+                    </p>
+                </div>
+            </div>
+        </div>
+<!-- Filters -->
+    <div class="filters">
+        <label for="typeFilter">Filter by role:</label>
+        <select id="typeFilter">
+            <option value="all">All</option>
+            <option value="Backend">Backend</option>
+            <option value="Frontend">Frontend</option>
+            <option value="Fullstack">Fullstack</option>
+        </select>
+    </div>
+
+        <div id="message" class="message message-hidden"></div>
+
+        <!-- Content Grid -->
+        <div class="content-grid" id="offersContainer">
+        </div>
+    </main>
+
+    <script type="module" src="jobs-browse.js"></script>
+</body>
+</html>

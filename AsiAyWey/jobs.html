@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Job Offers Management - AsíAyWey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles/styles-job.css" />
+    <link rel="stylesheet" href="styles/topbar.css" />
+</head>
+<body class="dark-theme">
+    <!-- Top Navigation Bar -->
+    <header class="header app-topbar">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-section">
+                        <div class="logo-icon">
+                            <span class="material-symbols-outlined">handshake</span>
+                        </div>
+                        <h1 class="logo-text">AsíAyWey</h1>
+                    </div>
+                </div>
+                <nav class="header-right topbar-menu">
+                    <a href="dashboard.html" class="topbar-action">
+                        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                        Back
+                    </a>
+                    <a href="jobs.html" class="topbar-link active">Jobs</a>
+                    <a href="login.html" class="topbar-action">
+                        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+                        Logout
+                    </a>
+                </nav>
+                <div class="user-info">
+                    <div class="user-text">
+                        <strong id="headerUserName">User</strong>
+                        <span id="headerUserRole">Role</span>
+                    </div>
+                    <div class="user-avatar" id="headerAvatar">
+                        <i class="bi bi-person-circle user-avatar-icon" aria-hidden="true"></i>
+                        <img id="headerAvatarImg" class="user-avatar-img" alt="User avatar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Page Heading -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title-section">
+                    <h2 class="page-title">Job Offers</h2>
+                    <p class="page-subtitle" id="pageSubtitle">
+                        View and manage job offers.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="message message-hidden"></div>
+
+        <!-- Create Offer Form (Company Only) -->
+        <div id="createOfferForm" class="form-hidden margin-20 form-styled">
+            <h3>Create New Job Offer</h3>
+            <form id="jobForm">
+                <input type="text" id="jobTitle" placeholder="Job Title" required>
+                <textarea id="jobDescription" placeholder="Description" required></textarea>
+                <input type="text" id="jobSkills" placeholder="Skills (comma separated)" required>
+                <input type="text" id="jobLocation" placeholder="Location" required>
+                <input type="text" id="jobSalary" placeholder="Salary Range" required>
+                <button type="submit" class="btn-primary">Create Offer</button>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('createOfferForm').style.display='none';">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid" id="offersContainer">
+        </div>
+    </main>
+
+    <!-- Global Floating Action for Mobile -->
+    <div class="floating-action">
+        <button class="btn-floating btn-floating-hidden" id="createBtn">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+
+    <script type="module" src="jobs.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+body.register-body {
+  background: #0b0b0d !important;
+  color: #fff !important;
+  font-family: 'Outfit', sans-serif !important;
+}
+
+.form-label {
+  color: #fff !important;
+}
+
+.register-card {
+  background: #1a1a1f !important;
+  border: 1px solid #333 !important;
+}
+
+.register-title {
+  color: #ff3b3b !important;
+  font-weight: 700 !important;
+}
+
+.register-form-input {
+  background: #252529 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+.register-form-input:focus {
+  background: #252529 !important;
+  color: #fff !important;
+  border-color: #ff3b3b !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 59, 59, 0.25) !important;
+}
+
+.register-form-select {
+  background: #252529 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+.register-form-select:focus {
+  background: #252529 !important;
+  color: #fff !important;
+  border-color: #ff3b3b !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 59, 59, 0.25) !important;
+}
+
+.register-form-select option {
+  background: #252529 !important;
+  color: #fff !important;
+}
+
+.register-hidden {
+  display: none;
+}
+
+.register-btn {
+  background: #ff3b3b !important;
+  border: none !important;
+}
+
+.register-link {
+  color: #ff3b3b !important;
+  text-decoration: none !important;
+}

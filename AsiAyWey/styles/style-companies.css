@@ -1,0 +1,53 @@
+.company-logo-style {
+  border-radius: 50% !important;
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.company-info-section {
+  margin-left: 20px;
+}
+
+.company-field {
+  margin: 5px 0 !important;
+}
+
+.company-description {
+  margin-top: 10px !important;
+  max-width: 500px !important;
+  color: #B3B3B3 !important;
+  font-size: 14px !important;
+}
+
+.tabs-header {
+  margin: 20px 0 !important;
+  border-bottom: 1px solid #333 !important;
+  display: flex !important;
+  gap: 20px !important;
+}
+
+.tab-button {
+  padding: 10px 20px !important;
+  border: none !important;
+  background: none !important;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+.tab-button.active {
+  border-bottom: 2px solid #007bff !important;
+}
+
+.tab-content-hidden {
+  display: none;
+}
+
+.tab-description {
+  color: #aaa !important;
+  margin-bottom: 15px !important;
+}
+
+.tab-list {
+  max-height: 400px !important;
+  overflow-y: auto !important;
+}

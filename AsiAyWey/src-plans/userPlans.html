@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="../styles/plan-users.css" />
+
+<h1>Plan de Empresa</h1>
+<p id="currentPlan"></p>
+
+<div class="plans">
+    <div class="plan-card">
+        <h3>Free</h3>
+        <p>Visibilidad básica</p>
+        <button onclick="changePlan('Free')">Elegir Free</button>
+    </div>
+
+    <div class="plan-card pro">
+        <h3>Business</h3>
+        <p>Filtros por skills</p>
+        <button onclick="changePlan('Business')">Elegir Business</button>
+    </div>
+
+    <div class="plan-card pro2">
+        <h3>Enterprise</h3>
+        <p>Ver candidatos reservados + filtros libres</p>
+        <button onclick="changePlan('Enterprise')">Elegir Enterprise</button>
+    </div>
+</div>
+
+<script type="module" src="./companyPlansView.js"></script>

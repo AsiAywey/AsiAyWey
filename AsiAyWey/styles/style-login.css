@@ -1,0 +1,232 @@
+* { 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0b0b0d;
+  --bg-elevated: #252529;
+  --bg-surface: #252529;
+  --card: #1a1a1f;
+  --border: #333;
+  --text: #fff;
+  --text-secondary: #fff;
+  --muted: #fff;
+  --primary: #ff3b3b;
+  --primary-hover: #e63333;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.header {
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(26, 26, 31, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+
+.logo svg {
+  width: 32px;
+  fill: var(--primary);
+}
+
+.container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.content {
+  padding: 40px;
+}
+
+h1 { 
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+p {
+  margin-bottom: 32px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.field span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.field input::placeholder {
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(215, 38, 56, 0.1);
+}
+
+.field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FFFFFF' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.field select option {
+  background: var(--bg-surface);
+  color: var(--text);
+}
+
+.btn-primary {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 24px;
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(215, 38, 56, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(215, 38, 56, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(215, 38, 56, 0.2);
+}
+
+.footer {
+  text-align: center;
+  padding: 20px 40px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.success {
+  background: rgba(39, 174, 96, 0.15);
+  color: #27AE60;
+  border: 1px solid #27AE60;
+}
+
+.message.error {
+  background: rgba(215, 38, 56, 0.15);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.message.info {
+  background: rgba(47, 128, 237, 0.15);
+  color: #2F80ED;
+  border: 1px solid #2F80ED;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+.link-danger {
+  color: #ff3b3b;
+}

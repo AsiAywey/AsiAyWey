@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AsíAyWey - Company Profile</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="../styles/profile_company.css" />
+        <link rel="stylesheet" href="../styles/style-companies.css" />
+        <link rel="stylesheet" href="../styles/topbar.css" />
+    </head>
+    <body>
+        <header class="navbar app-topbar">
+            <div class="logo">◆ AsíAyWey</div>
+
+            <nav class="menu topbar-menu">
+                <a href="../dashboard.html" class="topbar-link">Dashboard</a>
+                <a href="jobs-manage.html" class="topbar-link">Jobs</a>
+                <a href="profile.html" class="topbar-link active"
+                    >Company Profile</a
+                >
+                <a href="../login.html" class="topbar-action">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                    Logout
+                </a>
+            </nav>
+
+            <div class="user-info">
+                <div class="user-text">
+                    <strong id="headerUserName">User</strong>
+                    <span id="headerUserRole">Role</span>
+                </div>
+                <div class="user-avatar" id="headerAvatar">
+                    <i
+                        class="bi bi-person-circle user-avatar-icon"
+                        aria-hidden="true"
+                    ></i>
+                    <img
+                        id="headerAvatarImg"
+                        class="user-avatar-img"
+                        alt="User avatar"
+                    />
+                </div>
+            </div>
+        </header>
+
+        <main class="container py-4">
+            <p class="breadcrumb">Company Profile</p>
+
+            <div id="message" class="message message-hidden"></div>
+
+            <!-- PROFILE CARD -->
+            <section class="card profile">
+                <div class="profile-left">
+                    <img
+                        id="companyLogo"
+                        class="avatar company-logo-style nav-avatar-hidden"
+                        alt="Company logo"
+                    />
+                    <div class="company-info-section">
+                        <h1 id="companyName">Loading...</h1>
+                        <p id="companyIndustry" class="company-field">--</p>
+                        <p class="muted company-field" id="companyLocation">
+                            --
+                        </p>
+                        <p id="companyDescription" class="company-description">
+                            No description added
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TABS -->
+            <div class="tabs-header nav nav-tabs mb-3" role="tablist">
+                <button
+                    class="tab-btn tab-button nav-link active"
+                    data-tab="candidates"
+                    role="tab"
+                >
+                    Search Candidates (OTW)
+                </button>
+                <button
+                    class="tab-btn tab-button nav-link"
+                    data-tab="matches"
+                    role="tab"
+                >
+                    My Matches
+                </button>
+                <button
+                    class="tab-btn tab-button nav-link"
+                    data-tab="reservations"
+                    role="tab"
+                >
+                    Reservations
+                </button>
+            </div>
+
+            <!-- TAB CONTENT: CANDIDATES -->
+            <div id="candidatesTab" class="tab-content card">
+                <h3>Available Candidates (Open to Work)</h3>
+                <p class="tab-description">
+                    Select candidates and match them with your job offers
+                </p>
+                <div id="candidatesList" class="tab-list"></div>
+            </div>
+
+            <!-- TAB CONTENT: MATCHES -->
+            <div id="matchesTab" class="tab-content card tab-content-hidden">
+                <h3>My Matches</h3>
+                <div id="matchesList" class="tab-list"></div>
+            </div>
+
+            <!-- TAB CONTENT: RESERVATIONS -->
+            <div
+                id="reservationsTab"
+                class="tab-content card tab-content-hidden"
+            >
+                <h3>Active Reservations</h3>
+                <div id="reservationsList" class="tab-list"></div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            MATCHFLOW © 2024 • RECRUITMENT INTELLIGENCE PLATFORM
+        </footer>
+
+        <script type="module" src="profile.js"></script>
+    </body>
+</html>

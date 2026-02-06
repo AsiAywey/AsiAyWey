@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AsíAyWey - Dashboard</title>
+
+  <link rel="stylesheet" href="styles/style-dashboard.css" />
+  <link rel="stylesheet" href="styles/topbar.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+
+<body class="dark">
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <header class="brand">
+        <div class="logo">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M47.24 24 24 47.24.76 24 24 .76 47.24 24ZM12.24 21h23.52L24 9.24 12.24 21Z"/>
+            </svg>
+            <span>AsíAyWey</span>
+        </div>
+
+        <p>Recruitment Suite</p>
+    </header>
+
+    <nav class="menu">
+      <a href="dashboard.html" class="menu-item active">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a href="candidates/jobs-browse.html" class="menu-item">
+        <span class="material-symbols-outlined">work</span>
+        Jobs
+      </a>
+      <a id="candidateLink" href="candidates/profile.html" class="menu-item menu-item-hidden">
+        <span class="material-symbols-outlined">person</span>
+        My Profile
+      </a>
+      <a id="companyLink" href="companies/profile.html" class="menu-item menu-item-hidden">
+        <span class="material-symbols-outlined">business</span>
+        Company Profile
+      </a>
+    </nav>
+
+    <footer class="sidebar-footer">
+      <button class="primary-btn button-hidden" id="createJobBtn">
+        <span class="material-symbols-outlined">add</span>
+        Create New Job
+      </button>
+      <a href="login.html" class="logout-link">
+        <button class="primary-btn logout-btn">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
+      </a>
+    </footer>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <!-- TOP BAR -->
+    <header class="topbar app-topbar">
+      <h2 id="dashTitle">Dashboard</h2>
+
+      <div class="user-info">
+        <div class="user-text">
+          <strong id="userName">User</strong>
+          <span id="userRole">Role</span>
+        </div>
+        <div class="user-avatar" id="headerAvatar">
+          <i class="bi bi-person-circle user-avatar-icon" aria-hidden="true"></i>
+          <img id="headerAvatarImg" class="user-avatar-img" alt="User avatar">
+        </div>
+      </div>
+    </header>
+
+    <!-- STATS -->
+    <section class="stats">
+      <article class="stat-card">
+        <h3>Active Jobs</h3>
+        <p class="stat-value" id="activeJobsCount">0</p>
+      </article>
+
+      <article class="stat-card">
+        <h3>Total Matches</h3>
+        <p class="stat-value" id="totalMatchesCount">0</p>
+      </article>
+
+      <article class="stat-card">
+        <h3>Active Reservations</h3>
+        <p class="stat-value" id="reservationsCount">0</p>
+      </article>
+
+      <article class="stat-card">
+        <h3>Total Candidates</h3>
+        <p class="stat-value" id="totalCandidatesCount">0</p>
+      </article>
+    </section>
+
+    <!-- TABLE -->
+    <section class="matches">
+      <header class="section-header">
+        <h3 id="tableTitle">Recent Matches</h3>
+        <button>View all</button>
+      </header>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role / Title</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody">
+          <tr>
+            <td colspan="4" class="table-loading">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+</div>
+
+<script type="module" src="dashboard.js"></script>
+</body>
+</html>

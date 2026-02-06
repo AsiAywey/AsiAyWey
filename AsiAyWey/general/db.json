@@ -1,0 +1,86 @@
+{
+  "candidates": [
+    {
+      "id": "c1",
+      "name": "Ana Torres",
+      "skills": ["React", "CSS", "UI"],
+      "openToWork": true,
+      "plan": "free"
+    },
+    {
+      "id": "c2",
+      "name": "Luis Gómez",
+      "skills": ["Node", "Express", "MongoDB"],
+      "openToWork": true,
+      "plan": "pro1"
+    },
+    {
+      "id": "c3",
+      "name": "María Ruiz",
+      "skills": ["React", "Node", "PostgreSQL"],
+      "openToWork": true,
+      "plan": "pro2"
+    }
+  ],
+
+  "companies": [
+    {
+      "id": "co1",
+      "name": "TechCorp",
+      "plan": "free"
+    },
+    {
+      "id": "co2",
+      "name": "DevSolutions",
+      "plan": "business"
+    },
+    {
+      "id": "co3",
+      "name": "EnterpriseSoft",
+      "plan": "enterprise"
+    }
+  ],
+
+  "jobOffers": [
+    {
+      "id": "j1",
+      "title": "Backend Developer",
+      "location": "Remote",
+      "description": "Work on APIs with Node and Express",
+      "salary": "$3000",
+      "skills": ["Node", "Express"],
+      "type": "backend",
+      "createdAt": "2026-02-05"
+    },
+    {
+      "id": "j2",
+      "title": "Frontend Developer",
+      "location": "Mexico City",
+      "description": "Build interfaces with React",
+      "salary": "$2800",
+      "skills": ["React", "CSS"],
+      "type": "frontend",
+      "createdAt": "2026-02-05"
+    },
+    {
+      "id": "j3",
+      "title": "Fullstack Engineer",
+      "location": "Remote",
+      "description": "React + Node fullstack role",
+      "salary": "$3500",
+      "skills": ["React", "Node", "MongoDB"],
+      "type": "fullstack",
+      "createdAt": "2026-02-05"
+    }
+  ],
+
+  "matches": [
+    {
+      "id": "m1",
+      "companyId": "co1",
+      "candidateId": "c1",
+      "jobOfferId": "j2",
+      "status": "pending"
+    }
+  ]
+}
