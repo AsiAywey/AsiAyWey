@@ -1,4 +1,4 @@
-// este archivo maneja el perfil de empresa
+// este archivo maneja el perfil de empresa con flujo correcto de match
 import { apiGet, apiPost, apiPatch } from "../general/api.js";
 import { getCache, setCache, clearCache } from "../general/cache.js";
 
@@ -36,9 +36,6 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 // mostramos mensajes rápidos
 const showMessage = (text, type = "success") => {
   if (!messageDiv) {
-    // fallback to alert if the message area isn't present
-    // avoid throwing in production UI
-    // eslint-disable-next-line no-alert
     alert(text);
     return;
   }
@@ -136,23 +133,50 @@ async function loadCompanyData() {
   }
 }
 
+// Check if candidate is reserved by another company
+function isReservedByOther(candidateId) {
+  return reservations.some(
+    r => r.candidateId === candidateId && r.active && r.companyId !== userId
+  );
+}
+
+// Check if we already have a reservation for this candidate
+function hasMyReservation(candidateId) {
+  return reservations.some(
+    r => r.candidateId === candidateId && r.active && r.companyId === userId
+  );
+}
+
 // cargamos candidatos disponibles
 async function loadCandidates() {
   try {
     candidates = await fetchCached("candidates", () => apiGet("/candidates"));
+    reservations = await apiGet("/reservations");
+    
     const otwCandidates = Array.isArray(candidates)
       ? candidates.filter((c) => c.openToWork)
       : [];
-    const nodes = otwCandidates.map((candidate) =>
-      row(`
+    
+    const nodes = otwCandidates.map((candidate) => {
+      const reserved = isReservedByOther(candidate.id);
+      const myReservation = hasMyReservation(candidate.id);
+      
+      return row(`
       <div>
         <h4 class="mb-0">${candidate.name}</h4>
         <p class="text-muted mb-1 text-white">${candidate.title || ""}</p>
         <p class="text-secondary small mb-0">Skills: ${Array.isArray(candidate.skills) ? candidate.skills.join(", ") : ""}</p>
+        ${reserved ? '<p class="text-warning small mb-0">⚠️ Reserved by another company</p>' : ''}
+        ${myReservation ? '<p class="text-success small mb-0">✓ You have reserved this candidate - waiting for their response</p>' : ''}
       </div>
-      <button class="btn btn-primary btn-sm" onclick="selectCandidate('${candidate.id}')">Select & Match</button>
-    `),
-    );
+      ${reserved ? 
+        '<button class="btn btn-secondary btn-sm" disabled>Reserved</button>' :
+        myReservation ?
+        '<button class="btn btn-success btn-sm" disabled>Match Sent</button>' :
+        `<button class="btn btn-primary btn-sm" onclick="selectCandidate('${candidate.id}')">Select & Match</button>`
+      }
+    `);
+    });
 
     renderList(
       candidatesList,
@@ -164,15 +188,29 @@ async function loadCandidates() {
   }
 }
 
+// Get status badge HTML
+function getStatusBadge(status) {
+  const badges = {
+    'pending': '<span class="badge bg-warning text-dark">Waiting Response</span>',
+    'accepted': '<span class="badge bg-success">Accepted by Candidate</span>',
+    'contacted': '<span class="badge bg-info">Contacted</span>',
+    'interview': '<span class="badge bg-primary">Interview</span>',
+    'hired': '<span class="badge bg-success">Hired</span>',
+    'rejected': '<span class="badge bg-danger">Declined by Candidate</span>'
+  };
+  return badges[status] || '<span class="badge bg-secondary">Unknown</span>';
+}
+
 // cargamos matches de la empresa
 async function loadMatches() {
   try {
-    matches = await fetchCached("matches", () => apiGet("/matches"));
+    matches = await apiGet("/matches");
     jobOffers = await fetchCached("jobOffers", () => apiGet("/jobOffers"));
 
     const myMatches = Array.isArray(matches)
-      ? matches.filter((m) => m.companyId === userId)
+      ? matches.filter((m) => m.companyId === userId && m.status !== 'rejected')
       : [];
+    
     const nodes = myMatches.map((match) => {
       const candidate = Array.isArray(candidates)
         ? candidates.find((c) => c.id === match.candidateId)
@@ -180,15 +218,31 @@ async function loadMatches() {
       const job = Array.isArray(jobOffers)
         ? jobOffers.find((j) => j.id === match.jobOfferId)
         : null;
+      
+      // Determine which actions are available based on status
+      const isPending = match.status === 'pending';
+      const isAccepted = match.status === 'accepted';
+      const canContact = match.status === 'accepted';
+      const canInterview = match.status === 'contacted';
+      const canHire = match.status === 'interview';
+      
       return row(`
         <div>
           <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
           <p class="text-white mb-1">${job ? job.title : "Unknown Job"}</p>
-          <span class="text-primary fw-semibold">${match.status}</span>
+          <div style="margin-top: 5px;">
+            ${getStatusBadge(match.status)}
+            <span class="text-muted small ms-2">Score: ${match.score || 'N/A'}%</span>
+          </div>
+          ${isPending ? '<p class="text-warning small mb-0 mt-1">⏳ Waiting for candidate to accept</p>' : ''}
+          ${isAccepted ? '<p class="text-success small mb-0 mt-1">✓ Ready to contact candidate</p>' : ''}
         </div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-primary btn-sm" onclick="changeMatchStatus('${match.id}', 'contacted')">Contact</button>
-          <button class="btn btn-danger btn-sm" onclick="discardMatch('${match.id}')">Discard</button>
+        <div class="d-flex gap-2 flex-wrap" style="max-width: 300px;">
+          ${canContact ? `<button class="btn btn-primary btn-sm" onclick="changeMatchStatus('${match.id}', 'contacted')">Contact</button>` : ''}
+          ${canInterview ? `<button class="btn btn-info btn-sm" onclick="changeMatchStatus('${match.id}', 'interview')">Interview</button>` : ''}
+          ${canHire ? `<button class="btn btn-success btn-sm" onclick="changeMatchStatus('${match.id}', 'hired')">Hire</button>` : ''}
+          ${match.status !== 'hired' && !isPending ? `<button class="btn btn-danger btn-sm" onclick="discardMatch('${match.id}')">Discard</button>` : ''}
+          ${isPending ? `<button class="btn btn-danger btn-sm" onclick="cancelMatch('${match.id}')">Cancel Match</button>` : ''}
         </div>
       `);
     });
@@ -206,9 +260,7 @@ async function loadMatches() {
 // cargamos reservas activas
 async function loadReservations() {
   try {
-    reservations = await fetchCached("reservations", () =>
-      apiGet("/reservations"),
-    );
+    reservations = await apiGet("/reservations");
     const myReservations = Array.isArray(reservations)
       ? reservations.filter((r) => r.companyId === userId && r.active)
       : [];
@@ -216,10 +268,16 @@ async function loadReservations() {
       const candidate = Array.isArray(candidates)
         ? candidates.find((c) => c.id === res.candidateId)
         : null;
+      
+      // Find the match to check status
+      const match = matches.find(m => m.id === res.matchId);
+      const matchStatus = match ? match.status : 'unknown';
+      
       return row(`
         <div>
           <h4 class="mb-0">${candidate ? candidate.name : "Unknown"}</h4>
           <p class="text-white mb-0">Reserved since ${new Date(res.createdAt).toLocaleDateString()}</p>
+          <p class="text-muted small mb-0 mt-1">Status: ${matchStatus}</p>
         </div>
         <button class="btn btn-danger btn-sm" onclick="releaseReservation('${res.id}')">Release</button>
       `);
@@ -242,6 +300,7 @@ window.selectCandidate = async (candidateId) => {
     return;
   }
 
+  // Double-check reservation status
   const checkReservation = Array.isArray(reservations)
     ? reservations.find(
         (r) =>
@@ -254,6 +313,16 @@ window.selectCandidate = async (candidateId) => {
     return;
   }
 
+  // Check if we already have a match with this candidate
+  const existingMatch = matches.find(
+    m => m.candidateId === candidateId && m.companyId === userId && m.status !== 'rejected'
+  );
+
+  if (existingMatch) {
+    showMessage("You already have a match with this candidate", "error");
+    return;
+  }
+
   try {
     const match = {
       id: `match_${Date.now()}`,
@@ -262,7 +331,7 @@ window.selectCandidate = async (candidateId) => {
       candidateId,
       status: "pending",
       createdAt: new Date().toISOString().split("T")[0],
-      score: 85,
+      score: Math.floor(Math.random() * 20) + 75, // Random score between 75-95
     };
 
     await apiPost("/matches", match);
@@ -279,30 +348,62 @@ window.selectCandidate = async (candidateId) => {
     await apiPost("/reservations", reservation);
     clearCache("matches");
     clearCache("reservations");
-    showMessage("Match created and candidate reserved!");
+    showMessage("Match created! Waiting for candidate to accept.");
     await loadMatches();
     await loadReservations();
+    await loadCandidates();
   } catch (err) {
     showMessage("Error creating match", "error");
   }
 };
 
-// actualizamos el estado del match
+// Cancel match (only available in pending status)
+window.cancelMatch = async (matchId) => {
+  if (
+    typeof confirm === "function" &&
+    !confirm("Are you sure you want to cancel this match request?")
+  )
+    return;
+
+  try {
+    await apiPatch(`/matches/${matchId}`, { status: "rejected" });
+    const res = Array.isArray(reservations)
+      ? reservations.find((r) => r.matchId === matchId)
+      : null;
+    if (res) await apiPatch(`/reservations/${res.id}`, { active: false });
+
+    clearCache("matches");
+    clearCache("reservations");
+    showMessage("Match cancelled and candidate released");
+    await loadMatches();
+    await loadReservations();
+    await loadCandidates();
+  } catch (err) {
+    showMessage("Error cancelling match", "error");
+  }
+};
+
+// actualizamos el estado del match (only after candidate accepts)
 window.changeMatchStatus = async (matchId, newStatus) => {
   try {
     await apiPatch(`/matches/${matchId}`, { status: newStatus });
     clearCache("matches");
-    showMessage(`Match status updated to ${newStatus}`);
+    
+    const statusMessages = {
+      'contacted': 'Candidate contacted successfully!',
+      'interview': 'Interview process started!',
+      'hired': 'Congratulations! Candidate hired successfully!',
+    };
+    
+    showMessage(statusMessages[newStatus] || `Match status updated to ${newStatus}`);
     await loadMatches();
   } catch (err) {
     showMessage("Error updating match", "error");
   }
 };
 
-// descartamos un match
+// descartamos un match (only available after candidate accepts)
 window.discardMatch = async (matchId) => {
-  // confirm may not be available in some contexts, guard it
-  // eslint-disable-next-line no-alert
   if (
     typeof confirm === "function" &&
     !confirm("Are you sure you want to discard this match?")
@@ -310,7 +411,7 @@ window.discardMatch = async (matchId) => {
     return;
 
   try {
-    await apiPatch(`/matches/${matchId}`, { status: "discarded" });
+    await apiPatch(`/matches/${matchId}`, { status: "rejected" });
     const res = Array.isArray(reservations)
       ? reservations.find((r) => r.matchId === matchId)
       : null;
@@ -321,6 +422,7 @@ window.discardMatch = async (matchId) => {
     showMessage("Match discarded and reservation released");
     await loadMatches();
     await loadReservations();
+    await loadCandidates();
   } catch (err) {
     showMessage("Error discarding match", "error");
   }
@@ -328,7 +430,6 @@ window.discardMatch = async (matchId) => {
 
 // liberamos una reserva
 window.releaseReservation = async (resId) => {
-  // eslint-disable-next-line no-alert
   if (
     typeof confirm === "function" &&
     !confirm("Are you sure you want to release this reservation?")
@@ -337,9 +438,19 @@ window.releaseReservation = async (resId) => {
 
   try {
     await apiPatch(`/reservations/${resId}`, { active: false });
+    
+    // Also update the match status
+    const reservation = reservations.find(r => r.id === resId);
+    if (reservation && reservation.matchId) {
+      await apiPatch(`/matches/${reservation.matchId}`, { status: "rejected" });
+    }
+    
     clearCache("reservations");
+    clearCache("matches");
     showMessage("Reservation released");
     await loadReservations();
+    await loadMatches();
+    await loadCandidates();
   } catch (err) {
     showMessage("Error releasing reservation", "error");
   }
@@ -351,15 +462,15 @@ function renderStats() {
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px;">
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Available Candidates</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(candidates) ? candidates.filter((c) => c.openToWork).length : 0}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(candidates) ? candidates.filter((c) => c.openToWork && !isReservedByOther(c.id)).length : 0}</p>
       </div>
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Active Matches</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(matches) ? matches.length : 0}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(matches) ? matches.filter(m => m.companyId === userId && m.status !== 'rejected').length : 0}</p>
       </div>
       <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
         <p style="color: #8A8A8A; font-size: 12px;">Active Reservations</p>
-        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(reservations) ? reservations.filter((r) => r.active).length : 0}</p>
+        <p style="font-size: 28px; font-weight: 700; color: #F5F5F5; margin-top: 5px;">${Array.isArray(reservations) ? reservations.filter((r) => r.active && r.companyId === userId).length : 0}</p>
       </div>
     </div>
   `;

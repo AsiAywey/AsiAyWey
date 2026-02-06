@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Job Offers - AsíAyWey</title>
+    <title>My Matches - AsíAyWey</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -17,10 +17,7 @@
             <div class="header-content">
                 <div class="header-left">
                     <div class="logo-section">
-                        <div class="logo-icon">
-                            <span class="material-symbols-outlined">handshake</span>
-                        </div>
-                        <h1 class="logo-text">AsíAyWey</h1>
+                        <div class="logo"> ◆ AsíAyWey</div>
                     </div>
                 </div>
                 <nav class="header-right topbar-menu">
@@ -28,8 +25,9 @@
                         <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                         Back
                     </a>
-                    <a href="../candidates/jobs-browse.html" class="topbar-link active">Jobs</a>
-                    <a href="matches.html" class="menu-link topbar-link">My Matches</a>
+                    <a href="profile.html" class="topbar-link">My Profile</a>
+                    <a href="jobs-browse.html" class="topbar-link">Jobs</a>
+                    <a href="matches.html" class="topbar-link active">My Matches</a>
                     <a href="../login.html" class="topbar-action">
                         <span class="material-symbols-outlined" aria-hidden="true">logout</span>
                         Logout
@@ -54,9 +52,9 @@
         <div class="page-header">
             <div class="page-header-content">
                 <div class="page-title-section">
-                    <h2 class="page-title">Job Offers</h2>
-                    <p class="page-subtitle" id="pageSubtitle">
-                        View available job opportunities.
+                    <h2 class="page-title">My Matches</h2>
+                    <p class="page-subtitle">
+                        Companies that are interested in you. Accept or decline their offers.
                     </p>
                 </div>
             </div>
@@ -64,11 +62,32 @@
 
         <div id="message" class="message message-hidden"></div>
 
+        <!-- Stats -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
+                <p style="color: #8A8A8A; font-size: 12px; margin-bottom: 5px;">Pending Matches</p>
+                <p style="font-size: 28px; font-weight: 700; color: #FFA500;" id="pendingCount">0</p>
+            </div>
+            <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
+                <p style="color: #8A8A8A; font-size: 12px; margin-bottom: 5px;">Accepted</p>
+                <p style="font-size: 28px; font-weight: 700; color: #4CAF50;" id="acceptedCount">0</p>
+            </div>
+            <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
+                <p style="color: #8A8A8A; font-size: 12px; margin-bottom: 5px;">In Process</p>
+                <p style="font-size: 28px; font-weight: 700; color: #2196F3;" id="inProcessCount">0</p>
+            </div>
+            <div style="background: #1F1F1F; border: 1px solid #2A2A2A; border-radius: 8px; padding: 15px; text-align: center;">
+                <p style="color: #8A8A8A; font-size: 12px; margin-bottom: 5px;">Hired</p>
+                <p style="font-size: 28px; font-weight: 700; color: #FFD700;" id="hiredCount">0</p>
+            </div>
+        </div>
+
         <!-- Content Grid -->
-        <div class="content-grid" id="offersContainer">
+        <div class="content-grid" id="matchesContainer">
+            <p style="padding:20px; color: #8A8A8A;">Loading matches...</p>
         </div>
     </main>
 
-    <script type="module" src="jobs-browse.js"></script>
+    <script type="module" src="matches.js"></script>
 </body>
 </html>
